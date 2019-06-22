@@ -14,16 +14,19 @@ import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 
 class LoginScreen extends Component {
-  static navigationOptions = {
-    header: null
-  };
   constructor(props) {
     super(props);
     this.state = {
-      loginPlaceholder: "Username",
+      loginPlaceholder: "Имейл",
       usernameText: "",
-      passwordPlaceholder: "Password",
-      passwordText: ""
+      passwordPlaceholder: "Пароль",
+      passwordText: "",
+      phonePlaceholder: "Телефон",
+      phoneText: "",
+      firstNamePlaceholder: "Имя",
+      firstNameText: "",
+      lastNamePlaceholder: "Фамилия",
+      lastNameText: ""
     };
   }
 
@@ -36,13 +39,40 @@ class LoginScreen extends Component {
         end={{ x: 0.8, y: 0.8 }}
       >
         <KeyboardAvoidingView behavior="position" enabled>
-          <View style={styles.loginContainer}>
+          <View style={styles.registerContainer}>
             <View style={styles.inputContainer}>
               <TextInput
-                style={styles.loginInput}
+                style={styles.input}
                 onChangeText={text => this.setState({ usernameText: text })}
                 value={this.state.usernameText}
                 placeholder={this.state.loginPlaceholder}
+                placeholderTextColor="#ffffff"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => this.setState({ passwordText: text })}
+                value={this.state.passwordText}
+                placeholder={this.state.phonePlaceholder}
+                placeholderTextColor="#ffffff"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => this.setState({ passwordText: text })}
+                value={this.state.firstNameText}
+                placeholder={this.state.firstNamePlaceholder}
+                placeholderTextColor="#ffffff"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => this.setState({ passwordText: text })}
+                value={this.state.lastNameText}
+                placeholder={this.state.lastNamePlaceholder}
                 placeholderTextColor="#ffffff"
               />
             </View>
@@ -57,17 +87,9 @@ class LoginScreen extends Component {
             </View>
             <TouchableOpacity>
               <View style={styles.buttonContainer}>
-                <Text>Login</Text>
+                <Text>Создать аккаунт</Text>
               </View>
             </TouchableOpacity>
-            <View style={styles.additionalButtons}>
-              <TouchableOpacity>
-                <Text> create account</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text> forgot password</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </KeyboardAvoidingView>
       </LinearGradient>
@@ -81,12 +103,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  loginContainer: {
+  registerContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
-  loginInput: {
+  input: {
     marginLeft: 15,
     flex: 1,
     color: "white"
