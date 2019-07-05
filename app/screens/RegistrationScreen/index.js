@@ -17,8 +17,6 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginPlaceholder: "Имейл",
-      usernameText: "",
       passwordPlaceholder: "Пароль",
       passwordText: "",
       phonePlaceholder: "Телефон",
@@ -26,10 +24,33 @@ class LoginScreen extends Component {
       firstNamePlaceholder: "Имя",
       firstNameText: "",
       lastNamePlaceholder: "Фамилия",
-      lastNameText: ""
+      lastNameText: "",
+      isLoading: false
     };
   }
 
+  createUser = () => {
+    fetch("http://localhost:3000/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        firstName: this.state.firstNameText,
+        lastName: this.state.lastNameText,
+        phoneNumber: this.state.phoneText,
+        password: this.state.passwordText
+      })
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
   render() {
     return (
       <LinearGradient
@@ -43,17 +64,8 @@ class LoginScreen extends Component {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                onChangeText={text => this.setState({ usernameText: text })}
-                value={this.state.usernameText}
-                placeholder={this.state.loginPlaceholder}
-                placeholderTextColor="#ffffff"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => this.setState({ passwordText: text })}
-                value={this.state.passwordText}
+                onChangeText={text => this.setState({ phoneText: text })}
+                value={this.state.phoneText}
                 placeholder={this.state.phonePlaceholder}
                 placeholderTextColor="#ffffff"
               />
@@ -61,7 +73,7 @@ class LoginScreen extends Component {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                onChangeText={text => this.setState({ passwordText: text })}
+                onChangeText={text => this.setState({ firstNameText: text })}
                 value={this.state.firstNameText}
                 placeholder={this.state.firstNamePlaceholder}
                 placeholderTextColor="#ffffff"
@@ -70,7 +82,7 @@ class LoginScreen extends Component {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                onChangeText={text => this.setState({ passwordText: text })}
+                onChangeText={text => this.setState({ lastNameText: text })}
                 value={this.state.lastNameText}
                 placeholder={this.state.lastNamePlaceholder}
                 placeholderTextColor="#ffffff"
@@ -85,7 +97,12 @@ class LoginScreen extends Component {
                 placeholderTextColor="#ffffff"
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ isLoading: true });
+                this.createUser();
+              }}
+            >
               <View style={styles.buttonContainer}>
                 <Text>Создать аккаунт</Text>
               </View>
