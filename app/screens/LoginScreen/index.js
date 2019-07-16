@@ -13,13 +13,10 @@ import {
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import Images from "./images";
-import { RouteNames } from "../../navigation";
+import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 
 class LoginScreen extends Component {
-  static navigationOptions = {
-    header: null
-  };
   constructor(props) {
     super(props);
     const { dispatch } = this.props;
@@ -31,16 +28,6 @@ class LoginScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch("http://localhost:3000")
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
   render() {
     return (
       <LinearGradient
@@ -70,7 +57,11 @@ class LoginScreen extends Component {
                 placeholderTextColor="#ffffff"
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigate(RouteNames.Home);
+              }}
+            >
               <View style={styles.buttonContainer}>
                 <Text>Login</Text>
               </View>

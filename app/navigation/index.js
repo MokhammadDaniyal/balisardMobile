@@ -2,13 +2,17 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
+import AppDrawerNavigator from "../navigation/drawerNavigator";
 
-export const Routes = {
+const Routes = {
   Login: {
     screen: LoginScreen
   },
   Registration: {
     screen: RegistrationScreen
+  },
+  Home: {
+    screen: AppDrawerNavigator
   }
 };
 
@@ -17,10 +21,14 @@ export const RouteNames = Object.keys(Routes).reduce(
   {}
 );
 
-const Navigator = createStackNavigator(Routes, {
-  initialRouteName: "Login"
+const AppStackNavigator = createStackNavigator(Routes, {
+  initialRouteName: "Login",
+  headerMode: "none",
+  defaultNavigationOptions: {
+    gesturesEnabled: false
+  }
 });
 
-const appContainer = createAppContainer(Navigator);
+const appContainer = createAppContainer(AppStackNavigator);
 
 export default appContainer;

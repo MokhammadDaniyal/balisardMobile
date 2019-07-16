@@ -35,6 +35,7 @@ build/Release
 # Build files
 ios/build
 android/build
+android/
 
 # Dependency directories
 node_modules/

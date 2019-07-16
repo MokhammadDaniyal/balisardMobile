@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 
-class LoginScreen extends Component {
+class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -174,4 +174,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps
   // mapDispatchToProps
-)(LoginScreen);
+)(RegistrationScreen);
