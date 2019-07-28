@@ -18,6 +18,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import ServiceButton from "../../components/ServiceButton";
 import MasterButton from "../../components/MasterButton";
 
+import CustomCalendar from "../../components/Calendar";
+import TimeBlock from "../../components/TimeBlock";
+
 const { width } = Dimensions.get("window");
 
 class ServiceScreen extends Component {
@@ -38,10 +41,7 @@ class ServiceScreen extends Component {
     super(props);
     const { dispatch } = this.props;
     this.state = {
-      loginPlaceholder: "Username",
-      usernameText: "",
-      passwordPlaceholder: "Password",
-      passwordText: ""
+      isCalendarCollapsed: true
     };
   }
 
@@ -50,6 +50,12 @@ class ServiceScreen extends Component {
       this.scrollView.scrollTo({ x: -30 });
     }, 1); // scroll view position fix
   }
+
+  toggleCalendar = () => {
+    this.setState({
+      isCalendarCollapsed: !this.state.isCalendarCollapsed
+    });
+  };
 
   render() {
     return (
@@ -61,7 +67,7 @@ class ServiceScreen extends Component {
           flexDirection: "column"
         }}
       >
-        <View style={styles.serviceScrollStyle}>
+        <View style={[styles.serviceScrollStyle, { flex: 0 }]}>
           <ScrollView
             ref={scrollView => {
               this.scrollView = scrollView;
@@ -71,18 +77,25 @@ class ServiceScreen extends Component {
             <MasterTypeSmallButton
               // style={{ borderColor: "black", borderWidth: 2 }}
               text={"Парикхмахер - стилист"}
-              onPress={() => {
-                navigate(RouteNames.Service);
-              }}
+              onPress={() => {}}
             />
           </ScrollView>
         </View>
-        <ScrollView style={styles.serviceScrollStyle}>
+        <ScrollView
+          ref={ref => (this.scrollView = ref)}
+          style={styles.serviceScrollStyle}
+        >
           <View style={styles.serviceSelectStyle}>
             <ServiceButton />
           </View>
           <View style={styles.serviceSelectStyle}>
             <MasterButton />
+            <CustomCalendar
+              isCollapsed={this.state.isCalendarCollapsed}
+              toggleCalendar={this.toggleCalendar}
+              callBack={() => this.scrollView.scrollToEnd({ animated: true })}
+            />
+            <TimeBlock />
           </View>
         </ScrollView>
       </View>
@@ -92,10 +105,12 @@ class ServiceScreen extends Component {
 
 const styles = StyleSheet.create({
   serviceScrollStyle: {
-    height: "20%",
+    flex: 1,
+    height: "15%",
     width: "100%",
     borderColor: "red",
-    borderWidth: 1
+    borderWidth: 1,
+    marginBottom: 15
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {
