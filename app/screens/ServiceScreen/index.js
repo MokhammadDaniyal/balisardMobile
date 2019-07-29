@@ -67,20 +67,6 @@ class ServiceScreen extends Component {
           flexDirection: "column"
         }}
       >
-        <View style={[styles.serviceScrollStyle, { flex: 0 }]}>
-          <ScrollView
-            ref={scrollView => {
-              this.scrollView = scrollView;
-            }}
-            horizontal={true}
-          >
-            <MasterTypeSmallButton
-              // style={{ borderColor: "black", borderWidth: 2 }}
-              text={"Парикхмахер - стилист"}
-              onPress={() => {}}
-            />
-          </ScrollView>
-        </View>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={styles.serviceScrollStyle}
@@ -108,25 +94,17 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "15%",
     width: "100%",
-    borderColor: "red",
-    borderWidth: 1,
     marginBottom: 15
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {
     flex: 1
-    // borderColor: "yellow",
-    // borderWidth: 1
   },
   serviceSelectStyle: {
     flex: 1
-    // borderColor: "black",
-    // borderWidth: 1
   },
   masterSelectStyle: {
-    flex: 1,
-    borderColor: "green",
-    borderWidth: 2
+    flex: 1
   }
 });
 

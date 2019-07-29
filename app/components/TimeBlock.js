@@ -33,48 +33,70 @@ class TimeBlock extends React.Component {
   };
 
   renderTimeSlots = (startIndex, endIndex) => {
-    return (
-      <View style={styles.horizontalContainer}>
-        {this.timeSlots
-          .filter((_, index) => {
-            return index >= startIndex && index < endIndex;
-          })
-          .map((time, index) => {
-            const selectedStyle =
-              index + startIndex == this.state.selectedTimeSlot
-                ? { backgroundColor: "#D7BF76" }
-                : { backgroundColor: "#FFFFFF" };
-            const selectedTextStyle =
-              index + startIndex == this.state.selectedTimeSlot
-                ? { color: "#FFFFFF" }
-                : { color: "#000000" };
-            return (
-              <TouchableOpacity
-                key={index}
-                style={[styles.button, selectedStyle]}
-                onPress={() =>
-                  this.setState({ selectedTimeSlot: index + startIndex })
-                }
-              >
-                <Text style={selectedTextStyle}>{time}</Text>
-              </TouchableOpacity>
-            );
-          })}
-      </View>
-    );
+    return this.timeSlots
+      .filter((_, index) => {
+        return index >= startIndex && index < endIndex;
+      })
+      .map((time, index) => {
+        const selectedStyle =
+          index + startIndex == this.state.selectedTimeSlot
+            ? { backgroundColor: "#D7BF76" }
+            : { backgroundColor: "#FFFFFF" };
+        const selectedTextStyle =
+          index + startIndex == this.state.selectedTimeSlot
+            ? { color: "#FFFFFF" }
+            : { color: "#000000" };
+        return (
+          <TouchableOpacity
+            key={index}
+            style={[styles.button, selectedStyle]}
+            onPress={() =>
+              this.setState({ selectedTimeSlot: index + startIndex })
+            }
+          >
+            <Text style={selectedTextStyle}>{time}</Text>
+          </TouchableOpacity>
+        );
+      });
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.verticalContainer}>
-          {this.renderTimeSlots(0, 4)}
-          {this.renderTimeSlots(4, 8)}
-          {this.renderTimeSlots(8, 12)}
-          {this.renderTimeSlots(12, 16)}
-          {this.renderTimeSlots(16, 20)}
-          {this.renderTimeSlots(20, 24)}
-          <View style={styles.horizontalContainer} />
+      <View style={styles.mainContainer}>
+        <Text>Утро</Text>
+        <View style={styles.container}>
+          <View style={styles.verticalContainer}>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(0, 4)}
+            </View>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(4, 8)}
+            </View>
+          </View>
+        </View>
+        <Text>День</Text>
+
+        <View style={styles.container}>
+          <View style={styles.verticalContainer}>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(8, 12)}
+            </View>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(12, 16)}
+            </View>
+          </View>
+        </View>
+        <Text>Вечер</Text>
+
+        <View style={styles.container}>
+          <View style={styles.verticalContainer}>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(16, 20)}
+            </View>
+            <View style={styles.horizontalContainer}>
+              {this.renderTimeSlots(20, 24)}
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -82,11 +104,13 @@ class TimeBlock extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    marginHorizontal: 15
+  },
   container: {
     flex: 1,
     justifyContent: "space-between",
     flexDirection: "row",
-    marginHorizontal: 15,
     marginVertical: 10,
     borderRadius: 10,
     justifyContent: "center",
