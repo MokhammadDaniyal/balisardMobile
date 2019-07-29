@@ -41,11 +41,23 @@ class ServiceScreen extends Component {
     super(props);
     const { dispatch } = this.props;
     this.state = {
-      isCalendarCollapsed: true
+      isCalendarCollapsed: true,
+      employees: []
     };
   }
 
   componentDidMount() {
+    fetch("http://localhost:3000/employees/retrieve", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({ employees: responseJson.rows });
+      });
     setTimeout(() => {
       this.scrollView.scrollTo({ x: -30 });
     }, 1); // scroll view position fix
@@ -56,6 +68,11 @@ class ServiceScreen extends Component {
       isCalendarCollapsed: !this.state.isCalendarCollapsed
     });
   };
+
+  renderMasters = () =>
+    this.state.employees.map(employee => {
+      return <MasterButton name={employee.name} />;
+    });
 
   render() {
     return (
@@ -73,9 +90,7 @@ class ServiceScreen extends Component {
         >
           <View style={styles.serviceSelectStyle}>
             <ServiceButton />
-          </View>
-          <View style={styles.serviceSelectStyle}>
-            <MasterButton />
+            {this.renderMasters()}
             <CustomCalendar
               isCollapsed={this.state.isCalendarCollapsed}
               toggleCalendar={this.toggleCalendar}

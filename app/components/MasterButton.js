@@ -11,7 +11,7 @@ import {
 
 import { Icon } from "native-base";
 
-const ServiceButton = props => (
+const MasterButton = props => (
   <View style={styles.buttonView}>
     <View style={styles.leftView} />
     <View style={styles.mainView}>
@@ -25,7 +25,7 @@ const ServiceButton = props => (
             marginRight: 10
           }}
         />
-        <Text>Айгуль Душанова</Text>
+        <Text>{props.name}</Text>
       </View>
       <TouchableOpacity
         style={{
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ServiceButton;
+export default MasterButton;
