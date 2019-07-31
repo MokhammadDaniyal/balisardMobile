@@ -7,13 +7,14 @@ import {
   Dimensions
 } from "react-native";
 import { connect } from "react-redux";
-import LinearGradient from "react-native-linear-gradient";
 import { Icon } from "native-base";
+
+import { fetchMasterSuccess } from "../../store/reservation/actions";
 
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 
-import MasterTypeSmallButton from "../../components/MasterTypeSmallButton";
+import LoadingOverlay from "../../components/LoadingOverlay";
 import { ScrollView } from "react-native-gesture-handler";
 import ServiceButton from "../../components/ServiceButton";
 import MasterButton from "../../components/MasterButton";
@@ -56,11 +57,11 @@ class ServiceScreen extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        this.setState({ employees: responseJson.rows });
+        this.props.storeMasters(responseJson.rows);
       });
-    setTimeout(() => {
-      this.scrollView.scrollTo({ x: -30 });
-    }, 1); // scroll view position fix
+    // setTimeout(() => {
+    //   this.scrollView.scrollTo({ x: -30 });
+    // }, 1); // scroll view position fix
   }
 
   toggleCalendar = () => {
@@ -70,8 +71,8 @@ class ServiceScreen extends Component {
   };
 
   renderMasters = () =>
-    this.state.employees.map(employee => {
-      return <MasterButton name={employee.name} />;
+    this.props.masters.map(master => {
+      return <MasterButton key={master.id} name={master.name} />;
     });
 
   render() {
@@ -99,6 +100,7 @@ class ServiceScreen extends Component {
             <TimeBlock />
           </View>
         </ScrollView>
+        {this.props.isLoading && <LoadingOverlay />}
       </View>
     );
   }
@@ -124,12 +126,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    masters: state.reservation.masters,
+    isLoading: state.reservation.isLoading
+  };
 };
 
-// const mapDispatchToProps = { increment, decrement, reset };
+const mapDispatchToProps = dispatch => {
+  return {
+    storeMasters: masters => {
+      dispatch(fetchMasterSuccess(masters));
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ServiceScreen);
