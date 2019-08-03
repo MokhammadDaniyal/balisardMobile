@@ -1,7 +1,8 @@
-import { FETCH_MASTER_SUCCESS } from "./actions";
+import { FETCH_MASTER_SUCCESS, FETCH_RESERVATIONS_SUCCESS } from "./actions";
 
 const initialState = {
   masters: [],
+  reservations: [],
   isLoading: true,
   error: null
 };
@@ -12,7 +13,13 @@ const reservationReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        masters: action.payload.data
+        masters: action.payload
+      };
+    case FETCH_RESERVATIONS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        reservations: action.payload
       };
     default:
       return state;

@@ -8,15 +8,16 @@ import {
   FlatList
 } from "react-native";
 import { connect } from "react-redux";
-import LinearGradient from "react-native-linear-gradient";
+import { fetchServiceCategoriesSuccess } from "../../store/services/actions";
 import { Icon } from "native-base";
 
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 
 import MasterTypeButton from "../../components/MasterTypeButton";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
-class ServiceScreen extends Component {
+class ServiceCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -40,6 +41,19 @@ class ServiceScreen extends Component {
     };
   }
 
+  componentDidMount() {
+    fetch("http://localhost:3000/services/categories", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.props.storeServiceCategories(responseJson.rows);
+      });
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -52,18 +66,24 @@ class ServiceScreen extends Component {
           source={require("../../images/background.jpg")}
         >
           <FlatList
-            data={[{ key: "a" }, { key: "b" }]}
-            renderItem={({ item }) => (
-              <MasterTypeButton
-                // style={{ borderColor: "black", borderWidth: 2 }}
-                text={"Парикхмахер - стилист"}
-                onPress={() => {
-                  navigate(RouteNames.Service);
-                }}
-              />
-            )}
+            data={this.props.serviceCategories}
+            renderItem={category => {
+              return (
+                <MasterTypeButton
+                  // style={{ borderColor: "black", borderWidth: 2 }}
+                  key={category.item.id}
+                  text={category.item.name}
+                  onPress={() => {
+                    navigate(RouteNames.Service, {
+                      type: category.item.id
+                    });
+                  }}
+                />
+              );
+            }}
           />
         </ImageBackground>
+        {this.props.isLoading && <LoadingOverlay />}
       </View>
     );
   }
@@ -121,12 +141,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    serviceCategories: state.services.serviceCategories,
+    isLoading: state.services.isLoading
+  };
 };
 
-// const mapDispatchToProps = { increment, decrement, reset };
+const mapDispatchToProps = dispatch => {
+  return {
+    storeServiceCategories: categories => {
+      dispatch(fetchServiceCategoriesSuccess(categories));
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
-)(ServiceScreen);
+  mapStateToProps,
+  mapDispatchToProps
+)(ServiceCategoryScreen);

@@ -22,10 +22,10 @@ class TimeBlock extends React.Component {
   constructTimeSlots = () => {
     var startTime = moment()
       .utc()
-      .set({ hour: "8", minute: "00" });
+      .set({ hour: "9", minute: "00" });
     var endTime = moment()
       .utc()
-      .set({ hour: "20", minute: "59" });
+      .set({ hour: "21", minute: "59" });
     while (startTime <= endTime) {
       this.timeSlots.push(new moment(startTime).format("HH:mm"));
       startTime.add(30, "minutes");
@@ -38,9 +38,14 @@ class TimeBlock extends React.Component {
         return index >= startIndex && index < endIndex;
       })
       .map((time, index) => {
+        const isDisabled = this.props.reservedTimeBlocks.includes(
+          index + startIndex
+        );
         const selectedStyle =
           index + startIndex == this.state.selectedTimeSlot
             ? { backgroundColor: "#D7BF76" }
+            : isDisabled
+            ? { backgroundColor: "#C0C0C0", opacity: 0.2 }
             : { backgroundColor: "#FFFFFF" };
         const selectedTextStyle =
           index + startIndex == this.state.selectedTimeSlot
@@ -48,6 +53,7 @@ class TimeBlock extends React.Component {
             : { color: "#000000" };
         return (
           <TouchableOpacity
+            disabled={isDisabled}
             key={index}
             style={[styles.button, selectedStyle]}
             onPress={() =>

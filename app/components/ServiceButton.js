@@ -16,7 +16,7 @@ const ServiceButton = props => (
     <View style={styles.leftView} />
     <View style={styles.mainView}>
       <View style={styles.textViewStyle}>
-        <Text>Укладка</Text>
+        <Text>{props.name}</Text>
         <Text
           style={{
             color: "grey"

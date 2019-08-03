@@ -118,6 +118,7 @@ class CustomCalendar extends React.Component {
                 titleDate: day.day,
                 titleDay: dayNames[moment(day.dateString).format("d")]
               });
+              this.props.onSelectDay(day.dateString);
             }}
             monthFormat={"MMMM yyyy"}
             minDate={Date()}
