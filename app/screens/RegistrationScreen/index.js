@@ -7,7 +7,6 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   KeyboardAvoidingView
 } from "react-native";
 import { connect } from "react-redux";
@@ -19,6 +18,8 @@ class RegistrationScreen extends Component {
     this.state = {
       passwordPlaceholder: "Пароль",
       passwordText: "",
+      repeatPasswordText: "",
+      repeatPasswordPlaceholder: "Повторите пароль",
       phonePlaceholder: "Телефон",
       phoneText: "",
       firstNamePlaceholder: "Имя",
@@ -30,7 +31,7 @@ class RegistrationScreen extends Component {
   }
 
   createUser = () => {
-    fetch("http://localhost:3000/signup", {
+    fetch("http://localhost:3000/users/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -95,6 +96,19 @@ class RegistrationScreen extends Component {
                 value={this.state.passwordText}
                 placeholder={this.state.passwordPlaceholder}
                 placeholderTextColor="#ffffff"
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                onChangeText={text =>
+                  this.setState({ repeatPasswordText: text })
+                }
+                value={this.state.repeatPasswordText}
+                placeholder={this.state.repeatPasswordPlaceholder}
+                placeholderTextColor="#ffffff"
+                secureTextEntry={true}
               />
             </View>
             <TouchableOpacity

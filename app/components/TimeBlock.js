@@ -33,14 +33,24 @@ class TimeBlock extends React.Component {
   };
 
   renderTimeSlots = (startIndex, endIndex) => {
+    let disabledTimeBlocks = new Set();
+    const selectedServiceLength =
+      2 * this.props.selectedService.duration_h +
+      this.props.selectedService.duration_m / 30;
+    this.props.reservedTimeBlocks.sort();
+    let length = this.props.reservedTimeBlocks.length;
+    for (let j = 0; j < length; j++) {
+      disabledTimeBlocks.add(this.props.reservedTimeBlocks[j]);
+      for (let i = 1; i < selectedServiceLength; i++) {
+        disabledTimeBlocks.add(this.props.reservedTimeBlocks[j] - i);
+      }
+    }
     return this.timeSlots
       .filter((_, index) => {
         return index >= startIndex && index < endIndex;
       })
       .map((time, index) => {
-        const isDisabled = this.props.reservedTimeBlocks.includes(
-          index + startIndex
-        );
+        const isDisabled = disabledTimeBlocks.has(index + startIndex);
         const selectedStyle =
           index + startIndex == this.state.selectedTimeSlot
             ? { backgroundColor: "#D7BF76" }
@@ -56,9 +66,10 @@ class TimeBlock extends React.Component {
             disabled={isDisabled}
             key={index}
             style={[styles.button, selectedStyle]}
-            onPress={() =>
-              this.setState({ selectedTimeSlot: index + startIndex })
-            }
+            onPress={() => {
+              this.setState({ selectedTimeSlot: index + startIndex });
+              this.props.onPress(index + startIndex);
+            }}
           >
             <Text style={selectedTextStyle}>{time}</Text>
           </TouchableOpacity>

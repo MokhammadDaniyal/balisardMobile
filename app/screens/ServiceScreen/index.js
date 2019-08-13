@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "native-base";
@@ -15,8 +16,7 @@ import {
 } from "../../store/reservation/actions";
 import { fetchServicesSuccess } from "../../store/services/actions";
 
-import { RouteNames } from "../../navigation/index";
-import { navigate } from "../../navigation/NavigationService";
+import moment from "moment";
 
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,8 +25,6 @@ import MasterButton from "../../components/MasterButton";
 
 import CustomCalendar from "../../components/Calendar";
 import TimeBlock from "../../components/TimeBlock";
-
-const { width } = Dimensions.get("window");
 
 class ServiceScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -47,7 +45,12 @@ class ServiceScreen extends Component {
     const { dispatch } = this.props;
     this.state = {
       isCalendarCollapsed: true,
-      employees: []
+      employees: [],
+      selectedMaster: null,
+      selectedService: null,
+      selectedTimeblock: null,
+      selectedDate: moment().format("YYYY-MM-DD"),
+      isSubmitting: false
     };
   }
 
@@ -85,6 +88,8 @@ class ServiceScreen extends Component {
         })
       )
       .catch(err => alert(err));
+
+    this.requestReservedTimeBlocks();
     // setTimeout(() => {
     //   this.scrollView.scrollTo({ x: -30 });
     // }, 1); // scroll view position fix
@@ -97,16 +102,67 @@ class ServiceScreen extends Component {
   };
 
   renderMasters = () =>
-    this.props.masters.map(master => {
-      return <MasterButton key={master.id} name={master.name} />;
-    });
+    this.props.masters
+      .filter(master => {
+        return (
+          this.state.selectedMaster == null ||
+          master.id == this.state.selectedMaster
+        );
+      })
+      .map(master => {
+        return (
+          <MasterButton
+            key={master.id}
+            name={master.name}
+            onPress={() => {
+              this.setState({ selectedMaster: master.id }, () => {
+                this.requestReservedTimeBlocks();
+              });
+            }}
+            showPlus={!this.state.selectedMaster}
+          />
+        );
+      });
 
   renderServices = () =>
-    this.props.services.map(service => {
-      return <ServiceButton key={service.id} name={service.name} />;
-    });
+    this.props.services
+      .filter(service => {
+        return (
+          this.state.selectedService == null ||
+          service.id == this.state.selectedService.id
+        );
+      })
+      .map(service => {
+        return (
+          <ServiceButton
+            key={service.id}
+            name={service.name}
+            duration_h={service.duration_h}
+            duration_m={service.duration_m}
+            onPress={() =>
+              this.setState({ selectedService: service }, () => {
+                this.requestReservedTimeBlocks();
+              })
+            }
+            showPlus={!this.state.selectedService}
+          />
+        );
+      });
 
-  selectCalendarDate = day => {
+  selectCalendarDate = date => {
+    this.setState({ selectedDate: date }, () => {
+      this.requestReservedTimeBlocks();
+    });
+  };
+
+  requestReservedTimeBlocks = () => {
+    if (
+      this.state.selectedMaster == null ||
+      this.state.selectedService == null ||
+      this.state.selectedDate == null
+    ) {
+      return;
+    }
     fetch("http://localhost:3000/reservations/getreservedtimeblocks", {
       method: "POST",
       headers: {
@@ -114,12 +170,36 @@ class ServiceScreen extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        date: day
+        date: this.state.selectedDate,
+        master: this.state.selectedMaster
       })
     })
       .then(response =>
         response.json().then(responseJson => {
           this.props.storeReservations(responseJson.rows);
+        })
+      )
+      .catch(err => alert(err));
+  };
+  createReservation = () => {
+    this.setState({ isSubmitting: true });
+    fetch("http://localhost:3000/reservations/createReservation", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        master: this.state.selectedMaster,
+        service: this.state.selectedService.id,
+        date: this.state.selectedDate,
+        timeblock: this.state.selectedTimeblock,
+        userId: 1
+      })
+    })
+      .then(response =>
+        response.json().then(responseJson => {
+          this.setState({ isSubmitting: false });
         })
       )
       .catch(err => alert(err));
@@ -138,20 +218,79 @@ class ServiceScreen extends Component {
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={styles.serviceScrollStyle}
+          contentInset={{ bottom: 85 }}
         >
           <View style={styles.serviceSelectStyle}>
             {this.renderServices()}
+            {this.state.selectedService && (
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  flexDirection: "row-reverse",
+                  marginHorizontal: 15
+                }}
+                onPress={() => {
+                  this.setState({
+                    selectedService: null,
+                    selectedTimeblock: null
+                  });
+                }}
+              >
+                <Text style={{ color: "#D7BF76", fontWeight: "bold" }}>
+                  Выбрать другогую услугу
+                </Text>
+              </TouchableOpacity>
+            )}
             {this.renderMasters()}
+            {this.state.selectedMaster && (
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  flexDirection: "row-reverse",
+                  marginHorizontal: 15
+                }}
+                onPress={() => {
+                  this.setState({
+                    selectedMaster: null,
+                    selectedTimeblock: null
+                  });
+                }}
+              >
+                <Text style={{ color: "#D7BF76", fontWeight: "bold" }}>
+                  Выбрать другого мастера
+                </Text>
+              </TouchableOpacity>
+            )}
             <CustomCalendar
               onSelectDay={this.selectCalendarDate}
               isCollapsed={this.state.isCalendarCollapsed}
               toggleCalendar={this.toggleCalendar}
               callBack={() => this.scrollView.scrollToEnd({ animated: true })}
             />
-            <TimeBlock reservedTimeBlocks={this.props.reservedTimeBlocks} />
+            {this.state.selectedMaster &&
+              this.state.selectedService &&
+              this.props.reservedTimeBlocks != null && (
+                <TimeBlock
+                  reservedTimeBlocks={this.props.reservedTimeBlocks}
+                  onPress={timeblock => {
+                    this.setState(
+                      { selectedTimeblock: timeblock },
+                      this.requestReservedTimeBlocks
+                    );
+                  }}
+                  selectedService={this.state.selectedService}
+                />
+              )}
           </View>
         </ScrollView>
-        {this.props.isLoading && <LoadingOverlay />}
+        {this.state.selectedTimeblock && (
+          <TouchableOpacity
+            onPress={this.createReservation}
+            style={styles.registerButton}
+          />
+        )}
+        {this.props.isLoading ||
+          (this.state.isSubmitting && <LoadingOverlay />)}
       </View>
     );
   }
@@ -161,8 +300,7 @@ const styles = StyleSheet.create({
   serviceScrollStyle: {
     flex: 1,
     height: "15%",
-    width: "100%",
-    marginBottom: 15
+    width: "100%"
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {
@@ -173,6 +311,33 @@ const styles = StyleSheet.create({
   },
   masterSelectStyle: {
     flex: 1
+  },
+  registerButton: {
+    position: "absolute",
+    bottom: 20,
+    height: 50,
+    width: "90%",
+    height: 55,
+    marginHorizontal: 15,
+    marginVertical: 10,
+    borderRadius: 10,
+    justifyContent: "center",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.25,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        }
+      },
+      android: {
+        elevation: 5
+      }
+    }),
+    borderColor: "#d2d1d150",
+    borderWidth: 1,
+    backgroundColor: "#FFFFFF"
   }
 });
 

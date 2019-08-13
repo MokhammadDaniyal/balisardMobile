@@ -78,7 +78,7 @@ class CustomCalendar extends React.Component {
     this.today = new Date();
 
     this.state = {
-      selectedDate: {},
+      selectedDate: moment().format("YYYY-MM-DD"),
       titleDay: dayNames[this.today.getDay()],
       titleMonth: monthNames[this.today.getMonth()],
       titleDate: this.today.getDate()

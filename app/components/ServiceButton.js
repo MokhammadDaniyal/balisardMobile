@@ -22,13 +22,13 @@ const ServiceButton = props => (
             color: "grey"
           }}
         >
-          1 час
+          {props.duration_h} час
         </Text>
       </View>
       <TouchableOpacity
         style={{
           flex: 0,
-          marginRight: 5
+          marginRight: 15
         }}
       >
         <Icon
@@ -37,13 +37,18 @@ const ServiceButton = props => (
           style={{ fontSize: 20, color: "#D7BF76" }}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.plusButtonStyle}>
-        <Icon
-          type="AntDesign"
-          name="plus"
-          style={{ fontSize: 25, color: "#D7BF76" }}
-        />
-      </TouchableOpacity>
+      {props.showPlus && (
+        <TouchableOpacity
+          style={styles.plusButtonStyle}
+          onPress={props.onPress}
+        >
+          <Icon
+            type="AntDesign"
+            name="plus"
+            style={{ fontSize: 25, color: "#D7BF76" }}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   </View>
 );
@@ -96,7 +101,6 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
     borderLeftColor: "#D8D8D8",
     borderLeftWidth: 1
   },
