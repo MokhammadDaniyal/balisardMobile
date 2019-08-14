@@ -11,7 +11,11 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
+import { navigate } from "../../navigation/NavigationService";
+import { RouteNames } from "../../navigation/index";
+import { userCreateSuccess } from "../../store/user/actions";
 
+import LoadingOverlay from "../../components/LoadingOverlay";
 class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +35,20 @@ class RegistrationScreen extends Component {
   }
 
   createUser = () => {
+    if (
+      this.state.firstNameText == "" ||
+      this.state.lastNameText == "" ||
+      this.state.phoneText == "" ||
+      this.state.passwordText == ""
+    ) {
+      alert("Не все поля заполнены");
+      return;
+    }
+    if (this.state.passwordText != this.state.repeatPasswordText) {
+      alert("Пароли не совпадают");
+      this.setState({ passwordText: "", repeatPasswordText: "" });
+      return;
+    }
     fetch("http://localhost:3000/users/signup", {
       method: "POST",
       headers: {
@@ -44,13 +62,19 @@ class RegistrationScreen extends Component {
         password: this.state.passwordText
       })
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      .then(response =>
+        response.json().then(responseJson => {
+          this.props.storeUser({
+            firstName: this.state.firstNameText,
+            lastName: this.state.lastNameText,
+            phoneNumber: this.state.phoneText,
+            id: responseJson.rows[0].id
+          });
+          this.setState({ isLoading: false });
+          navigate(RouteNames.Home);
+        })
+      )
+      .catch(err => alert(err));
   };
   render() {
     return (
@@ -69,6 +93,7 @@ class RegistrationScreen extends Component {
                 value={this.state.phoneText}
                 placeholder={this.state.phonePlaceholder}
                 placeholderTextColor="#ffffff"
+                keyboardType={"numeric"}
               />
             </View>
             <View style={styles.inputContainer}>
@@ -123,6 +148,7 @@ class RegistrationScreen extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
+        {this.state.isLoading && <LoadingOverlay />}
       </LinearGradient>
     );
   }
@@ -183,9 +209,15 @@ const mapStateToProps = state => {
   return {};
 };
 
-// const mapDispatchToProps = { increment, decrement, reset };
+const mapDispatchToProps = dispatch => {
+  return {
+    storeUser: userObj => {
+      dispatch(userCreateSuccess(userObj));
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(RegistrationScreen);
