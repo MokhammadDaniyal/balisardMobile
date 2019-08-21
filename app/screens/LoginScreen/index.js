@@ -8,26 +8,65 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import Images from "./images";
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { userCreateSuccess } from "../../store/user/actions";
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = this.props;
     this.state = {
-      loginPlaceholder: "Username",
-      usernameText: "",
-      passwordPlaceholder: "Password",
-      passwordText: ""
+      loginPlaceholder: "Телефон",
+      phoneText: "",
+      passwordPlaceholder: "Пароль",
+      passwordText: "",
+      isLoading: false
     };
   }
 
+  loginUser = () => {
+    if (this.state.phoneText == "" || this.state.passwordText == "") {
+      alert("Не все поля заполнены для входаю");
+      return;
+    }
+    this.setState({ isLoading: true });
+    fetch("http://localhost:3000/users/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        phone: this.state.phoneText,
+        password: this.state.passwordText
+      })
+    })
+      .then(response => {
+        if (response.status == 401) {
+          this.setState({ isLoading: false, passwordText: "" });
+          alert("Не правильный пароль");
+        } else {
+          response.json().then(responseJson => {
+            this.props.storeUser({
+              firstName: responseJson.rows[0].firstname,
+              lastName: responseJson.rows[0].lastname,
+              phoneNumber: responseJson.rows[0].phonenumber,
+              id: responseJson.rows[0].id
+            });
+            navigate(RouteNames.Home);
+          });
+        }
+      })
+      .catch(err => alert(err));
+  };
   render() {
     return (
       <LinearGradient
@@ -42,8 +81,8 @@ class LoginScreen extends Component {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.loginInput}
-                onChangeText={text => this.setState({ usernameText: text })}
-                value={this.state.usernameText}
+                onChangeText={text => this.setState({ phoneText: text })}
+                value={this.state.phoneText}
                 placeholder={this.state.loginPlaceholder}
                 placeholderTextColor="#ffffff"
               />
@@ -55,11 +94,13 @@ class LoginScreen extends Component {
                 value={this.state.passwordText}
                 placeholder={this.state.passwordPlaceholder}
                 placeholderTextColor="#ffffff"
+                secureTextEntry={true}
               />
             </View>
             <TouchableOpacity
               onPress={() => {
-                navigate(RouteNames.Home);
+                Keyboard.dismiss();
+                this.loginUser();
               }}
             >
               <View style={styles.buttonContainer}>
@@ -80,6 +121,7 @@ class LoginScreen extends Component {
             </View>
           </View>
         </KeyboardAvoidingView>
+        {this.state.isLoading && <LoadingOverlay />}
       </LinearGradient>
     );
   }
@@ -140,9 +182,15 @@ const mapStateToProps = state => {
   return {};
 };
 
-// const mapDispatchToProps = { increment, decrement, reset };
+const mapDispatchToProps = dispatch => {
+  return {
+    storeUser: userObj => {
+      dispatch(userCreateSuccess(userObj));
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(LoginScreen);

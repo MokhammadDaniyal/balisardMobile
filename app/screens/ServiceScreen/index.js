@@ -14,6 +14,7 @@ import {
   fetchMasterSuccess,
   fetchReservationsSuccess
 } from "../../store/reservation/actions";
+import { postRequest } from "../../network/";
 import { fetchServicesSuccess } from "../../store/services/actions";
 
 import moment from "moment";
@@ -56,40 +57,23 @@ class ServiceScreen extends Component {
 
   componentDidMount() {
     const serviceType = this.props.navigation.getParam("type");
-    fetch("http://localhost:3000/services/retrieveservices", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    postRequest(
+      "services/retrieveservices",
+      {
         type: serviceType
-      })
-    })
-      .then(response =>
-        response.json().then(responseJson => {
-          this.props.storeServices(responseJson.rows);
-        })
-      )
-      .catch(err => alert(err));
-    fetch("http://localhost:3000/services/retrievemasters", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        type: serviceType
-      })
-    })
-      .then(response =>
-        response.json().then(responseJson => {
-          this.props.storeMasters(responseJson.rows);
-        })
-      )
-      .catch(err => alert(err));
+      this.props.storeServices
+    );
 
+    postRequest(
+      "services/retrievemasters",
+      {
+        type: serviceType
+      },
+      this.props.storeMasters
+    );
     this.requestReservedTimeBlocks();
+    this.toggleCalendar();
     // setTimeout(() => {
     //   this.scrollView.scrollTo({ x: -30 });
     // }, 1); // scroll view position fix
@@ -183,26 +167,16 @@ class ServiceScreen extends Component {
   };
   createReservation = () => {
     this.setState({ isSubmitting: true });
-    fetch("http://localhost:3000/reservations/createReservation", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        master: this.state.selectedMaster,
-        service: this.state.selectedService.id,
-        date: this.state.selectedDate,
-        timeblock: this.state.selectedTimeblock,
-        userId: 1
-      })
-    })
-      .then(response =>
-        response.json().then(responseJson => {
-          this.setState({ isSubmitting: false });
-        })
-      )
-      .catch(err => alert(err));
+    const body = {
+      master: this.state.selectedMaster,
+      service: this.state.selectedService.id,
+      date: this.state.selectedDate,
+      timeblock: this.state.selectedTimeblock,
+      userId: 1
+    };
+    postRequest("reservations/createReservation", body, () => {
+      this.setState({ isSubmitting: false });
+    });
   };
 
   render() {
@@ -287,7 +261,9 @@ class ServiceScreen extends Component {
           <TouchableOpacity
             onPress={this.createReservation}
             style={styles.registerButton}
-          />
+          >
+            <Text>Создать резервацию</Text>
+          </TouchableOpacity>
         )}
         {this.props.isLoading ||
           (this.state.isSubmitting && <LoadingOverlay />)}
@@ -313,6 +289,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   registerButton: {
+    justifyContent: "center",
+    alignItems: "center",
     position: "absolute",
     bottom: 20,
     height: 50,
@@ -337,7 +315,7 @@ const styles = StyleSheet.create({
     }),
     borderColor: "#d2d1d150",
     borderWidth: 1,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#D7BF76"
   }
 });
 

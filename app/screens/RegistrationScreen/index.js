@@ -65,6 +65,7 @@ class RegistrationScreen extends Component {
       .then(response =>
         response.json().then(responseJson => {
           this.props.storeUser({
+            // Need to handle error cases from server with code 4xx
             firstName: this.state.firstNameText,
             lastName: this.state.lastNameText,
             phoneNumber: this.state.phoneText,
