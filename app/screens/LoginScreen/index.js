@@ -123,7 +123,7 @@ class LoginScreen extends Component {
           </View>
         </KeyboardAvoidingView>
         {this.state.isLoading && <LoadingOverlay />}
-        <ConfirmationOverlay />
+        {/* <ConfirmationOverlay /> */}
       </LinearGradient>
     );
   }

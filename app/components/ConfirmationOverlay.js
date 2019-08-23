@@ -8,16 +8,20 @@ import {
   Platform
 } from "react-native";
 
-// import LottieView from "lottie-react-native";
+import LottieView from "lottie-react-native";
 
 const ConfirmationOverlay = proprs => (
   <View style={styles.container}>
     <View style={styles.confirmationDialog}>
-      {/* <LottieView
+      <LottieView
         source={require("./images/checkmark.json")}
         autoPlay={true}
         loop={true}
-      /> */}
+        style={{
+          heoght: 50,
+          width: 50
+        }}
+      />
     </View>
   </View>
 );
