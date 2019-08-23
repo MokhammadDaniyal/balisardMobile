@@ -33,18 +33,7 @@ class TimeBlock extends React.Component {
   };
 
   renderTimeSlots = (startIndex, endIndex) => {
-    let disabledTimeBlocks = new Set();
-    const selectedServiceLength =
-      2 * this.props.selectedService.duration_h +
-      this.props.selectedService.duration_m / 30;
-    this.props.reservedTimeBlocks.sort();
-    let length = this.props.reservedTimeBlocks.length;
-    for (let j = 0; j < length; j++) {
-      disabledTimeBlocks.add(this.props.reservedTimeBlocks[j]);
-      for (let i = 1; i < selectedServiceLength; i++) {
-        disabledTimeBlocks.add(this.props.reservedTimeBlocks[j] - i);
-      }
-    }
+    let disabledTimeBlocks = this.calculateUnavailableSlots();
     return this.timeSlots
       .filter((_, index) => {
         return index >= startIndex && index < endIndex;
@@ -75,6 +64,23 @@ class TimeBlock extends React.Component {
           </TouchableOpacity>
         );
       });
+  };
+
+  calculateUnavailableSlots = () => {
+    let disabledTimeBlocks = new Set();
+    const selectedServiceLength =
+      2 * this.props.selectedService.duration_h +
+      this.props.selectedService.duration_m / 30;
+    this.props.reservedTimeBlocks.sort();
+    let length = this.props.reservedTimeBlocks.length;
+    for (let j = 0; j < length; j++) {
+      disabledTimeBlocks.add(this.props.reservedTimeBlocks[j]);
+      for (let i = 1; i < selectedServiceLength; i++) {
+        disabledTimeBlocks.add(this.props.reservedTimeBlocks[j] - i);
+        disabledTimeBlocks.add(24 - i);
+      }
+    }
+    return disabledTimeBlocks;
   };
 
   render() {

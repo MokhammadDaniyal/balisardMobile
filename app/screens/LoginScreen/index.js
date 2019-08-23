@@ -18,6 +18,7 @@ import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { userCreateSuccess } from "../../store/user/actions";
+import ConfirmationOverlay from "../../components/ConfirmationOverlay";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -122,6 +123,7 @@ class LoginScreen extends Component {
           </View>
         </KeyboardAvoidingView>
         {this.state.isLoading && <LoadingOverlay />}
+        <ConfirmationOverlay />
       </LinearGradient>
     );
   }
