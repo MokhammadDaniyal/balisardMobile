@@ -9,49 +9,55 @@ import {
   Platform
 } from "react-native";
 
+import PlusButton from "./PlusButton";
+
 import { Icon } from "native-base";
 
-const ServiceButton = props => (
-  <View style={styles.buttonView}>
-    <View style={styles.leftView} />
-    <View style={styles.mainView}>
-      <View style={styles.textViewStyle}>
-        <Text>{props.name}</Text>
-        <Text
-          style={{
-            color: "grey"
-          }}
-        >
-          {props.duration_h} час
-        </Text>
-      </View>
-      <TouchableOpacity
-        style={{
-          flex: 0,
-          marginRight: 15
-        }}
-      >
-        <Icon
-          type="SimpleLineIcons"
-          name="info"
-          style={{ fontSize: 20, color: "#D7BF76" }}
-        />
-      </TouchableOpacity>
-      {props.showPlus && (
-        <TouchableOpacity
-          style={styles.plusButtonStyle}
-          onPress={props.onPress}
-        >
-          <Icon
-            type="AntDesign"
-            name="plus"
-            style={{ fontSize: 25, color: "#D7BF76" }}
+class ServiceButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  resetPlus = () => {
+    this.plusButton.resetButton();
+  };
+  render() {
+    return (
+      <View style={styles.buttonView}>
+        <View style={styles.leftView} />
+        <View style={styles.mainView}>
+          <View style={styles.textViewStyle}>
+            <Text>{this.props.name}</Text>
+            <Text
+              style={{
+                color: "grey"
+              }}
+            >
+              {this.props.duration_h} час
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              flex: 0,
+              marginRight: 15
+            }}
+          >
+            <Icon
+              type="SimpleLineIcons"
+              name="info"
+              style={{ fontSize: 20, color: "#D7BF76" }}
+            />
+          </TouchableOpacity>
+          <PlusButton
+            ref={plusButton => {
+              this.plusButton = plusButton;
+            }}
+            onPress={this.props.onPress}
           />
-        </TouchableOpacity>
-      )}
-    </View>
-  </View>
-);
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   buttonView: {

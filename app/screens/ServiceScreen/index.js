@@ -96,6 +96,9 @@ class ServiceScreen extends Component {
       .map(master => {
         return (
           <MasterButton
+            ref={ref => {
+              this.masterPlus = ref;
+            }}
             key={master.id}
             name={master.name}
             onPress={() => {
@@ -119,6 +122,9 @@ class ServiceScreen extends Component {
       .map(service => {
         return (
           <ServiceButton
+            ref={ref => {
+              this.servicePlus = ref;
+            }}
             key={service.id}
             name={service.name}
             duration_h={service.duration_h}
@@ -204,6 +210,7 @@ class ServiceScreen extends Component {
                   marginHorizontal: 15
                 }}
                 onPress={() => {
+                  this.servicePlus.resetPlus();
                   this.setState({
                     selectedService: null,
                     selectedTimeblock: null
@@ -224,6 +231,7 @@ class ServiceScreen extends Component {
                   marginHorizontal: 15
                 }}
                 onPress={() => {
+                  this.masterPlus.resetPlus();
                   this.setState({
                     selectedMaster: null,
                     selectedTimeblock: null

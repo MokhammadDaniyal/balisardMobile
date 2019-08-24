@@ -10,52 +10,55 @@ import {
 } from "react-native";
 
 import { Icon } from "native-base";
+import PlusButton from "./PlusButton";
 
-const MasterButton = props => (
-  <View style={styles.buttonView}>
-    <View style={styles.leftView} />
-    <View style={styles.mainView}>
-      <View style={styles.tmasterViewStyle}>
-        <Image
-          source={require("./images/dushanova.jpg")}
-          style={{
-            width: 39,
-            height: 39,
-            borderRadius: 40,
-            marginRight: 10
-          }}
-        />
-        <Text>{props.name}</Text>
-      </View>
-      <TouchableOpacity
-        style={{
-          flex: 0,
-          marginRight: 15
-        }}
-      >
-        <Icon
-          type="SimpleLineIcons"
-          name="info"
-          style={{ fontSize: 20, color: "#D7BF76" }}
-        />
-      </TouchableOpacity>
-
-      {props.showPlus && (
-        <TouchableOpacity
-          style={styles.plusButtonStyle}
-          onPress={props.onPress}
-        >
-          <Icon
-            type="AntDesign"
-            name="plus"
-            style={{ fontSize: 25, color: "#D7BF76" }}
+class MasterButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  resetPlus = () => {
+    this.plusButton.resetButton();
+  };
+  render() {
+    return (
+      <View style={styles.buttonView}>
+        <View style={styles.leftView} />
+        <View style={styles.mainView}>
+          <View style={styles.tmasterViewStyle}>
+            <Image
+              source={require("./images/dushanova.jpg")}
+              style={{
+                width: 39,
+                height: 39,
+                borderRadius: 40,
+                marginRight: 10
+              }}
+            />
+            <Text>{this.props.name}</Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              flex: 0,
+              marginRight: 15
+            }}
+          >
+            <Icon
+              type="SimpleLineIcons"
+              name="info"
+              style={{ fontSize: 20, color: "#D7BF76" }}
+            />
+          </TouchableOpacity>
+          <PlusButton
+            ref={plusButton => {
+              this.plusButton = plusButton;
+            }}
+            onPress={this.props.onPress}
           />
-        </TouchableOpacity>
-      )}
-    </View>
-  </View>
-);
-
+        </View>
+      </View>
+    );
+  }
+}
 const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
