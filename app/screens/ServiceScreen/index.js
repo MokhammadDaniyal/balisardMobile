@@ -23,9 +23,12 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { ScrollView } from "react-native-gesture-handler";
 import ServiceButton from "../../components/ServiceButton";
 import MasterButton from "../../components/MasterButton";
+import { navigate } from "../../navigation/NavigationService";
+import { RouteNames } from "../../navigation/index";
 
 import CustomCalendar from "../../components/Calendar";
 import TimeBlock from "../../components/TimeBlock";
+import ConfirmationOverlay from "../../components/ConfirmationOverlay";
 
 class ServiceScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -51,7 +54,8 @@ class ServiceScreen extends Component {
       selectedService: null,
       selectedTimeblock: null,
       selectedDate: moment().format("YYYY-MM-DD"),
-      isSubmitting: false
+      isSubmitting: false,
+      showConnfirmation: false
     };
   }
 
@@ -181,7 +185,7 @@ class ServiceScreen extends Component {
       userId: 1
     };
     postRequest("reservations/createReservation", body, () => {
-      this.setState({ isSubmitting: false });
+      this.setState({ isSubmitting: false, showConnfirmation: true });
     });
   };
 
@@ -275,6 +279,16 @@ class ServiceScreen extends Component {
         )}
         {this.props.isLoading ||
           (this.state.isSubmitting && <LoadingOverlay />)}
+        {this.state.showConnfirmation && (
+          <ConfirmationOverlay
+            closeDialog={() => {
+              this.setState(
+                { showConnfirmation: false },
+                navigate(RouteNames.Home)
+              );
+            }}
+          />
+        )}
       </View>
     );
   }
