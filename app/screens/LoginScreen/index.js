@@ -105,7 +105,7 @@ class LoginScreen extends Component {
               }}
             >
               <View style={styles.buttonContainer}>
-                <Text>Login</Text>
+                <Text>Войти</Text>
               </View>
             </TouchableOpacity>
             <View style={styles.additionalButtons}>
@@ -114,10 +114,10 @@ class LoginScreen extends Component {
                   navigate(RouteNames.Registration);
                 }}
               >
-                <Text> create account</Text>
+                <Text>Создать Аккаунт </Text>
               </TouchableOpacity>
               <TouchableOpacity>
-                <Text> forgot password</Text>
+                <Text> Забыли пароль</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -22,8 +22,19 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import FloatingBar from "../../components/FloatingBar";
 
 class ProfileScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      headerTitle: (
+        <Text style={{ fontSize: 25 }}>{params ? params.title : ""}</Text>
+      )
+    };
+  };
   constructor(props) {
     super(props);
+    props.navigation.setParams({
+      title: props.user.firstName + " " + props.user.lastName
+    });
   }
 
   componentDidMount() {
@@ -36,15 +47,47 @@ class ProfileScreen extends React.Component {
     );
   }
 
-  rednerFutureRecords = () =>
-    this.props.records.futureRecords.map(record => {
-      return <FloatingBar isGrey={false} data={record} />;
-    });
+  rednerFutureRecords = () => {
+    if (
+      this.props.records.futureRecords &&
+      this.props.records.futureRecords.length > 0
+    ) {
+      return this.props.records.futureRecords.map(record => {
+        return <FloatingBar isGrey={false} data={record} />;
+      });
+    } else {
+      return (
+        <View style={styles.noRecord}>
+          <Image
+            style={styles.noRecordImg}
+            source={require("./images/noRecords.png")}
+          />
+          <Text style={styles.noRecordText}>У вас нет текущих записей</Text>
+        </View>
+      );
+    }
+  };
 
-  rednerPastRecords = () =>
-    this.props.records.pastRecords.map(record => {
-      return <FloatingBar isGrey={true} data={record} />;
-    });
+  rednerPastRecords = () => {
+    if (
+      this.props.records.pastRecords &&
+      this.props.records.pastRecords.length > 0
+    ) {
+      return this.props.records.pastRecords.map(record => {
+        return <FloatingBar isGrey={true} data={record} />;
+      });
+    } else {
+      return (
+        <View style={styles.noRecord}>
+          <Image
+            style={styles.noRecordImg}
+            source={require("./images/noRecords.png")}
+          />
+          <Text style={styles.noRecordText}>История записей отсутствует</Text>
+        </View>
+      );
+    }
+  };
 
   render() {
     return (
@@ -55,7 +98,13 @@ class ProfileScreen extends React.Component {
             style={styles.profileImage}
           />
           <View style={styles.infoBlock}>
-            <Text>{this.props.userPhone}</Text>
+            <View style={styles.linkButton}>
+              <Image
+                source={require("./images/phoneImg.png")}
+                style={styles.icon}
+              />
+              <Text>{this.props.user.phoneNumber}</Text>
+            </View>
             <TouchableOpacity style={styles.linkButton}>
               <Image
                 source={require("./images/instagramIcon.png")}
@@ -74,10 +123,10 @@ class ProfileScreen extends React.Component {
         </View>
         <ScrollView>
           <View style={styles.currentRecord}>
-            <Text>Текущиая запись</Text>
+            <Text>Текущая запись</Text>
             {this.rednerFutureRecords()}
           </View>
-          <View style={styles.historyRecord}>
+          <View style={styles.pastRecord}>
             <Text>История</Text>
             {this.rednerPastRecords()}
           </View>
@@ -96,7 +145,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 0,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 20
   },
   profileImage: {
     resizeMode: "contain",
@@ -121,9 +172,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     flex: 0
   },
-  historyRecord: {
+  pastRecord: {
     flex: 1,
     marginHorizontal: 15
+  },
+  noRecord: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignContent: "center",
+    alignItems: "center",
+    marginVertical: 15
+  },
+  noRecordImg: {
+    width: 75,
+    height: 75
+  },
+  noRecordText: {
+    marginTop: 10,
+    fontSize: 12,
+    color: "#9B9B9B"
   }
 });
 
