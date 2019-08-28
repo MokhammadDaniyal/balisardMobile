@@ -130,7 +130,7 @@ class ServiceScreen extends Component {
               this.servicePlus = ref;
             }}
             key={service.id}
-            name={service.name}
+            name={service.title}
             duration_h={service.duration_h}
             duration_m={service.duration_m}
             onPress={() =>
@@ -182,7 +182,7 @@ class ServiceScreen extends Component {
       service: this.state.selectedService.id,
       date: this.state.selectedDate,
       timeblock: this.state.selectedTimeblock,
-      userId: 1
+      userId: this.props.user.id
     };
     postRequest("reservations/createReservation", body, () => {
       this.setState({ isSubmitting: false, showConnfirmation: true });
@@ -346,6 +346,7 @@ const mapStateToProps = state => {
     ({ time_block }) => time_block
   );
   return {
+    user: state.user.userData,
     reservedTimeBlocks: timeBlocks,
     reservations: state.reservations.reservations,
     masters: state.reservations.masters,

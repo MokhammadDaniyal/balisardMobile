@@ -18,6 +18,7 @@ import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { userCreateSuccess } from "../../store/user/actions";
+import FloatingBar from "../../components/FloatingBar";
 
 class LoginScreen extends Component {
   constructor(props) {

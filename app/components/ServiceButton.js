@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
   },
   leftView: {
     position: "absolute",
-    left: 0,
+    left: -1,
     width: 10,
-    height: "100%",
+    height: "101%",
     backgroundColor: "#D7BF76",
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10

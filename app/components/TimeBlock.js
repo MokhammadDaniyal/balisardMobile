@@ -9,14 +9,15 @@ import {
 
 import moment from "moment";
 
+import { timeSlots } from "../components/defaultData";
 class TimeBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.timeSlots = [];
+    // this.timeSlots = [];
     this.state = {
       selectedTimeSlot: -1
     };
-    this.constructTimeSlots();
+    // this.constructTimeSlots();
   }
 
   constructTimeSlots = () => {
@@ -34,7 +35,7 @@ class TimeBlock extends React.Component {
 
   renderTimeSlots = (startIndex, endIndex) => {
     let disabledTimeBlocks = this.calculateUnavailableSlots();
-    return this.timeSlots
+    return timeSlots
       .filter((_, index) => {
         return index >= startIndex && index < endIndex;
       })

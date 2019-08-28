@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
+import { View, Text, TouchableOpacity } from "react-native";
+import { createStackNavigator } from "react-navigation";
 
-import Routes from "../navigation/routes";
-import { View, Text } from "react-native";
+import { navigate } from "./NavigationService";
+import { RouteNames } from "./routes";
+import Routes from "./routes";
 
 import { Icon } from "native-base";
-import { TouchableOpacity } from "react-native-gesture-handler";
 export default (setStackNavigator = mainRoute => {
   return createStackNavigator(
     { ...mainRoute, ...Routes },
@@ -38,7 +39,11 @@ export default (setStackNavigator = mainRoute => {
           </Text>
         ),
         headerRight: (
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(RouteNames.Profile);
+            }}
+          >
             <Icon
               type="AntDesign"
               name="user"

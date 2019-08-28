@@ -1,7 +1,12 @@
-import { USER_CREATE_SUCCESS } from "./actions";
+import { USER_CREATE_SUCCESS, USER_RECORD_HISTORY } from "./actions";
 
 const initialState = {
-  userData: null
+  userData: {
+    recordHistory: {
+      pastRecords: [],
+      futureRecords: []
+    }
+  }
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,7 +15,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        userData: action.payload
+        userData: { ...state.userData, ...action.payload }
+      };
+    case USER_RECORD_HISTORY:
+      return {
+        ...state,
+        isLoading: false,
+        userData: { ...state.userData, ...action.payload }
       };
     default:
       return state;

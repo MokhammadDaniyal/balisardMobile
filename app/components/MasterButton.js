@@ -24,7 +24,7 @@ class MasterButton extends React.Component {
       <View style={styles.buttonView}>
         <View style={styles.leftView} />
         <View style={styles.mainView}>
-          <View style={styles.tmasterViewStyle}>
+          <View style={styles.masterViewStyle}>
             <Image
               source={require("./images/dushanova.jpg")}
               style={{
@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
   },
   leftView: {
     position: "absolute",
-    left: 0,
+    left: -1,
     width: 10,
-    height: "100%",
+    height: "101%",
     backgroundColor: "#D7BF76",
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "#D8D8D8",
     borderLeftWidth: 1
   },
-  tmasterViewStyle: {
+  masterViewStyle: {
     flex: 5,
     flexDirection: "row",
     alignItems: "center"

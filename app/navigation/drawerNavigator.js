@@ -14,7 +14,6 @@ import {
 import { createDrawerNavigator, createStackNavigator } from "react-navigation";
 
 import setStackNavigator from "../navigation/mainStackNavigator";
-import { navigate } from "../navigation/NavigationService";
 
 import Routes, { RouteNames } from "../navigation/routes";
 
