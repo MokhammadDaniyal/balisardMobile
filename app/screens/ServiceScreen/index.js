@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "native-base";
-
+import Modal from "react-native-modal";
 import {
   fetchMasterSuccess,
   fetchReservationsSuccess
@@ -55,7 +55,8 @@ class ServiceScreen extends Component {
       selectedTimeblock: null,
       selectedDate: moment().format("YYYY-MM-DD"),
       isSubmitting: false,
-      showConnfirmation: false
+      showConnfirmation: false,
+      modalVisible: false
     };
   }
 
@@ -77,10 +78,7 @@ class ServiceScreen extends Component {
       this.props.storeMasters
     );
     this.requestReservedTimeBlocks();
-    this.toggleCalendar();
-    // setTimeout(() => {
-    //   this.scrollView.scrollTo({ x: -30 });
-    // }, 1); // scroll view position fix
+    // this.toggleCalendar();
   }
 
   toggleCalendar = () => {
@@ -138,6 +136,7 @@ class ServiceScreen extends Component {
                 this.requestReservedTimeBlocks();
               })
             }
+            onInfo={this.showModal}
             showPlus={!this.state.selectedService}
           />
         );
@@ -157,23 +156,14 @@ class ServiceScreen extends Component {
     ) {
       return;
     }
-    fetch("http://localhost:3000/reservations/getreservedtimeblocks", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    postRequest(
+      "reservations/getreservedtimeblocks",
+      {
         date: this.state.selectedDate,
         master: this.state.selectedMaster
-      })
-    })
-      .then(response =>
-        response.json().then(responseJson => {
-          this.props.storeReservations(responseJson.rows);
-        })
-      )
-      .catch(err => alert(err));
+      },
+      this.props.storeReservations
+    );
   };
   createReservation = () => {
     this.setState({ isSubmitting: true });
@@ -185,10 +175,35 @@ class ServiceScreen extends Component {
       userId: this.props.user.id
     };
     postRequest("reservations/createReservation", body, () => {
-      this.setState({ isSubmitting: false, showConnfirmation: true });
+      this.setState({
+        isSubmitting: false,
+        showConnfirmation: true,
+        selectedTimeblock: null
+      });
     });
   };
 
+  closeModal = () => {
+    this.setState({ modalVisible: false });
+  };
+  showModal = () => {
+    this.setState({ modalVisible: true });
+  };
+  renderInfoModal = () => {
+    return (
+      <View>
+        <Modal
+          isVisible={this.state.modalVisible}
+          onBackdropPress={this.closeModal}
+        >
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>I am the modal content!</Text>
+            <Text style={styles.modalBody}>I am the modal content!</Text>
+          </View>
+        </Modal>
+      </View>
+    );
+  };
   render() {
     return (
       <View
@@ -199,12 +214,23 @@ class ServiceScreen extends Component {
           flexDirection: "column"
         }}
       >
+        {this.renderInfoModal()}
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={styles.serviceScrollStyle}
-          contentInset={{ bottom: 85 }}
+          // contentContainerStyle={{ marginBottom: 85 }}
         >
           <View style={styles.serviceSelectStyle}>
+            <Text
+              style={{
+                marginLeft: 15,
+                marginTop: 10,
+                fontWeight: "bold",
+                fontSize: 15
+              }}
+            >
+              Услуги
+            </Text>
             {this.renderServices()}
             {this.state.selectedService && (
               <TouchableOpacity
@@ -226,8 +252,11 @@ class ServiceScreen extends Component {
                 </Text>
               </TouchableOpacity>
             )}
+            <Text style={{ marginLeft: 15, marginTop: 10, fontWeight: "bold" }}>
+              Мастера
+            </Text>
             {this.renderMasters()}
-            {this.state.selectedMaster && (
+            {this.state.selectedMaster != null && (
               <TouchableOpacity
                 style={{
                   flex: 1,
@@ -242,7 +271,9 @@ class ServiceScreen extends Component {
                   });
                 }}
               >
-                <Text style={{ color: "#D7BF76", fontWeight: "bold" }}>
+                <Text
+                  style={{ color: "#D7BF76", fontWeight: "bold", fontSize: 15 }}
+                >
                   Выбрать другого мастера
                 </Text>
               </TouchableOpacity>
@@ -251,7 +282,7 @@ class ServiceScreen extends Component {
               onSelectDay={this.selectCalendarDate}
               isCollapsed={this.state.isCalendarCollapsed}
               toggleCalendar={this.toggleCalendar}
-              callBack={() => this.scrollView.scrollToEnd({ animated: true })}
+              callBack={() => this.scrollView.scrollToEnd({ animation: true })}
             />
             {this.state.selectedMaster &&
               this.state.selectedService &&
@@ -268,6 +299,7 @@ class ServiceScreen extends Component {
                 />
               )}
           </View>
+          <View style={{ height: 85 }} />
         </ScrollView>
         {this.state.selectedTimeblock && (
           <TouchableOpacity
@@ -337,7 +369,25 @@ const styles = StyleSheet.create({
     }),
     borderColor: "#d2d1d150",
     borderWidth: 1,
-    backgroundColor: "#D7BF76"
+    backgroundColor: "#D7BF76",
+    zIndex: 0
+  },
+  modalView: {
+    flex: 0,
+    borderRadius: 15,
+    backgroundColor: "white",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "column"
+  },
+  modalTitle: {
+    margin: 5,
+    color: "#D7BF76",
+    fontSize: 25
+  },
+  modalBody: {
+    margin: 10,
+    fontSize: 15
   }
 });
 

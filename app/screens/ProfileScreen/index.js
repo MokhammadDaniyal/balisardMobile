@@ -11,13 +11,12 @@ import {
   ScrollView
 } from "react-native";
 import { connect } from "react-redux";
-import moment from "moment";
+import { Icon } from "native-base";
 
 import { postRequest } from "../../network/index";
 import { RouteNames } from "../../navigation/index";
 
 import { getRecordHistorySuccess } from "../../store/user/actions";
-import { navigate } from "../../navigation/NavigationService";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import FloatingBar from "../../components/FloatingBar";
 
@@ -27,6 +26,15 @@ class ProfileScreen extends React.Component {
     return {
       headerTitle: (
         <Text style={{ fontSize: 25 }}>{params ? params.title : ""}</Text>
+      ),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon
+            name="arrowleft"
+            type="AntDesign"
+            style={{ marginHorizontal: 10 }}
+          />
+        </TouchableOpacity>
       )
     };
   };

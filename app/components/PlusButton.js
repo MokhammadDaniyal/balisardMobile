@@ -24,7 +24,10 @@ class PlusButton extends React.Component {
       <TouchableOpacity
         style={styles.plusButtonStyle}
         onPress={() => {
-          this.plusAnimation.play(0, 20);
+          if (Platform.OS == "ios") {
+            this.plusAnimation.play(0, 20);
+          }
+          this.props.onPress();
         }}
       >
         <LottieView
@@ -33,7 +36,7 @@ class PlusButton extends React.Component {
           }}
           source={require("../components/images/plus.json")}
           loop={false}
-          onAnimationFinish={this.props.onPress}
+          // onAnimationFinish={this.props.onPress}
         />
       </TouchableOpacity>
     );

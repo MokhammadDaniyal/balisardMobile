@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
+import { postRequestResponse } from "../../network/";
 import Images from "./images";
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
@@ -39,18 +40,24 @@ class LoginScreen extends Component {
       return;
     }
     this.setState({ isLoading: true });
-    fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    // axios
+    //   .post("http://localhost:3000/users/login", {
+    //     phone: this.state.phoneText,
+    //     password: this.state.passwordText
+    //   })
+    //   .then(function(response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+    postRequestResponse(
+      "users/login",
+      {
         phone: this.state.phoneText,
         password: this.state.passwordText
-      })
-    })
-      .then(response => {
+      },
+      response => {
         if (response.status == 401) {
           this.setState({ isLoading: false, passwordText: "" });
           alert("Не правильный пароль");
@@ -65,8 +72,8 @@ class LoginScreen extends Component {
             navigate(RouteNames.Home);
           });
         }
-      })
-      .catch(err => alert(err));
+      }
+    );
   };
   render() {
     return (

@@ -78,6 +78,7 @@ class TimeBlock extends React.Component {
       disabledTimeBlocks.add(this.props.reservedTimeBlocks[j]);
       for (let i = 1; i < selectedServiceLength; i++) {
         disabledTimeBlocks.add(this.props.reservedTimeBlocks[j] - i);
+        disabledTimeBlocks.add(this.props.reservedTimeBlocks[j] + i);
         disabledTimeBlocks.add(24 - i);
       }
     }

@@ -32,13 +32,21 @@ class ServiceButton extends React.Component {
                 color: "grey"
               }}
             >
-              {this.props.duration_h} час
+              {this.props.duration_h == "0"
+                ? ""
+                : this.props.duration_h + " час"}{" "}
+              {this.props.duration_m == "0"
+                ? ""
+                : this.props.duration_m + " минут"}
             </Text>
           </View>
           <TouchableOpacity
             style={{
               flex: 0,
               marginRight: 15
+            }}
+            onPress={() => {
+              this.props.onInfo();
             }}
           >
             <Icon
@@ -47,12 +55,22 @@ class ServiceButton extends React.Component {
               style={{ fontSize: 20, color: "#D7BF76" }}
             />
           </TouchableOpacity>
-          <PlusButton
-            ref={plusButton => {
-              this.plusButton = plusButton;
-            }}
-            onPress={this.props.onPress}
-          />
+          {Platform.OS == "ios" && (
+            <PlusButton
+              ref={plusButton => {
+                this.plusButton = plusButton;
+              }}
+              onPress={this.props.onPress}
+            />
+          )}
+          {Platform.OS == "android" && this.props.showPlus && (
+            <PlusButton
+              ref={plusButton => {
+                this.plusButton = plusButton;
+              }}
+              onPress={this.props.onPress}
+            />
+          )}
         </View>
       </View>
     );

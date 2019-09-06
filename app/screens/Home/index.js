@@ -3,6 +3,7 @@ import { View, Button, Text, ImageBackground } from "react-native";
 
 import RegisterButton from "../../components/RegistreButton";
 import ServiceTypeButton from "../../components/ServiceTypeButton";
+import { postRequest } from "../../network/";
 
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";

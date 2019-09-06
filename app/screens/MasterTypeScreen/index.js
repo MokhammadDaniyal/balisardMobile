@@ -10,7 +10,7 @@ import {
 import { connect } from "react-redux";
 import { fetchServiceCategoriesSuccess } from "../../store/services/actions";
 import { Icon } from "native-base";
-
+import { getRequest } from "../../network/";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 
@@ -42,17 +42,7 @@ class ServiceCategoryScreen extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/services/categories", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        this.props.storeServiceCategories(responseJson.rows);
-      });
+    getRequest("services/categories", this.props.storeServiceCategories);
   }
   render() {
     return (

@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { connect } from "react-redux";
+import { postRequest } from "../../network/";
 import LinearGradient from "react-native-linear-gradient";
 import { navigate } from "../../navigation/NavigationService";
 import { RouteNames } from "../../navigation/index";
@@ -49,33 +50,23 @@ class RegistrationScreen extends Component {
       this.setState({ passwordText: "", repeatPasswordText: "" });
       return;
     }
-    fetch("http://localhost:3000/users/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    const body = {
+      firstName: this.state.firstNameText,
+      lastName: this.state.lastNameText,
+      phoneNumber: this.state.phoneText,
+      password: this.state.passwordText
+    };
+    postRequest("users/signup", body, data => {
+      this.props.storeUser({
+        // Need to handle error cases from server with code 4xx
         firstName: this.state.firstNameText,
         lastName: this.state.lastNameText,
         phoneNumber: this.state.phoneText,
-        password: this.state.passwordText
-      })
-    })
-      .then(response =>
-        response.json().then(responseJson => {
-          this.props.storeUser({
-            // Need to handle error cases from server with code 4xx
-            firstName: this.state.firstNameText,
-            lastName: this.state.lastNameText,
-            phoneNumber: this.state.phoneText,
-            id: responseJson.rows[0].id
-          });
-          this.setState({ isLoading: false });
-          navigate(RouteNames.Home);
-        })
-      )
-      .catch(err => alert(err));
+        id: data[0].id
+      });
+      this.setState({ isLoading: false });
+      navigate(RouteNames.Home);
+    });
   };
   render() {
     return (

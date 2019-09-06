@@ -48,12 +48,22 @@ class MasterButton extends React.Component {
               style={{ fontSize: 20, color: "#D7BF76" }}
             />
           </TouchableOpacity>
-          <PlusButton
-            ref={plusButton => {
-              this.plusButton = plusButton;
-            }}
-            onPress={this.props.onPress}
-          />
+          {Platform.OS == "ios" && (
+            <PlusButton
+              ref={plusButton => {
+                this.plusButton = plusButton;
+              }}
+              onPress={this.props.onPress}
+            />
+          )}
+          {Platform.OS == "android" && this.props.showPlus && (
+            <PlusButton
+              ref={plusButton => {
+                this.plusButton = plusButton;
+              }}
+              onPress={this.props.onPress}
+            />
+          )}
         </View>
       </View>
     );

@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#00000070"
+    backgroundColor: "#00000070",
+    zIndex: 1
   }
 });
 export default LoadingOverlay;
