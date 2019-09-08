@@ -10,18 +10,50 @@ import {
 } from "react-native";
 
 import { Icon } from "native-base";
+import Modal from "react-native-modal";
+
 import PlusButton from "./PlusButton";
 
 class MasterButton extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalVisible: false
+    };
   }
   resetPlus = () => {
     this.plusButton.resetButton();
   };
+  closeModal = () => {
+    this.setState({ modalVisible: false });
+  };
+  showModal = (title, body) => {
+    this.setState({ modalVisible: true });
+  };
+  renderInfoModal = () => {
+    return (
+      <View>
+        <Modal
+          isVisible={this.state.modalVisible}
+          onBackButtonPress={this.closeModal}
+          onBackdropPress={this.closeModal}
+          backdropTransitionOutTiming={0}
+          animationIn={"fadeIn"}
+          animationOut={"fadeOut"}
+        >
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>{this.props.name}</Text>
+            <Text style={styles.modalBody}>{this.props.info}</Text>
+          </View>
+        </Modal>
+      </View>
+    );
+  };
   render() {
     return (
       <View style={styles.buttonView}>
+        {this.renderInfoModal()}
+
         <View style={styles.leftView} />
         <View style={styles.mainView}>
           <View style={styles.masterViewStyle}>
@@ -41,6 +73,7 @@ class MasterButton extends React.Component {
               flex: 0,
               marginRight: 15
             }}
+            onPress={this.showModal}
           >
             <Icon
               type="SimpleLineIcons"
@@ -124,6 +157,23 @@ const styles = StyleSheet.create({
     flex: 5,
     flexDirection: "row",
     alignItems: "center"
+  },
+  modalView: {
+    flex: 0,
+    borderRadius: 15,
+    backgroundColor: "white",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "column"
+  },
+  modalTitle: {
+    margin: 5,
+    color: "#D7BF76",
+    fontSize: 25
+  },
+  modalBody: {
+    margin: 10,
+    fontSize: 15
   }
 });
 

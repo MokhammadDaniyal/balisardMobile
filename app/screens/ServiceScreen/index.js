@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "native-base";
-import Modal from "react-native-modal";
 import {
   fetchMasterSuccess,
   fetchReservationsSuccess
@@ -55,8 +54,7 @@ class ServiceScreen extends Component {
       selectedTimeblock: null,
       selectedDate: moment().format("YYYY-MM-DD"),
       isSubmitting: false,
-      showConnfirmation: false,
-      modalVisible: false
+      showConnfirmation: false
     };
   }
 
@@ -131,6 +129,7 @@ class ServiceScreen extends Component {
             name={service.title}
             duration_h={service.duration_h}
             duration_m={service.duration_m}
+            info={service.info}
             onPress={() =>
               this.setState({ selectedService: service }, () => {
                 this.requestReservedTimeBlocks();
@@ -183,27 +182,6 @@ class ServiceScreen extends Component {
     });
   };
 
-  closeModal = () => {
-    this.setState({ modalVisible: false });
-  };
-  showModal = () => {
-    this.setState({ modalVisible: true });
-  };
-  renderInfoModal = () => {
-    return (
-      <View>
-        <Modal
-          isVisible={this.state.modalVisible}
-          onBackdropPress={this.closeModal}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>I am the modal content!</Text>
-            <Text style={styles.modalBody}>I am the modal content!</Text>
-          </View>
-        </Modal>
-      </View>
-    );
-  };
   render() {
     return (
       <View
@@ -214,7 +192,6 @@ class ServiceScreen extends Component {
           flexDirection: "column"
         }}
       >
-        {this.renderInfoModal()}
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={styles.serviceScrollStyle}
