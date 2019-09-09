@@ -15,7 +15,7 @@ class TimeBlock extends React.Component {
     super(props);
     // this.timeSlots = [];
     this.state = {
-      selectedTimeSlot: -1
+      selectedTimeSlot: null
     };
     // this.constructTimeSlots();
   }
@@ -57,8 +57,8 @@ class TimeBlock extends React.Component {
             key={index}
             style={[styles.button, selectedStyle]}
             onPress={() => {
+              this.props.saveTimeblockIndex(index + startIndex);
               this.setState({ selectedTimeSlot: index + startIndex });
-              this.props.onPress(index + startIndex);
             }}
           >
             <Text style={selectedTextStyle}>{time}</Text>

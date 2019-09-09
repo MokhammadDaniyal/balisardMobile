@@ -182,6 +182,10 @@ class ServiceScreen extends Component {
     });
   };
 
+  saveTimeblockIndex = timeblock => {
+    this.setState({ selectedTimeblock: timeblock });
+  };
+
   render() {
     return (
       <View
@@ -266,19 +270,14 @@ class ServiceScreen extends Component {
               this.props.reservedTimeBlocks != null && (
                 <TimeBlock
                   reservedTimeBlocks={this.props.reservedTimeBlocks}
-                  onPress={timeblock => {
-                    this.setState(
-                      { selectedTimeblock: timeblock },
-                      this.requestReservedTimeBlocks
-                    );
-                  }}
+                  saveTimeblockIndex={this.saveTimeblockIndex}
                   selectedService={this.state.selectedService}
                 />
               )}
           </View>
           <View style={{ height: 85 }} />
         </ScrollView>
-        {this.state.selectedTimeblock && (
+        {this.state.selectedTimeblock != null && (
           <TouchableOpacity
             onPress={this.createReservation}
             style={styles.registerButton}
