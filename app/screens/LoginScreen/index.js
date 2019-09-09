@@ -70,6 +70,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image style={styles.background} source={Images.background} />
         <Image source={Images.logo} style={styles.logo} />
         <View style={styles.separator}>
           <Text>Войти в профиль</Text>
@@ -179,6 +180,13 @@ const styles = StyleSheet.create({
   form: {
     flex: 0,
     width: "100%"
+  },
+  background: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    left: 0,
+    top: 0
   },
   loginContainer: {
     flex: 1,
