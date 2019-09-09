@@ -9,9 +9,12 @@ import {
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
+import { KeyboardAwareView } from "react-native-keyboard-aware-view";
+import { Icon } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 import { postRequestResponse } from "../../network/";
 import Images from "./images";
@@ -26,7 +29,7 @@ class LoginScreen extends Component {
     super(props);
     const { dispatch } = this.props;
     this.state = {
-      loginPlaceholder: "Телефон",
+      loginPlaceholder: "Номер Телефона",
       phoneText: "",
       passwordPlaceholder: "Пароль",
       passwordText: "",
@@ -40,17 +43,6 @@ class LoginScreen extends Component {
       return;
     }
     this.setState({ isLoading: true });
-    // axios
-    //   .post("http://localhost:3000/users/login", {
-    //     phone: this.state.phoneText,
-    //     password: this.state.passwordText
-    //   })
-    //   .then(function(response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   });
     postRequestResponse(
       "users/login",
       {
@@ -77,60 +69,103 @@ class LoginScreen extends Component {
   };
   render() {
     return (
-      <LinearGradient
-        colors={["#000000", "#808080"]}
-        style={styles.container}
-        start={{ x: 0.2, y: 0.2 }}
-        end={{ x: 0.8, y: 0.8 }}
-      >
-        <KeyboardAvoidingView behavior="position" enabled>
-          <View style={styles.loginContainer}>
-            <Image source={Images.logo} style={styles.logo} />
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.loginInput}
-                onChangeText={text => this.setState({ phoneText: text })}
-                value={this.state.phoneText}
-                placeholder={this.state.loginPlaceholder}
-                placeholderTextColor="#ffffff"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                onChangeText={text => this.setState({ passwordText: text })}
-                value={this.state.passwordText}
-                placeholder={this.state.passwordPlaceholder}
-                placeholderTextColor="#ffffff"
-                secureTextEntry={true}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                Keyboard.dismiss();
-                this.loginUser();
+      <View style={styles.container}>
+        <Image source={Images.logo} style={styles.logo} />
+        <View style={styles.separator}>
+          <Text>Войти в профиль</Text>
+        </View>
+        <View style={[styles.form]}>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={{ flex: 1, marginLeft: 5, height: "100%" }}
+              onChangeText={text => this.setState({ phoneText: text })}
+              value={this.state.phoneText}
+              placeholder={this.state.loginPlaceholder}
+            />
+            <Icon
+              type="AntDesign"
+              name="user"
+              style={{
+                margin: 10,
+                fontSize: 25,
+                color: "#D7BF76",
+                fontWeight: "bold"
               }}
-            >
-              <View style={styles.buttonContainer}>
-                <Text>Войти</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={styles.additionalButtons}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigate(RouteNames.Registration);
-                }}
-              >
-                <Text>Создать Аккаунт </Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text> Забыли пароль</Text>
-              </TouchableOpacity>
-            </View>
+            />
           </View>
-        </KeyboardAvoidingView>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={{ flex: 1, marginLeft: 5, height: "100%" }}
+              onChangeText={text => this.setState({ passwordText: text })}
+              value={this.state.passwordText}
+              placeholder={this.state.passwordPlaceholder}
+              secureTextEntry={true}
+            />
+            <Icon
+              type="FontAwesome"
+              name="lock"
+              style={{
+                margin: 10,
+                fontSize: 25,
+                color: "#D7BF76",
+                fontWeight: "bold"
+              }}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              Keyboard.dismiss();
+              this.loginUser();
+            }}
+          >
+            <View style={[styles.inputView, styles.shadowView]}>
+              <Text style={styles.buttonText}>Вход</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 0,
+              flexDirection: "row-reverse",
+              margin: 15
+            }}
+          >
+            <Text>Забыли пароль?</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator}>
+          <View style={styles.line}></View>
+          <Text>Войти с помошью</Text>
+          <View style={styles.line}></View>
+        </View>
+        <View style={styles.separator}>
+          <TouchableOpacity>
+            <View style={[styles.inputView, styles.shadowView]}>
+              <Image source={Images.igLogin} style={styles.imageLogin} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={[styles.inputView, styles.shadowView]}>
+              <Image source={Images.fbLogin} style={styles.imageLogin} />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator}>
+          <View style={styles.line}></View>
+        </View>
+        <View style={[styles.separator, { marginBottom: 30 }]}>
+          <Text>Еще нет аккаунта? </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigate(RouteNames.Registration);
+            }}
+          >
+            <Text style={{ color: "#D7BF76", fontWeight: "bold" }}>
+              Зарегестрируйтесь
+            </Text>
+          </TouchableOpacity>
+        </View>
         {this.state.isLoading && <LoadingOverlay />}
-      </LinearGradient>
+      </View>
     );
   }
 }
@@ -138,51 +173,102 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center"
+  },
+  form: {
+    flex: 0,
+    width: "100%"
   },
   loginContainer: {
+    flex: 1,
     flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderColor: "red",
+    borderWidth: 1
+  },
+  inputView: {
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginVertical: 10,
+    height: 55
   },
-  loginInput: {
-    marginLeft: 15,
-    flex: 1,
-    color: "white"
+  separator: {
+    flexDirection: "row",
+    flex: 0,
+    alignItems: "center",
+    margin: 10
   },
-  passwordInput: {
-    marginLeft: 15,
+  line: {
     flex: 1,
-    color: "white"
+    borderColor: "#D7BF76",
+    borderWidth: 1,
+    height: 1
   },
   inputContainer: {
     flexDirection: "row",
     backgroundColor: "#e0e0eb10",
-    height: 35,
-    width: 250,
+    justifyContent: "center",
+    height: 50,
     borderRadius: 10,
-    margin: 10
+    marginHorizontal: 15,
+    marginVertical: 15,
+    borderColor: "green",
+    borderWidth: 1
   },
   buttonContainer: {
     flexDirection: "row",
-    backgroundColor: "#e0e0eb25",
-    height: 40,
-    width: 250,
-    borderRadius: 25,
-    margin: 20,
+    backgroundColor: "#e0e0eb10",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: 50,
+    borderRadius: 10,
+    marginHorizontal: 15,
+    marginVertical: 15,
+    borderColor: "green",
+    borderWidth: 1
   },
   buttonText: {
-    alignContent: "center"
+    fontWeight: "bold",
+    color: "#D7BF76"
   },
-  logo: { marginBottom: 20, resizeMode: "contain" },
-
+  logo: {
+    width: 200,
+    height: 150,
+    marginTop: 50,
+    resizeMode: "contain"
+  },
+  imageLogin: {
+    marginHorizontal: 10,
+    marginVertical: 30,
+    resizeMode: "contain"
+  },
   additionalButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
+  },
+  shadowView: {
+    borderRadius: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.25,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        }
+      },
+      android: {
+        elevation: 5
+      }
+    }),
+    borderColor: "#d2d1d150",
+    borderWidth: 1,
+    backgroundColor: "#FFFFFF"
   }
 });
 
