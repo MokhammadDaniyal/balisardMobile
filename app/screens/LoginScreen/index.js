@@ -292,6 +292,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+  alert(state.user.userData.phoneNumber);
   return {};
 };
 
