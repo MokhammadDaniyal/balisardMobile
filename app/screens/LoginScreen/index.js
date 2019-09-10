@@ -21,8 +21,7 @@ import Images from "./images";
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 import LoadingOverlay from "../../components/LoadingOverlay";
-import { userCreateSuccess } from "../../store/user/actions";
-import FloatingBar from "../../components/FloatingBar";
+import { userCreateSuccess, storeIgToken } from "../../store/user/actions";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -33,6 +32,7 @@ class LoginScreen extends Component {
       phoneText: "",
       passwordPlaceholder: "Пароль",
       passwordText: "",
+      igToken: "",
       isLoading: false
     };
   }
@@ -81,6 +81,7 @@ class LoginScreen extends Component {
             scopes={["basic"]}
             onLoginSuccess={token => {
               alert(token);
+              this.props.igTokenSuccess(token);
             }}
             onLoginFailure={data => console.log(data)}
           />
@@ -154,11 +155,11 @@ class LoginScreen extends Component {
               <Image source={Images.igLogin} style={styles.imageLogin} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View style={[styles.inputView, styles.shadowView]}>
               <Image source={Images.fbLogin} style={styles.imageLogin} />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.separator}>
           <View style={styles.line}></View>
@@ -298,6 +299,9 @@ const mapDispatchToProps = dispatch => {
   return {
     storeUser: userObj => {
       dispatch(userCreateSuccess(userObj));
+    },
+    igTokenSuccess: token => {
+      dispatch(storeIgToken({ igToken: token }));
     }
   };
 };

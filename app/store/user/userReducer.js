@@ -1,11 +1,16 @@
-import { USER_CREATE_SUCCESS, USER_RECORD_HISTORY } from "./actions";
+import {
+  USER_CREATE_SUCCESS,
+  USER_RECORD_HISTORY,
+  USER_STORE_IGTOKEN
+} from "./actions";
 
 const initialState = {
   userData: {
     recordHistory: {
       pastRecords: [],
       futureRecords: []
-    }
+    },
+    igToken: ""
   }
 };
 
@@ -18,6 +23,12 @@ const userReducer = (state = initialState, action) => {
         userData: { ...state.userData, ...action.payload }
       };
     case USER_RECORD_HISTORY:
+      return {
+        ...state,
+        isLoading: false,
+        userData: { ...state.userData, ...action.payload }
+      };
+    case USER_STORE_IGTOKEN:
       return {
         ...state,
         isLoading: false,
