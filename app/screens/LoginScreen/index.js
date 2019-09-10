@@ -13,7 +13,7 @@ import {
   Platform
 } from "react-native";
 import { connect } from "react-redux";
-import { KeyboardAwareView } from "react-native-keyboard-aware-view";
+import InstagramLogin from "react-native-instagram-login";
 import { Icon } from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 import { postRequestResponse } from "../../network/";
@@ -74,6 +74,16 @@ class LoginScreen extends Component {
         <Image source={Images.logo} style={styles.logo} />
         <View style={styles.separator}>
           <Text>Войти в профиль</Text>
+          <InstagramLogin
+            ref={ref => (this.instagramLogin = ref)}
+            clientId="your-client-ID"
+            redirectUrl="your-redirect-Url"
+            scopes={["basic"]}
+            onLoginSuccess={token => {
+              alert(token);
+            }}
+            onLoginFailure={data => console.log(data)}
+          />
         </View>
         <View style={[styles.form]}>
           <View style={[styles.inputView, styles.shadowView]}>
@@ -139,7 +149,7 @@ class LoginScreen extends Component {
           <View style={styles.line}></View>
         </View>
         <View style={styles.separator}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.instagramLogin.show()}>
             <View style={[styles.inputView, styles.shadowView]}>
               <Image source={Images.igLogin} style={styles.imageLogin} />
             </View>

@@ -1,0 +1,6 @@
+framework module Pods_balisardTests {
+  umbrella header "Pods-balisardTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
