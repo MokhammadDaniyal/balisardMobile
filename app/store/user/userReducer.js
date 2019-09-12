@@ -1,7 +1,8 @@
 import {
   USER_CREATE_SUCCESS,
   USER_RECORD_HISTORY,
-  USER_STORE_IGTOKEN
+  USER_STORE_IGTOKEN,
+  USER_STORE_IGDATA
 } from "./actions";
 
 const initialState = {
@@ -33,6 +34,11 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         userData: { ...state.userData, ...action.payload }
+      };
+    case USER_STORE_IGDATA:
+      return {
+        ...state,
+        userData: { ...state.userData, ...{ igData: action.payload } }
       };
     default:
       return state;

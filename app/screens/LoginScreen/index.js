@@ -13,15 +13,18 @@ import {
   Platform
 } from "react-native";
 import { connect } from "react-redux";
-import InstagramLogin from "react-native-instagram-login";
 import { Icon } from "native-base";
-import LinearGradient from "react-native-linear-gradient";
 import { postRequestResponse } from "../../network/";
 import Images from "./images";
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
 import LoadingOverlay from "../../components/LoadingOverlay";
-import { userCreateSuccess, storeIgToken } from "../../store/user/actions";
+import {
+  userCreateSuccess,
+  storeIgToken,
+  storeIgData
+} from "../../store/user/actions";
+import IgLogin, { igLogout } from "../../components/IgLogin";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -67,6 +70,18 @@ class LoginScreen extends Component {
       }
     );
   };
+
+  geIgData = token => {
+    this.setState({ isLoading: true });
+    fetch("https://api.instagram.com/v1/users/self/?access_token=" + token, {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.props.IgDataSuccess(responseJson);
+        this.setState({ isLoading: false });
+      });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -74,17 +89,6 @@ class LoginScreen extends Component {
         <Image source={Images.logo} style={styles.logo} />
         <View style={styles.separator}>
           <Text>Войти в профиль</Text>
-          <InstagramLogin
-            ref={ref => (this.instagramLogin = ref)}
-            clientId="your-client-ID"
-            redirectUrl="your-redirect-Url"
-            scopes={["basic"]}
-            onLoginSuccess={token => {
-              alert(token);
-              this.props.igTokenSuccess(token);
-            }}
-            onLoginFailure={data => console.log(data)}
-          />
         </View>
         <View style={[styles.form]}>
           <View style={[styles.inputView, styles.shadowView]}>
@@ -150,7 +154,15 @@ class LoginScreen extends Component {
           <View style={styles.line}></View>
         </View>
         <View style={styles.separator}>
-          <TouchableOpacity onPress={() => this.instagramLogin.show()}>
+          <IgLogin
+            igTokenSuccess={this.geIgData}
+            child={
+              <View style={[styles.inputView, styles.shadowView]}>
+                <Image source={Images.igLogin} style={styles.imageLogin} />
+              </View>
+            }
+          ></IgLogin>
+          <TouchableOpacity onPress={() => igLogout()}>
             <View style={[styles.inputView, styles.shadowView]}>
               <Image source={Images.igLogin} style={styles.imageLogin} />
             </View>
@@ -292,7 +304,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  alert(state.user.userData.phoneNumber);
   return {};
 };
 
@@ -302,7 +313,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(userCreateSuccess(userObj));
     },
     igTokenSuccess: token => {
-      dispatch(storeIgToken({ igToken: token }));
+      return dispatch(storeIgToken({ igToken: token }));
+    },
+    IgDataSuccess: data => {
+      return dispatch(storeIgData(data));
     }
   };
 };
