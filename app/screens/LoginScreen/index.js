@@ -72,7 +72,6 @@ class LoginScreen extends Component {
     );
   };
 
-  componentWillReceiveProps(props) {}
   geIgData = token => {
     this.setState({ isLoading: true });
     fetch("https://api.instagram.com/v1/users/self/?access_token=" + token, {

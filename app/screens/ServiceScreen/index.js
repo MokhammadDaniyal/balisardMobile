@@ -372,7 +372,7 @@ const mapStateToProps = state => {
     ({ time_block }) => time_block
   );
   return {
-    user: state.user.userData,
+    user: state.user,
     reservedTimeBlocks: timeBlocks,
     reservations: state.reservations.reservations,
     masters: state.reservations.masters,

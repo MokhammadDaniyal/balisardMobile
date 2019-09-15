@@ -15,10 +15,12 @@ import { Icon } from "native-base";
 
 import { postRequest } from "../../network/index";
 import { RouteNames } from "../../navigation/index";
+import { storeIgData } from "../../store/user/actions";
 
 import { getRecordHistorySuccess } from "../../store/user/actions";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import FloatingBar from "../../components/FloatingBar";
+import IgLogin, { igLogout } from "../../components/IgLogin";
 
 class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,6 +52,7 @@ class ProfileScreen extends React.Component {
       "reservations/getrecordhistory",
       { userId: this.props.user.id },
       data => {
+        console.log(JSON.stringify(data));
         this.props.storeRecordHistory(data);
       }
     );
@@ -97,6 +100,18 @@ class ProfileScreen extends React.Component {
     }
   };
 
+  geIgData = token => {
+    this.setState({ isLoading: true });
+    fetch("https://api.instagram.com/v1/users/self/?access_token=" + token, {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.props.IgDataSuccess(responseJson);
+        this.setState({ isLoading: false });
+      });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -113,20 +128,18 @@ class ProfileScreen extends React.Component {
               />
               <Text>{this.props.user.phoneNumber}</Text>
             </View>
-            <TouchableOpacity style={styles.linkButton}>
-              <Image
-                source={require("./images/instagramIcon.png")}
-                style={styles.icon}
-              />
-              <Text>Добавить!</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.linkButton}>
-              <Image
-                source={require("./images/facebookIcon.png")}
-                style={styles.icon}
-              />
-              <Text>Добавить!</Text>
-            </TouchableOpacity>
+            <IgLogin
+              igTokenSuccess={this.geIgData}
+              child={
+                <TouchableOpacity style={styles.linkButton}>
+                  <Image
+                    source={require("./images/instagramIcon.png")}
+                    style={styles.icon}
+                  />
+                  <Text>Добавить!</Text>
+                </TouchableOpacity>
+              }
+            ></IgLogin>
           </View>
         </View>
         <ScrollView>
@@ -203,15 +216,19 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+  console.log(JSON.stringify(state.user));
   return {
-    user: state.user.userData,
-    records: state.user.userData.recordHistory
+    user: state.user,
+    records: state.user.recordHistory
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     storeRecordHistory: records => {
       dispatch(getRecordHistorySuccess({ recordHistory: records }));
+    },
+    IgDataSuccess: data => {
+      return dispatch(storeIgData(data));
     }
   };
 };

@@ -8,14 +8,12 @@ import {
 } from "./actions";
 
 const initialState = {
-  userData: {
-    recordHistory: {
-      pastRecords: [],
-      futureRecords: []
-    },
-    igToken: "",
-    rehydrated: false
-  }
+  recordHistory: {
+    pastRecords: [],
+    futureRecords: []
+  },
+  igToken: "",
+  rehydrated: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -24,27 +22,33 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        userData: { ...state.userData, ...action.payload }
+        ...action.payload
       };
     case USER_RECORD_HISTORY:
       return {
         ...state,
         isLoading: false,
-        userData: { ...state.userData, ...action.payload }
+        ...action.payload
       };
     case USER_STORE_IGTOKEN:
       return {
         ...state,
         isLoading: false,
-        userData: { ...state.userData, ...action.payload }
+        ...action.payload
       };
     case USER_STORE_IGDATA:
       return {
         ...state,
-        userData: { ...state.userData, ...{ igData: action.payload } }
+        ...{ igData: action.payload }
       };
     case REHYDRATE:
-      return { ...state.userData, rehydrated: true };
+      var rehydrateObj;
+      if (action.payload) {
+        rehydrateObj = action.payload.user;
+      } else {
+        rehydrateObj = action.payload;
+      }
+      return { ...state, ...rehydrateObj, ...{ rehydrated: true } };
     default:
       return state;
   }
