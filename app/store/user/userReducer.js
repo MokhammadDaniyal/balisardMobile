@@ -1,3 +1,5 @@
+import { REHYDRATE } from "redux-persist";
+
 import {
   USER_CREATE_SUCCESS,
   USER_RECORD_HISTORY,
@@ -11,7 +13,8 @@ const initialState = {
       pastRecords: [],
       futureRecords: []
     },
-    igToken: ""
+    igToken: "",
+    rehydrated: false
   }
 };
 
@@ -40,6 +43,8 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userData: { ...state.userData, ...{ igData: action.payload } }
       };
+    case REHYDRATE:
+      return { ...state.userData, rehydrated: true };
     default:
       return state;
   }

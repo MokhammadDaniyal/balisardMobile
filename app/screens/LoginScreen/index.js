@@ -25,6 +25,7 @@ import {
   storeIgData
 } from "../../store/user/actions";
 import IgLogin, { igLogout } from "../../components/IgLogin";
+import SplashScreen from "../SplashScreen";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -71,6 +72,7 @@ class LoginScreen extends Component {
     );
   };
 
+  componentWillReceiveProps(props) {}
   geIgData = token => {
     this.setState({ isLoading: true });
     fetch("https://api.instagram.com/v1/users/self/?access_token=" + token, {
@@ -304,7 +306,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    isRehydrated: state.user.rehydrated
+  };
 };
 
 const mapDispatchToProps = dispatch => {
