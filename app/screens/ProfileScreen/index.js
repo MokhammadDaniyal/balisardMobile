@@ -27,7 +27,7 @@ class ProfileScreen extends React.Component {
     const { params } = navigation.state;
     return {
       headerTitle: (
-        <Text style={{ fontSize: 25 }}>{params ? params.title : ""}</Text>
+        <Text style={{ fontSize: 15 }}>{params ? params.title : ""}</Text>
       ),
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -42,8 +42,11 @@ class ProfileScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+    let title = this.props.igData
+      ? this.props.igData.full_name
+      : props.user.firstName + " " + props.user.lastName;
     props.navigation.setParams({
-      title: props.user.firstName + " " + props.user.lastName
+      title: title
     });
   }
 
@@ -112,6 +115,34 @@ class ProfileScreen extends React.Component {
       });
   };
 
+  renderLinkButton = () => {
+    if (this.props.igData) {
+      return (
+        <View style={styles.linkButton}>
+          <Image
+            source={require("./images/instagramIcon.png")}
+            style={styles.icon}
+          />
+          <Text>{this.props.igData.username}</Text>
+        </View>
+      );
+    } else {
+      return (
+        <IgLogin
+          igTokenSuccess={this.geIgData}
+          child={
+            <View style={styles.linkButton}>
+              <Image
+                source={require("./images/instagramIcon.png")}
+                style={styles.icon}
+              />
+              <Text>Добавить!</Text>
+            </View>
+          }
+        ></IgLogin>
+      );
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -128,18 +159,7 @@ class ProfileScreen extends React.Component {
               />
               <Text>{this.props.user.phoneNumber}</Text>
             </View>
-            <IgLogin
-              igTokenSuccess={this.geIgData}
-              child={
-                <TouchableOpacity style={styles.linkButton}>
-                  <Image
-                    source={require("./images/instagramIcon.png")}
-                    style={styles.icon}
-                  />
-                  <Text>Добавить!</Text>
-                </TouchableOpacity>
-              }
-            ></IgLogin>
+            {this.renderLinkButton()}
           </View>
         </View>
         <ScrollView>
@@ -219,7 +239,8 @@ const mapStateToProps = state => {
   console.log(JSON.stringify(state.user));
   return {
     user: state.user,
-    records: state.user.recordHistory
+    records: state.user.recordHistory,
+    igData: state.user.igData.data
   };
 };
 const mapDispatchToProps = dispatch => {
