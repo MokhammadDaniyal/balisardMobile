@@ -7,16 +7,21 @@ import { navigate } from "../../navigation/NavigationService";
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
-    // props.navigation.navigate(RouteNames.Home);
+  }
+
+  componentDidMount() {
+    this.props.navigation.navigate(this.props.user.id ? "Home" : "Login");
   }
   render() {
-    return <View style={{ flex: 1, backgroundColor: "green" }}></View>;
+    if (this.props.rehydrated) {
+      return <View style={{ flex: 1, backgroundColor: "blue" }}></View>;
+    } else return <View style={{ flex: 1, backgroundColor: "green" }}></View>;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    rehydrated: state.user.rehydrated
+    user: state.user
   };
 };
 export default connect(mapStateToProps)(SplashScreen);

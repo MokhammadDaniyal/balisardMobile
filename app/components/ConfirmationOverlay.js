@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   confirmationDialog: {
+    paddingTop: 10,
     flex: 0,
     alignItems: "center",
     marginHorizontal: 15,
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
     width: 75
   },
   title: {
+    marginTop: 10,
     color: "#D7BF76"
   },
   body: {
