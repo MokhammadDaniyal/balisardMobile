@@ -171,7 +171,8 @@ class ServiceScreen extends Component {
       service: this.state.selectedService.id,
       date: this.state.selectedDate,
       timeblock: this.state.selectedTimeblock,
-      userId: this.props.user.id
+      userId: this.props.user.id,
+      igUsername: this.props.igData.data.username
     };
     postRequest("reservations/createReservation", body, () => {
       this.setState({
@@ -377,7 +378,8 @@ const mapStateToProps = state => {
     reservations: state.reservations.reservations,
     masters: state.reservations.masters,
     services: state.services.services,
-    isLoading: state.services.isLoading
+    isLoading: state.services.isLoading,
+    igData: state.user.igData
   };
 };
 
