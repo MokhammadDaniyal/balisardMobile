@@ -6,7 +6,7 @@ import {
   Text,
   Platform,
   TouchableOpacity,
-  Image,
+  TouchableWithoutFeedback,
   Dimensions,
   Linking
 } from "react-native";
@@ -40,7 +40,7 @@ class HomeScreen extends Component {
 
   _renderItem({ item, index }, parallaxProps) {
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         onPress={() => {
           const url = (Platform.OS = "ios"
             ? "instagram://user?username=balisard"
@@ -48,12 +48,12 @@ class HomeScreen extends Component {
           Linking.canOpenURL(url)
             .then(supported => {
               if (!supported) {
-                console.log("Приложение инстаграм не установлено");
+                alert("Приложение инстаграм не установлено");
               } else {
                 return Linking.openURL(url);
               }
             })
-            .catch(err => console.error("Произошла ошибка"));
+            .catch(err => alert(err + "Произошла ошибка"));
         }}
       >
         <View key={index} style={styles.item}>
@@ -65,14 +65,14 @@ class HomeScreen extends Component {
             {...parallaxProps}
           />
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   }
 
   render() {
     return (
-      <View style={styles.constainer}>
-        <ScrollView style={styles.constainer}>
+      <View style={styles.container}>
+        <ScrollView>
           <Text style={styles.title}>Последние новости</Text>
           {this.renderNews()}
           <Text style={styles.title}>Подпишитесь на наш Инстаграм!</Text>
@@ -114,7 +114,7 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  constainer: {
+  container: {
     flex: 1
   },
   title: {

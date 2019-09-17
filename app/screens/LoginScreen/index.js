@@ -80,9 +80,15 @@ class LoginScreen extends Component {
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.data.username == "balisard") {
-          postRequest("sotreadmintoken", {
-            accessToken: token
-          });
+          postRequest(
+            "sotreadmintoken",
+            {
+              accessToken: token
+            },
+            () => {
+              this.setState({ isLoading: false }); //callback of Token store on the server
+            }
+          );
         }
         this.props.IgDataSuccess(responseJson);
         this.setState({ isLoading: false });
