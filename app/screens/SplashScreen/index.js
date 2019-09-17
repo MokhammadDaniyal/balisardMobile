@@ -3,6 +3,8 @@ import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { RouteNames } from "../../navigation";
 import { navigate } from "../../navigation/NavigationService";
+import { getRequest } from "../../network";
+import { storeNews, storeAdminPosts } from "../../store/services/actions";
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -10,7 +12,17 @@ class SplashScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.navigate(this.props.user.id ? "Home" : "Login");
+    getRequest(
+      "instagram/adminposts",
+      posts => {
+        this.props.storeAdminPosts(posts);
+      },
+      () => {}
+    );
+    getRequest("services/news", news => {
+      this.props.storeNews(news);
+      this.props.navigation.navigate(this.props.user.id ? "Home" : "Login");
+    });
   }
   render() {
     if (this.props.rehydrated) {
@@ -24,4 +36,14 @@ const mapStateToProps = state => {
     user: state.user
   };
 };
-export default connect(mapStateToProps)(SplashScreen);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    storeNews: news => dispatch(storeNews(news)),
+    storeAdminPosts: posts => dispatch(storeAdminPosts(posts))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SplashScreen);

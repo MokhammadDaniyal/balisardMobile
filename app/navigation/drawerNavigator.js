@@ -17,7 +17,7 @@ import setStackNavigator from "../navigation/mainStackNavigator";
 
 import Routes, { RouteNames } from "../navigation/routes";
 
-import Home from "../screens/Home";
+import Home from "../screens/Home1";
 
 class Feed extends Component {
   render() {
@@ -65,8 +65,8 @@ class Settings extends Component {
   }
 }
 
-export default (AppDrawerNavigator = createDrawerNavigator({
+export default AppDrawerNavigator = createDrawerNavigator({
   Home: setStackNavigator({ Home: Home }),
   Profile: setStackNavigator({ Profile: Profile }),
   Settings: setStackNavigator({ Settings: Settings })
-}));
+});

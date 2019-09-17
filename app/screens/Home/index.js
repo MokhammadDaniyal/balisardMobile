@@ -8,7 +8,7 @@ import { postRequest } from "../../network/";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 
-class Home extends Component {
+class ServiceType extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -53,4 +53,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default ServiceType;

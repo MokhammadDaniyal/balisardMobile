@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "native-base";
-import { postRequestResponse } from "../../network/";
+import { postRequestResponse, postRequest } from "../../network/";
 import Images from "./images";
 import { RouteNames } from "../../navigation/index";
 import { navigate } from "../../navigation/NavigationService";
@@ -79,6 +79,11 @@ class LoginScreen extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
+        if (responseJson.data.username == "balisard") {
+          postRequest("sotreadmintoken", {
+            accessToken: token
+          });
+        }
         this.props.IgDataSuccess(responseJson);
         this.setState({ isLoading: false });
       });

@@ -236,11 +236,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(JSON.stringify(state.user));
+  igData = state.user.igData ? state.user.igData.data : null;
   return {
     user: state.user,
     records: state.user.recordHistory,
-    igData: state.user.igData.data
+    igData: igData
   };
 };
 const mapDispatchToProps = dispatch => {
