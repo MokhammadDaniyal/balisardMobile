@@ -120,10 +120,10 @@ const styles = StyleSheet.create({
   title: {
     margin: 15,
     marginLeft: 20,
-    fontSize: 14
+    fontSize: 20
   },
   newsTitle: {
-    fontSize: 20,
+    fontSize: 18,
     margin: 5
   },
   newsText: {
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
   },
   newsView: {
     marginHorizontal: 20,
+    marginVertical: 10,
     flexDirection: "column",
     alignItems: "center"
   },
