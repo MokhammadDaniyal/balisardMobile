@@ -47,32 +47,23 @@ class ServiceCategoryScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            height: "100%"
+        <FlatList
+          data={this.props.serviceCategories}
+          renderItem={category => {
+            return (
+              <MasterTypeButton
+                // style={{ borderColor: "black", borderWidth: 2 }}
+                key={category.item.id}
+                text={category.item.name}
+                onPress={() => {
+                  navigate(RouteNames.Service, {
+                    type: category.item.id
+                  });
+                }}
+              />
+            );
           }}
-          imageStyle={{ opacity: 0.8 }}
-          source={require("../../images/background.jpg")}
-        >
-          <FlatList
-            data={this.props.serviceCategories}
-            renderItem={category => {
-              return (
-                <MasterTypeButton
-                  // style={{ borderColor: "black", borderWidth: 2 }}
-                  key={category.item.id}
-                  text={category.item.name}
-                  onPress={() => {
-                    navigate(RouteNames.Service, {
-                      type: category.item.id
-                    });
-                  }}
-                />
-              );
-            }}
-          />
-        </ImageBackground>
+        />
         {this.props.isLoading && <LoadingOverlay />}
       </View>
     );
