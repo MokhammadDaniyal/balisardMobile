@@ -61,7 +61,7 @@ class HomeScreen extends Component {
             source={{ uri: item }}
             containerStyle={styles.imageContainer}
             style={styles.image}
-            parallaxFactor={0.7}
+            parallaxFactor={1}
             {...parallaxProps}
           />
         </View>
