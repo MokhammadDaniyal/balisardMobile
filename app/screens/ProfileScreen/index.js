@@ -15,7 +15,7 @@ import { Icon } from "native-base";
 
 import { postRequest } from "../../network/index";
 import { RouteNames } from "../../navigation/index";
-import { storeIgData } from "../../store/user/actions";
+import { storeIgData, clearIgData } from "../../store/user/actions";
 
 import { getRecordHistorySuccess } from "../../store/user/actions";
 import LoadingOverlay from "../../components/LoadingOverlay";
@@ -124,6 +124,16 @@ class ProfileScreen extends React.Component {
             style={styles.icon}
           />
           <Text>{this.props.igData.username}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.IgLogout();
+            }}
+          >
+            <Image
+              style={[styles.icon, { marginLeft: 10 }]}
+              source={require("./images/unlink.png")}
+            />
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -250,6 +260,9 @@ const mapDispatchToProps = dispatch => {
     },
     IgDataSuccess: data => {
       return dispatch(storeIgData(data));
+    },
+    IgLogout: () => {
+      return dispatch(clearIgData());
     }
   };
 };

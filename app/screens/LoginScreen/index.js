@@ -24,13 +24,11 @@ import {
   storeIgToken,
   storeIgData
 } from "../../store/user/actions";
-import IgLogin, { igLogout } from "../../components/IgLogin";
-import SplashScreen from "../SplashScreen";
+import IgLogin from "../../components/IgLogin";
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    const { dispatch } = this.props;
     this.state = {
       loginPlaceholder: "Номер Телефона",
       phoneText: "",
@@ -73,6 +71,7 @@ class LoginScreen extends Component {
   };
 
   geIgData = token => {
+    this.props.igTokenSuccess(token);
     this.setState({ isLoading: true });
     fetch("https://api.instagram.com/v1/users/self/?access_token=" + token, {
       method: "GET"
@@ -174,11 +173,6 @@ class LoginScreen extends Component {
               </View>
             }
           ></IgLogin>
-          <TouchableOpacity onPress={() => igLogout()}>
-            <View style={[styles.inputView, styles.shadowView]}>
-              <Image source={Images.igLogin} style={styles.imageLogin} />
-            </View>
-          </TouchableOpacity>
           {/* <TouchableOpacity>
             <View style={[styles.inputView, styles.shadowView]}>
               <Image source={Images.fbLogin} style={styles.imageLogin} />

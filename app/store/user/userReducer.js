@@ -4,7 +4,8 @@ import {
   USER_CREATE_SUCCESS,
   USER_RECORD_HISTORY,
   USER_STORE_IGTOKEN,
-  USER_STORE_IGDATA
+  USER_STORE_IGDATA,
+  CLEAR_IGDATA
 } from "./actions";
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
     pastRecords: [],
     futureRecords: []
   },
-  igToken: "",
+  igToken: null,
   rehydrated: false
 };
 
@@ -40,6 +41,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         ...{ igData: action.payload }
+      };
+    case CLEAR_IGDATA:
+      return {
+        ...state,
+        ...{ igData: null },
+        ...{ igToken: null }
       };
     case REHYDRATE:
       var rehydrateObj;
