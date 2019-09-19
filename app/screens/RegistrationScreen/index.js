@@ -36,18 +36,21 @@ class RegistrationScreen extends Component {
   }
 
   createUser = () => {
+    this.setState({ isLoading: true });
     if (
       this.state.firstNameText == "" ||
       this.state.lastNameText == "" ||
       this.state.phoneText == "" ||
       this.state.passwordText == ""
     ) {
+      this.setState({ isLoading: false });
       alert("Не все поля заполнены");
       return;
     }
     if (this.state.passwordText != this.state.repeatPasswordText) {
       alert("Пароли не совпадают");
       this.setState({ passwordText: "", repeatPasswordText: "" });
+      this.setState({ isLoading: false });
       return;
     }
     const body = {
@@ -130,7 +133,6 @@ class RegistrationScreen extends Component {
             </View>
             <TouchableOpacity
               onPress={() => {
-                this.setState({ isLoading: true });
                 this.createUser();
               }}
             >

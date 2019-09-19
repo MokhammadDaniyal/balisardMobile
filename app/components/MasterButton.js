@@ -22,7 +22,9 @@ class MasterButton extends React.Component {
     };
   }
   resetPlus = () => {
-    this.plusButton.resetButton();
+    if (Platform.OS == "ios") {
+      this.plusButton.resetButton();
+    }
   };
   closeModal = () => {
     this.setState({ modalVisible: false });

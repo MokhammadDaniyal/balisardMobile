@@ -243,7 +243,7 @@ class LoginScreen extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-        {true && <LoadingOverlay />}
+        {this.state.isLoading && <LoadingOverlay />}
       </View>
     );
   }
