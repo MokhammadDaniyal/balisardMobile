@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 
 import { BarIndicator } from "react-native-indicators";
 
@@ -19,7 +19,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#00000070",
-    zIndex: 1
+    ...Platform.select({
+      ios: { zIndex: 10 },
+      android: { elevation: 10 }
+    })
   }
 });
 export default LoadingOverlay;
