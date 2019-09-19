@@ -25,17 +25,20 @@ import {
   storeIgData
 } from "../../store/user/actions";
 import IgLogin from "../../components/IgLogin";
+import PhoneNumberModal from "../../components/PhoneNumberModal";
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
+    this.igData;
     this.state = {
       loginPlaceholder: "Номер Телефона",
       phoneText: "",
       passwordPlaceholder: "Пароль",
       passwordText: "",
       igToken: "",
-      isLoading: false
+      isLoading: false,
+      isPhoneModalVisible: false
     };
   }
 
@@ -56,18 +59,22 @@ class LoginScreen extends Component {
           this.setState({ isLoading: false, passwordText: "" });
           alert("Не правильный пароль");
         } else {
-          response.json().then(responseJson => {
-            this.props.storeUser({
-              firstName: responseJson.rows[0].firstname,
-              lastName: responseJson.rows[0].lastname,
-              phoneNumber: responseJson.rows[0].phonenumber,
-              id: responseJson.rows[0].id
-            });
-            navigate(RouteNames.Home);
-          });
+          this.recievedUserData(response);
         }
       }
     );
+  };
+
+  recievedUserData = response => {
+    response.json().then(responseJson => {
+      this.props.storeUser({
+        firstName: responseJson.rows[0].firstname,
+        lastName: responseJson.rows[0].lastname,
+        phoneNumber: responseJson.rows[0].phonenumber,
+        id: responseJson.rows[0].id
+      });
+      navigate(RouteNames.Home);
+    });
   };
 
   geIgData = token => {
@@ -89,9 +96,51 @@ class LoginScreen extends Component {
             }
           );
         }
-        this.props.IgDataSuccess(responseJson);
-        this.setState({ isLoading: false });
+        this.igData = responseJson;
+        postRequestResponse(
+          "users/loginwithinstagram",
+          { username: this.igData.data.username },
+          response => {
+            if ((response.status = 404)) {
+              this.setState({ isLoading: false, isPhoneModalVisible: true }); //User first time logging in through instagram
+            } else {
+              this.props.IgDataSuccess(this.igData); //User loged in through IG
+              this.recievedUserData(response);
+              this.setState({ isLoading: false });
+            }
+          }
+        );
       });
+  };
+
+  igPhoneSubmit = phoneNumber => {
+    if (phoneNumber) {
+      alert(phoneNumber);
+      phoneNumber.trim();
+      postRequestResponse(
+        "users/checkphonenumber",
+        { phoneNumber: phoneNumber, username: this.igData.data.username },
+        response => {
+          response.json().then(responseJson => {
+            if (response.status == 200) {
+              alert(responseJson.message);
+            } else {
+              if (response.status == 409) {
+                alert(responseJson.message);
+              } else {
+                this.props.IgDataSuccess(this.igData); //User Created account and loged in through IG
+                this.setState({ isPhoneModalVisible: false });
+                navigate(RouteNames.Home);
+              }
+            }
+          });
+        }
+      );
+    }
+  };
+
+  closeModal = () => {
+    this.setState({ isPhoneModalVisible: false });
   };
   render() {
     return (
@@ -172,12 +221,12 @@ class LoginScreen extends Component {
                 <Image source={Images.igLogin} style={styles.imageLogin} />
               </View>
             }
-          ></IgLogin>
-          {/* <TouchableOpacity>
-            <View style={[styles.inputView, styles.shadowView]}>
-              <Image source={Images.fbLogin} style={styles.imageLogin} />
-            </View>
-          </TouchableOpacity> */}
+          />
+          <PhoneNumberModal
+            isVisible={this.state.isPhoneModalVisible}
+            closeModal={() => this.setState({ isPhoneModalVisible: false })}
+            submitPhoneNumber={this.igPhoneSubmit}
+          />
         </View>
         <View style={styles.separator}>
           <View style={styles.line}></View>
