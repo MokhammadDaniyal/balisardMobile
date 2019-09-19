@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import { Icon } from "native-base";
 
-import { postRequest } from "../../network/index";
+import { postRequest, postRequestResponse } from "../../network/index";
 import { RouteNames } from "../../navigation/index";
 import { storeIgData, clearIgData } from "../../store/user/actions";
 
@@ -110,8 +110,25 @@ class ProfileScreen extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        this.props.IgDataSuccess(responseJson);
-        this.setState({ isLoading: false });
+        postRequestResponse(
+          "users/linkinstagram",
+          {
+            phoneNumber: this.props.user.phoneNumber,
+            username: responseJson.data.username
+          },
+          linkResponse => {
+            if (linkResponse.status == 200) {
+              this.props.IgDataSuccess(responseJson);
+            } else {
+              if (linkResponse.status == 409) {
+                linkResponse.json().then(linkResponseJson => {
+                  alert(linkResponseJson.message);
+                });
+              }
+            }
+            this.setState({ isLoading: false });
+          }
+        );
       });
   };
 

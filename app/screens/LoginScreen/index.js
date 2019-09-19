@@ -101,7 +101,7 @@ class LoginScreen extends Component {
           "users/loginwithinstagram",
           { username: this.igData.data.username },
           response => {
-            if ((response.status = 404)) {
+            if (response.status == 404) {
               this.setState({ isLoading: false, isPhoneModalVisible: true }); //User first time logging in through instagram
             } else {
               this.props.IgDataSuccess(this.igData); //User loged in through IG
@@ -243,7 +243,7 @@ class LoginScreen extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-        {this.state.isLoading && <LoadingOverlay />}
+        {true && <LoadingOverlay />}
       </View>
     );
   }
