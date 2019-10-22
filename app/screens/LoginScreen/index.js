@@ -67,6 +67,7 @@ class LoginScreen extends Component {
 
   recievedUserData = response => {
     response.json().then(responseJson => {
+      console.log(responseJson);
       this.props.storeUser({
         firstName: responseJson.rows[0].firstname,
         lastName: responseJson.rows[0].lastname,
@@ -102,7 +103,7 @@ class LoginScreen extends Component {
           { username: this.igData.data.username },
           response => {
             if (response.status == 404) {
-              this.setState({ isLoading: false, isPhoneModalVisible: true }); //User first time logging in through instagram
+              this.setState({ isPhoneModalVisible: true }); //User first time logging in through instagram
             } else {
               this.props.IgDataSuccess(this.igData); //User loged in through IG
               this.recievedUserData(response);
@@ -115,25 +116,22 @@ class LoginScreen extends Component {
 
   igPhoneSubmit = phoneNumber => {
     if (phoneNumber) {
-      alert(phoneNumber);
       phoneNumber.trim();
       postRequestResponse(
-        "users/checkphonenumber",
+        "users/signup",
         { phoneNumber: phoneNumber, username: this.igData.data.username },
         response => {
-          response.json().then(responseJson => {
-            if (response.status == 200) {
-              alert(responseJson.message);
+          if (response.status == 200) {
+            this.recievedUserData(response); // add user Id to redux state
+            this.props.IgDataSuccess(this.igData); //User Created account and loged in through IG
+            this.setState({ isPhoneModalVisible: false, isLoading: false });
+            navigate(RouteNames.Home);
+          } else {
+            if (response.status == 409) {
+              alert(response.message);
             } else {
-              if (response.status == 409) {
-                alert(responseJson.message);
-              } else {
-                this.props.IgDataSuccess(this.igData); //User Created account and loged in through IG
-                this.setState({ isPhoneModalVisible: false });
-                navigate(RouteNames.Home);
-              }
             }
-          });
+          }
         }
       );
     }
