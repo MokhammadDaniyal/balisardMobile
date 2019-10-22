@@ -7,11 +7,16 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform,
+  ImageBackground,
+  Keyboard,
+  Animated
 } from "react-native";
 import { connect } from "react-redux";
+import Images from "../LoginScreen/images";
 import { postRequest } from "../../network/";
-import LinearGradient from "react-native-linear-gradient";
+import { Icon } from "native-base";
 import { navigate } from "../../navigation/NavigationService";
 import { RouteNames } from "../../navigation/index";
 import { userCreateSuccess } from "../../store/user/actions";
@@ -31,9 +36,47 @@ class RegistrationScreen extends Component {
       firstNameText: "",
       lastNamePlaceholder: "Фамилия",
       lastNameText: "",
-      isLoading: false
+      isLoading: false,
+      logoWidth: new Animated.Value(200),
+      logoHeight: new Animated.Value(150)
     };
   }
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
+  }
+
+  _keyboardDidShow = () => {
+    Animated.parallel([
+      Animated.timing(this.state.logoHeight, {
+        toValue: 40,
+        duration: 200
+      }),
+      Animated.timing(this.state.logoWidth, {
+        toValue: 30,
+        duration: 200
+      })
+    ]).start();
+  };
+
+  _keyboardDidHide = () => {
+    Animated.parallel([
+      Animated.timing(this.state.logoHeight, {
+        toValue: 200,
+        duration: 200
+      }),
+      Animated.timing(this.state.logoWidth, {
+        toValue: 150,
+        duration: 200
+      })
+    ]).start();
+  };
 
   createUser = () => {
     this.setState({ isLoading: true });
@@ -71,79 +114,105 @@ class RegistrationScreen extends Component {
       navigate(RouteNames.Home);
     });
   };
+
   render() {
     return (
-      <LinearGradient
-        colors={["#000000", "#808080"]}
+      <ImageBackground
         style={styles.container}
-        start={{ x: 0.2, y: 0.2 }}
-        end={{ x: 0.8, y: 0.8 }}
+        imageStyle={styles.background}
+        source={Images.background}
       >
-        <KeyboardAvoidingView behavior="position" enabled>
-          <View style={styles.registerContainer}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => this.setState({ phoneText: text })}
-                value={this.state.phoneText}
-                placeholder={this.state.phonePlaceholder}
-                placeholderTextColor="#ffffff"
-                keyboardType={"numeric"}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => this.setState({ firstNameText: text })}
-                value={this.state.firstNameText}
-                placeholder={this.state.firstNamePlaceholder}
-                placeholderTextColor="#ffffff"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => this.setState({ lastNameText: text })}
-                value={this.state.lastNameText}
-                placeholder={this.state.lastNamePlaceholder}
-                placeholderTextColor="#ffffff"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                onChangeText={text => this.setState({ passwordText: text })}
-                value={this.state.passwordText}
-                placeholder={this.state.passwordPlaceholder}
-                placeholderTextColor="#ffffff"
-                secureTextEntry={true}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                onChangeText={text =>
-                  this.setState({ repeatPasswordText: text })
-                }
-                value={this.state.repeatPasswordText}
-                placeholder={this.state.repeatPasswordPlaceholder}
-                placeholderTextColor="#ffffff"
-                secureTextEntry={true}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.createUser();
-              }}
-            >
-              <View style={styles.buttonContainer}>
-                <Text>Создать аккаунт</Text>
-              </View>
-            </TouchableOpacity>
+        <Animated.Image
+          style={[
+            {
+              width: this.state.logoWidth,
+              height: this.state.logoHeight
+            },
+            styles.logo
+          ]}
+          source={Images.logo}
+        />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            left: 10,
+            top: Platform.OS == "ios" ? 50 : 15
+          }}
+          onPress={() => {
+            this.props.navigation.navigate("Login");
+          }}
+        >
+          <Icon type="AntDesign" name="left" />
+        </TouchableOpacity>
+        <Text>Регистрация</Text>
+        <View style={styles.form}>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => this.setState({ phoneText: text })}
+              value={this.state.phoneText}
+              placeholder={this.state.phonePlaceholder}
+              keyboardType={"numeric"}
+            />
           </View>
-        </KeyboardAvoidingView>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => this.setState({ firstNameText: text })}
+              value={this.state.firstNameText}
+              placeholder={this.state.firstNamePlaceholder}
+            />
+          </View>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => this.setState({ lastNameText: text })}
+              value={this.state.lastNameText}
+              placeholder={this.state.lastNamePlaceholder}
+            />
+          </View>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => this.setState({ passwordText: text })}
+              value={this.state.passwordText}
+              placeholder={this.state.passwordPlaceholder}
+              secureTextEntry={true}
+            />
+          </View>
+          <View style={[styles.inputView, styles.shadowView]}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => this.setState({ repeatPasswordText: text })}
+              value={this.state.repeatPasswordText}
+              placeholder={this.state.repeatPasswordPlaceholder}
+              secureTextEntry={true}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "row", marginTop: 15 }}>
+          <View style={styles.line}></View>
+        </View>
+        <View style={{ width: "100%" }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.createUser();
+            }}
+          >
+            <View
+              style={[
+                styles.inputView,
+                styles.shadowView,
+                { marginBottom: 30 }
+              ]}
+            >
+              <Text style={styles.buttonText}>Создать аккаунт</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         {this.state.isLoading && <LoadingOverlay />}
-      </LinearGradient>
+      </ImageBackground>
     );
   }
 }
@@ -151,18 +220,45 @@ class RegistrationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center"
+  },
+  background: {
+    width: "100%",
+    height: "100%"
+  },
+  logo: {
+    marginTop: Platform.OS == "ios" ? 30 : 20,
+    resizeMode: "contain"
+  },
+  inputView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginVertical: 10,
+    height: 55
+  },
+  form: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "flex-start"
   },
   registerContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
-  input: {
-    marginLeft: 15,
+  input: { flex: 1, marginLeft: 5, height: "100%" },
+  line: {
     flex: 1,
-    color: "white"
+    borderColor: "#D7BF76",
+    borderWidth: 1,
+    height: 1
+  },
+  buttonText: {
+    fontWeight: "bold",
+    color: "#D7BF76"
   },
   passwordInput: {
     marginLeft: 15,
@@ -187,15 +283,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  buttonText: {
-    alignContent: "center"
-  },
-  logo: { marginBottom: 20, resizeMode: "contain" },
-
   additionalButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
+  },
+  shadowView: {
+    borderRadius: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.25,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        }
+      },
+      android: {
+        elevation: 5
+      }
+    }),
+    borderColor: "#d2d1d150",
+    borderWidth: 1,
+    backgroundColor: "#FFFFFF"
   }
 });
 
