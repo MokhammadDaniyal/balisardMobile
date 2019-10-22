@@ -132,6 +132,26 @@ class ProfileScreen extends React.Component {
       });
   };
 
+  unlinkIg = () => {
+    postRequestResponse(
+      "users/unlinkinstagram",
+      {
+        username: this.props.igData.username
+      },
+      unlinkResponse => {
+        if (unlinkResponse.status == 200) {
+        } else {
+          if (unlinkResponse.status == 400) {
+            unlinkResponse.json().then(unlinkResponseJson => {
+              alert(unlinkResponseJson.message);
+            });
+          }
+        }
+        this.setState({ isLoading: false });
+      }
+    );
+  };
+
   renderLinkButton = () => {
     if (this.props.igData) {
       return (
@@ -144,6 +164,7 @@ class ProfileScreen extends React.Component {
           <TouchableOpacity
             onPress={() => {
               this.props.IgLogout();
+              this.unlinkIg();
             }}
           >
             <Image

@@ -172,7 +172,7 @@ class ServiceScreen extends Component {
       date: this.state.selectedDate,
       timeblock: this.state.selectedTimeblock,
       userId: this.props.user.id,
-      igUsername: this.props.igData.data.username
+      igUsername: this.props.igData ? this.props.igData.data.username : null
     };
     postRequest("reservations/createReservation", body, () => {
       this.setState({
