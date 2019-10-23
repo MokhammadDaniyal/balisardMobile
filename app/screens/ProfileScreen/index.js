@@ -16,11 +16,11 @@ import { Icon } from "native-base";
 import { postRequest, postRequestResponse } from "../../network/index";
 import { RouteNames } from "../../navigation/index";
 import { storeIgData, clearIgData } from "../../store/user/actions";
-
 import { getRecordHistorySuccess } from "../../store/user/actions";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import FloatingBar from "../../components/FloatingBar";
 import IgLogin, { igLogout } from "../../components/IgLogin";
+import PasswordModal from "../../components/PasswordModal";
 
 class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,6 +42,9 @@ class ProfileScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      showPasswordModal: false
+    };
     let title = this.props.igData
       ? this.props.igData.full_name
       : props.user.firstName + " " + props.user.lastName;
@@ -133,21 +136,51 @@ class ProfileScreen extends React.Component {
   };
 
   unlinkIg = () => {
+    this.setState({ isLoading: true });
     postRequestResponse(
-      "users/unlinkinstagram",
-      {
-        username: this.props.igData.username
-      },
-      unlinkResponse => {
-        if (unlinkResponse.status == 200) {
+      "users/checkpassword",
+      { phoneNumber: this.props.user.phoneNumber },
+      response => {
+        if (response.status == 200) {
+          postRequestResponse(
+            "users/unlinkinstagram",
+            {
+              username: this.props.igData.username
+            },
+            unlinkResponse => {
+              if (unlinkResponse.status == 200) {
+                this.props.IgLogout();
+                this.setState({ isLoading: false });
+              } else {
+                if (unlinkResponse.status == 400) {
+                  unlinkResponse.json().then(unlinkResponseJson => {
+                    alert(unlinkResponseJson.message);
+                  });
+                }
+              }
+            }
+          );
         } else {
-          if (unlinkResponse.status == 400) {
-            unlinkResponse.json().then(unlinkResponseJson => {
-              alert(unlinkResponseJson.message);
-            });
+          if (response.status == 401) {
+            this.setState({ showPasswordModal: true, isLoading: false });
           }
         }
-        this.setState({ isLoading: false });
+      }
+    );
+  };
+
+  submitPassword = password => {
+    this.setState({ isLoading: true, showPasswordModal: false });
+    postRequestResponse(
+      "users/setpassword",
+      {
+        phoneNumber: this.props.user.phoneNumber,
+        password: password
+      },
+      response => {
+        if (response.status == 200) {
+          this.unlinkIg();
+        }
       }
     );
   };
@@ -163,8 +196,10 @@ class ProfileScreen extends React.Component {
           <Text>{this.props.igData.username}</Text>
           <TouchableOpacity
             onPress={() => {
-              this.props.IgLogout();
-              this.unlinkIg();
+              this.setState({ isLoading: true });
+              this.unlinkIg(() => {
+                this.setState({ isLoading: false });
+              });
             }}
           >
             <Image
@@ -194,6 +229,7 @@ class ProfileScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {this.state.isLoading && <LoadingOverlay />}
         <View style={styles.infoContainer}>
           <Image
             source={require("../../components/images/dushanova.jpg")}
@@ -208,6 +244,11 @@ class ProfileScreen extends React.Component {
               <Text>{this.props.user.phoneNumber}</Text>
             </View>
             {this.renderLinkButton()}
+            <PasswordModal
+              isVisible={this.state.showPasswordModal}
+              closeModal={() => this.setState({ showPasswordModal: false })}
+              submitPassword={this.submitPassword}
+            />
           </View>
         </View>
         <ScrollView>

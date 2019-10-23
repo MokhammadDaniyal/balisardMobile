@@ -9,7 +9,7 @@ import {
 import Modal from "react-native-modal";
 
 export default PhoneNumberModal = props => {
-  let phoneNumber = null;
+  let phoneNumber = "";
   return (
     <View>
       <Modal
@@ -36,7 +36,11 @@ export default PhoneNumberModal = props => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              props.submitPhoneNumber(phoneNumber);
+              if (phoneNumber === "") {
+                alert("Номер телефона не введен");
+              } else {
+                props.submitPhoneNumber(phoneNumber);
+              }
             }}
           >
             <Text style={styles.modalBody}>Войти</Text>
