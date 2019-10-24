@@ -88,6 +88,30 @@ export default class drawerContentComponents extends Component {
             </Text>
           </View>
         </View>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Социальные Сети</Text>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require("../screens/ContactsScreen/images/facebook.png")}
+            />
+            <Image
+              style={styles.icon}
+              source={require("../screens/ContactsScreen/images/instagram.png")}
+            />
+          </View>
+          <View
+            style={[
+              styles.iconContainer,
+              { justifyContent: "center", marginBottom: 15 }
+            ]}
+          >
+            <Image
+              style={styles.icon}
+              source={require("../screens/ContactsScreen/images/www.png")}
+            />
+          </View>
+        </View>
       </View>
     );
   }
@@ -95,7 +119,8 @@ export default class drawerContentComponents extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center"
+    alignItems: "center",
+    flex: 1
   },
   headerContainer: {
     height: 150
@@ -104,6 +129,7 @@ const styles = StyleSheet.create({
     color: "#fff8f8"
   },
   screenContainer: {
+    flex: 1,
     paddingTop: 20,
     width: "100%"
   },
@@ -125,5 +151,24 @@ const styles = StyleSheet.create({
   },
   activeBackgroundColor: {
     backgroundColor: "grey"
+  },
+  footer: {
+    backgroundColor: "#656565",
+    width: "100%"
+  },
+  footerText: {
+    color: "#D7BF76",
+    margin: 10,
+    fontSize: 16,
+    alignSelf: "center"
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    margin: 5
+  },
+  icon: {
+    width: 45,
+    height: 45
   }
 });
