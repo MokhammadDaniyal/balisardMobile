@@ -16,10 +16,42 @@ import defaultStyles from "../../styles";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
+import { Icon } from "native-base";
 
 const { width: screenWidth } = Dimensions.get("window");
 
 class HomeScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        >
+          <Icon
+            type="AntDesign"
+            name="menuunfold"
+            style={{ margin: 10, fontSize: 25, color: "black" }}
+          />
+        </TouchableOpacity>
+      ),
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(RouteNames.Profile);
+          }}
+        >
+          <Icon
+            type="AntDesign"
+            name="user"
+            style={{ margin: 10, fontSize: 25, color: "black" }}
+          />
+        </TouchableOpacity>
+      )
+    };
+  };
+
   constructor(props) {
     super(props);
   }
@@ -140,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 20,
+    bottom: 10,
     height: 50,
     width: "90%",
     height: 55,

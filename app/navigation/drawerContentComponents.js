@@ -67,6 +67,26 @@ export default class drawerContentComponents extends Component {
               Профайл
             </Text>
           </View>
+          <View
+            style={[
+              styles.screenStyle,
+              this.props.activeItemKey == "Contacts"
+                ? styles.activeBackgroundColor
+                : null
+            ]}
+          >
+            <Text
+              style={[
+                styles.screenTextStyle,
+                this.props.activeItemKey == "Contacts"
+                  ? styles.selectedTextStyle
+                  : null
+              ]}
+              onPress={this.navigateToScreen("Contacts")}
+            >
+              Контакты
+            </Text>
+          </View>
         </View>
       </View>
     );

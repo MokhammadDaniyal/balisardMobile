@@ -8,24 +8,24 @@ import { RouteNames } from "./routes";
 import Routes from "./routes";
 
 import { Icon } from "native-base";
-export default (setStackNavigator = mainRoute => {
+export default setStackNavigator = mainRoute => {
   return createStackNavigator(
     { ...mainRoute, ...Routes },
     {
       defaultNavigationOptions: ({ navigation }) => ({
-        headerLeft: (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.openDrawer();
-            }}
-          >
-            <Icon
-              type="AntDesign"
-              name="menuunfold"
-              style={{ margin: 10, fontSize: 25, color: "black" }}
-            />
-          </TouchableOpacity>
-        ),
+        // headerLeft: (
+        //   <TouchableOpacity
+        //     onPress={() => {
+        //       navigation.openDrawer();
+        //     }}
+        //   >
+        //     <Icon
+        //       type="AntDesign"
+        //       name="menuunfold"
+        //       style={{ margin: 10, fontSize: 25, color: "black" }}
+        //     />
+        //   </TouchableOpacity>
+        // ),
         headerTitle: (
           <Text
             style={{
@@ -37,20 +37,20 @@ export default (setStackNavigator = mainRoute => {
           >
             Balisard
           </Text>
-        ),
-        headerRight: (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(RouteNames.Profile);
-            }}
-          >
-            <Icon
-              type="AntDesign"
-              name="user"
-              style={{ margin: 10, fontSize: 25, color: "black" }}
-            />
-          </TouchableOpacity>
         )
+        // headerRight: (
+        //   <TouchableOpacity
+        //     onPress={() => {
+        //       navigation.navigate(RouteNames.Profile);
+        //     }}
+        //   >
+        //     <Icon
+        //       type="AntDesign"
+        //       name="user"
+        //       style={{ margin: 10, fontSize: 25, color: "black" }}
+        //     />
+        //   </TouchableOpacity>
+        // )
       }),
       transitionConfig: () => ({
         screenInterpolator: sceneProps => {
@@ -78,4 +78,4 @@ export default (setStackNavigator = mainRoute => {
       })
     }
   );
-});
+};

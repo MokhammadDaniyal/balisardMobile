@@ -30,18 +30,18 @@ import TimeBlock from "../../components/TimeBlock";
 import ConfirmationOverlay from "../../components/ConfirmationOverlay";
 
 class ServiceScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerLeft: (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Icon
-          type="AntDesign"
-          name="left"
-          style={{ margin: 10, fontSize: 25, color: "black" }}
-        />
-      </TouchableOpacity>
-    ),
-    headerTitle: <Text style={{ fontSize: 25 }}>Услуги для женщин</Text>
-  });
+  // static navigationOptions = ({ navigation }) => ({
+  //   headerLeft: (
+  //     <TouchableOpacity onPress={() => navigation.goBack()}>
+  //       <Icon
+  //         type="AntDesign"
+  //         name="left"
+  //         style={{ margin: 10, fontSize: 25, color: "black" }}
+  //       />
+  //     </TouchableOpacity>
+  //   ),
+  //   headerTitle: <Text style={{ fontSize: 25 }}>Услуги для женщин</Text>
+  // });
 
   constructor(props) {
     super(props);
