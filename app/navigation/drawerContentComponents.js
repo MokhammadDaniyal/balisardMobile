@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { NavigationActions } from "react-navigation";
-import { Text, View, StyleSheet, ImageBackground, Image } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { white } from "ansi-colors";
 import images from "../screens/LoginScreen/images";
+import { openFacebook, openInstagram, openWeb } from "../utils";
 
 export default class drawerContentComponents extends Component {
   navigateToScreen = route => () => {
@@ -91,14 +92,18 @@ export default class drawerContentComponents extends Component {
         <View style={styles.footer}>
           <Text style={styles.footerText}>Социальные Сети</Text>
           <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require("../screens/ContactsScreen/images/facebook.png")}
-            />
-            <Image
-              style={styles.icon}
-              source={require("../screens/ContactsScreen/images/instagram.png")}
-            />
+            <TouchableOpacity onPress={openFacebook}>
+              <Image
+                style={styles.icon}
+                source={require("../screens/ContactsScreen/images/facebook.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openInstagram}>
+              <Image
+                style={styles.icon}
+                source={require("../screens/ContactsScreen/images/instagram.png")}
+              />
+            </TouchableOpacity>
           </View>
           <View
             style={[
@@ -106,10 +111,12 @@ export default class drawerContentComponents extends Component {
               { justifyContent: "center", marginBottom: 15 }
             ]}
           >
-            <Image
-              style={styles.icon}
-              source={require("../screens/ContactsScreen/images/www.png")}
-            />
+            <TouchableOpacity onPress={openWeb}>
+              <Image
+                style={styles.icon}
+                source={require("../screens/ContactsScreen/images/www.png")}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

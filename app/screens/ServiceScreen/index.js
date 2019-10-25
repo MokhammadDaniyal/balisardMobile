@@ -28,6 +28,7 @@ import { RouteNames } from "../../navigation/index";
 import CustomCalendar from "../../components/Calendar";
 import TimeBlock from "../../components/TimeBlock";
 import ConfirmationOverlay from "../../components/ConfirmationOverlay";
+import { Header } from "react-navigation";
 
 class ServiceScreen extends Component {
   // static navigationOptions = ({ navigation }) => ({
@@ -45,7 +46,10 @@ class ServiceScreen extends Component {
 
   constructor(props) {
     super(props);
-    const { dispatch } = this.props;
+    this.params = this.props.navigation.state.params;
+    this.genderType = this.params.genderType;
+    this.serviceType = this.params.type;
+
     this.state = {
       isCalendarCollapsed: true,
       employees: [],
@@ -59,22 +63,25 @@ class ServiceScreen extends Component {
   }
 
   componentDidMount() {
-    const serviceType = this.props.navigation.getParam("type");
     postRequest(
       "services/retrieveservices",
       {
-        type: serviceType
+        type: this.serviceType,
+        genderType: this.genderType
       },
-      this.props.storeServices
+      services => {
+        postRequest(
+          "services/retrievemasters",
+          {
+            type: this.serviceType,
+            genderType: this.genderType
+          },
+          this.props.storeMasters
+        );
+        this.props.storeServices(services);
+      }
     );
 
-    postRequest(
-      "services/retrievemasters",
-      {
-        type: serviceType
-      },
-      this.props.storeMasters
-    );
     this.requestReservedTimeBlocks();
     // this.toggleCalendar();
   }
@@ -306,6 +313,7 @@ class ServiceScreen extends Component {
 const styles = StyleSheet.create({
   serviceScrollStyle: {
     flex: 1,
+    paddingTop: Header.HEIGHT,
     height: "15%",
     width: "100%"
   },

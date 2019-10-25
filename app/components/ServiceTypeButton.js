@@ -5,25 +5,24 @@ import {
   View,
   Text,
   StyleSheet,
+  Image,
   ImageBackground
 } from "react-native";
 
 const ServiceTypeButton = props => (
   <TouchableOpacity style={props.style} onPress={props.onPress}>
-    <ImageBackground source={props.image} style={styles.buttonView}>
-      <Text style={styles.textStyle}>{props.text}</Text>
-    </ImageBackground>
+    <Image source={props.image} style={styles.image} />
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
-  buttonView: {
-    flexDirection: "column",
-    height: 182,
-    width: 335,
-    borderRadius: 17,
-    margin: 20,
-    justifyContent: "center"
+  image: {
+    resizeMode: "cover",
+    borderRadius: 125,
+    width: 250,
+    height: 250,
+    borderColor: "#D7BF76",
+    borderWidth: 2
   },
   textStyle: {
     marginLeft: 20,

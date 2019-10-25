@@ -8,39 +8,14 @@ import {
   Linking,
   Platform
 } from "react-native";
+import { openInstagram, openWeb, openFacebook } from "../../utils";
+import { Header } from "react-navigation";
 
 class Contacts extends Component {
   constructor(props) {
     super(props);
   }
 
-  openInstagram = () => {
-    const url = (Platform.OS = "ios"
-      ? "instagram://user?username=balisard"
-      : "intent://instagram.com/_u/balisard/#Intent;package=com.instagram.android;scheme=https;end");
-    Linking.canOpenURL(url)
-      .then(supported => {
-        if (!supported) {
-          alert("Приложение инстаграм не установлено");
-        } else {
-          return Linking.openURL(url);
-        }
-      })
-      .catch(err => alert(err + "Произошла ошибка"));
-  };
-
-  openWeb = () => {
-    Linking.openURL("http://balisard.kz");
-  };
-  openFacebook = () => {
-    Linking.canOpenURL("fb://profile/balisard").then(supported => {
-      if (supported) {
-        return Linking.openURL("fb://profile/balisard");
-      } else {
-        return Linking.openURL("https://www.facebook.com/balisard");
-      }
-    });
-  };
   open2gis = () => {
     Linking.canOpenURL(
       "dgis://2gis.ru/routeSearch/rsType/car/to/76.923917,43.234669"
@@ -97,19 +72,19 @@ class Contacts extends Component {
             justifyContent: "space-around"
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openFacebook}>
             <Image
               source={require("./images/facebook.png")}
               style={styles.icon}
             ></Image>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.openWeb}>
+          <TouchableOpacity onPress={openWeb}>
             <Image
               source={require("./images/www.png")}
               style={styles.icon}
             ></Image>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.openInstagram}>
+          <TouchableOpacity onPress={openInstagram}>
             <Image
               source={require("./images/instagram.png")}
               style={styles.icon}
@@ -130,6 +105,7 @@ class Contacts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: Header.HEIGHT,
     marginHorizontal: 5,
     marginBottom: 5
   },
@@ -161,7 +137,7 @@ const styles = StyleSheet.create({
     width: 45
   },
   icon2gis: {
-    height: 100,
+    height: 45,
     width: 100,
     resizeMode: "contain"
   }

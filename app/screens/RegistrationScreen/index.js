@@ -22,6 +22,7 @@ import { RouteNames } from "../../navigation/index";
 import { userCreateSuccess } from "../../store/user/actions";
 
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { Header } from "react-navigation";
 class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
@@ -220,6 +221,7 @@ class RegistrationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: Header.HEIGHT,
     justifyContent: "flex-start",
     alignItems: "center"
   },

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
+
 import { createStackNavigator } from "react-navigation";
 
 import { navigate } from "./NavigationService";
@@ -13,6 +14,7 @@ export default setStackNavigator = mainRoute => {
     { ...mainRoute, ...Routes },
     {
       defaultNavigationOptions: ({ navigation }) => ({
+        headerTransparent: true,
         // headerLeft: (
         //   <TouchableOpacity
         //     onPress={() => {

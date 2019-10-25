@@ -11,6 +11,7 @@ import {
   Linking
 } from "react-native";
 import { connect } from "react-redux";
+import { Header } from "react-navigation";
 
 import defaultStyles from "../../styles";
 import { RouteNames } from "../../navigation/routes";
@@ -147,7 +148,8 @@ class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: Header.HEIGHT
   },
   title: {
     margin: 15,

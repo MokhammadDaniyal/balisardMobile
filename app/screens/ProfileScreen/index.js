@@ -21,6 +21,7 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import FloatingBar from "../../components/FloatingBar";
 import IgLogin, { igLogout } from "../../components/IgLogin";
 import PasswordModal from "../../components/PasswordModal";
+import { Header } from "react-navigation";
 
 class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -269,6 +270,7 @@ class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: Header.HEIGHT,
     flexDirection: "column",
     justifyContent: "flex-start"
   },

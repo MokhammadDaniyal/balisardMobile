@@ -26,6 +26,7 @@ import {
 } from "../../store/user/actions";
 import IgLogin from "../../components/IgLogin";
 import PhoneNumberModal from "../../components/PhoneNumberModal";
+import { Header } from "react-navigation";
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -250,6 +251,7 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: Header.HEIGHT,
     justifyContent: "space-evenly",
     alignItems: "center"
   },

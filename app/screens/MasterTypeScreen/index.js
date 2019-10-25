@@ -16,23 +16,17 @@ import { navigate } from "../../navigation/NavigationService";
 
 import MasterTypeButton from "../../components/MasterTypeButton";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { Header } from "react-navigation";
 
 class ServiceCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerLeft: (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Icon
-          type="AntDesign"
-          name="left"
-          style={{ margin: 10, fontSize: 25, color: "black" }}
-        />
-      </TouchableOpacity>
-    ),
-    headerTitle: <Text style={{ fontSize: 25 }}>Услуги для женщин</Text>
+    headerTitle: (
+      <Text style={{ fontSize: 25 }}>{navigation.state.params.title}</Text>
+    )
   });
   constructor(props) {
     super(props);
-    const { dispatch } = this.props;
+    this.params = this.props.navigation.state.params;
     this.state = {
       loginPlaceholder: "Username",
       usernameText: "",
@@ -46,7 +40,7 @@ class ServiceCategoryScreen extends Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.container}>
         <FlatList
           data={this.props.serviceCategories}
           renderItem={category => {
@@ -57,7 +51,8 @@ class ServiceCategoryScreen extends Component {
                 text={category.item.name}
                 onPress={() => {
                   navigate(RouteNames.Service, {
-                    type: category.item.id
+                    type: category.item.id,
+                    genderType: this.params.genderType
                   });
                 }}
               />
@@ -73,6 +68,7 @@ class ServiceCategoryScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: Header.HEIGHT,
     justifyContent: "center",
     alignItems: "center"
   },
