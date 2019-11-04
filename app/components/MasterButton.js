@@ -60,7 +60,7 @@ class MasterButton extends React.Component {
         <View style={styles.mainView}>
           <View style={styles.masterViewStyle}>
             <Image
-              source={require("./images/dushanova.jpg")}
+              source={{ uri: this.props.image }}
               style={{
                 width: 39,
                 height: 39,

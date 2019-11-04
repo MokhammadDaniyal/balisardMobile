@@ -51,6 +51,26 @@ export default class drawerContentComponents extends Component {
           <View
             style={[
               styles.screenStyle,
+              this.props.activeItemKey == "MasterInfo"
+                ? styles.activeBackgroundColor
+                : null
+            ]}
+          >
+            <Text
+              style={[
+                styles.screenTextStyle,
+                this.props.activeItemKey == "MasterInfo"
+                  ? styles.selectedTextStyle
+                  : null
+              ]}
+              onPress={this.navigateToScreen("MasterInfo")}
+            >
+              Мастера
+            </Text>
+          </View>
+          <View
+            style={[
+              styles.screenStyle,
               this.props.activeItemKey == "Profile"
                 ? styles.activeBackgroundColor
                 : null
@@ -154,7 +174,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontWeight: "bold",
-    color: "#00adff"
+    color: "#D7BF76"
   },
   activeBackgroundColor: {
     backgroundColor: "grey"

@@ -17,6 +17,7 @@ import { navigate } from "../../navigation/NavigationService";
 import MasterTypeButton from "../../components/MasterTypeButton";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
+import images from "../LoginScreen/images";
 
 class ServiceCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -40,7 +41,7 @@ class ServiceCategoryScreen extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground source={images.background} style={styles.container}>
         <FlatList
           data={this.props.serviceCategories}
           renderItem={category => {
@@ -52,7 +53,8 @@ class ServiceCategoryScreen extends Component {
                 onPress={() => {
                   navigate(RouteNames.Service, {
                     type: category.item.id,
-                    genderType: this.params.genderType
+                    genderType: this.params.genderType,
+                    title: category.item.name
                   });
                 }}
               />
@@ -60,7 +62,7 @@ class ServiceCategoryScreen extends Component {
           }}
         />
         {this.props.isLoading && <LoadingOverlay />}
-      </View>
+      </ImageBackground>
     );
   }
 }

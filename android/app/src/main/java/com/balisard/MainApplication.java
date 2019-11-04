@@ -13,6 +13,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.facebook.react.modules.storage.ReactDatabaseSupplier;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,15 +28,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new CookieManagerPackage(),
-            new AsyncStoragePackage(),
-            new RNCWebViewPackage(),
-            new LottiePackage(),
-            new LinearGradientPackage(),
-            new RNGestureHandlerPackage()
-      );
+      // Increase the maximum size of AsyncStorage
+      long size = 100 * 1024L * 1024L; // 100 MB
+      ReactDatabaseSupplier.getInstance(getApplicationContext()).setMaximumSize(size);
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new CookieManagerPackage(), new AsyncStoragePackage(),
+          new RNCWebViewPackage(), new LottiePackage(), new LinearGradientPackage(), new RNGestureHandlerPackage());
     }
 
     @Override

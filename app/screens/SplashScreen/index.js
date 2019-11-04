@@ -1,15 +1,31 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import { getRequest } from "../../network";
+import { getRequest, postRequest, postRequestResponse } from "../../network";
 import { storeNews, storeAdminPosts } from "../../store/services/actions";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { fetchMasterSuccess } from "../../store/reservation/actions";
 
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
   }
 
+  getMasterImage = master => {
+    console.log("CREATED PROMISE");
+    return new Promise((resolve, reject) => {
+      postRequestResponse(
+        "services/retrievemasterimage",
+        { id: master.id },
+        response => {
+          response.json().then(responseJson => {
+            master.image = responseJson.image;
+            resolve(this.props.storeMasters(master));
+          });
+        }
+      );
+    });
+  };
   componentDidMount() {
     getRequest(
       "instagram/adminposts",
@@ -21,6 +37,13 @@ class SplashScreen extends Component {
     getRequest("services/news", news => {
       this.props.storeNews(news);
       this.props.navigation.navigate(this.props.user.id ? "Home" : "Login");
+    });
+    getRequest("services/retrieveallmasters", masters => {
+      masters.forEach(master => {
+        this.getMasterImage(master);
+        // master.image = "";
+        // this.props.storeMasters(master);
+      });
     });
   }
   render() {
@@ -37,7 +60,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     storeNews: news => dispatch(storeNews(news)),
-    storeAdminPosts: posts => dispatch(storeAdminPosts(posts))
+    storeAdminPosts: posts => dispatch(storeAdminPosts(posts)),
+    storeMasters: masters => dispatch(fetchMasterSuccess(masters))
   };
 };
 export default connect(

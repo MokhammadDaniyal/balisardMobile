@@ -59,7 +59,6 @@ class ProfileScreen extends React.Component {
       "reservations/getrecordhistory",
       { userId: this.props.user.id },
       data => {
-        console.log(JSON.stringify(data));
         this.props.storeRecordHistory(data);
       }
     );

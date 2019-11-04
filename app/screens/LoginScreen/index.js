@@ -251,7 +251,6 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT,
     justifyContent: "space-evenly",
     alignItems: "center"
   },

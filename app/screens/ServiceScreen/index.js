@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
+  ImageBackground,
   Platform
 } from "react-native";
 import { connect } from "react-redux";
@@ -30,19 +30,14 @@ import TimeBlock from "../../components/TimeBlock";
 import ConfirmationOverlay from "../../components/ConfirmationOverlay";
 import { Header } from "react-navigation";
 
+import images from "../LoginScreen/images";
+
 class ServiceScreen extends Component {
-  // static navigationOptions = ({ navigation }) => ({
-  //   headerLeft: (
-  //     <TouchableOpacity onPress={() => navigation.goBack()}>
-  //       <Icon
-  //         type="AntDesign"
-  //         name="left"
-  //         style={{ margin: 10, fontSize: 25, color: "black" }}
-  //       />
-  //     </TouchableOpacity>
-  //   ),
-  //   headerTitle: <Text style={{ fontSize: 25 }}>Услуги для женщин</Text>
-  // });
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: (
+      <Text style={{ fontSize: 25 }}>{navigation.state.params.title}</Text>
+    )
+  });
 
   constructor(props) {
     super(props);
@@ -70,14 +65,6 @@ class ServiceScreen extends Component {
         genderType: this.genderType
       },
       services => {
-        postRequest(
-          "services/retrievemasters",
-          {
-            type: this.serviceType,
-            genderType: this.genderType
-          },
-          this.props.storeMasters
-        );
         this.props.storeServices(services);
       }
     );
@@ -96,6 +83,12 @@ class ServiceScreen extends Component {
     this.props.masters
       .filter(master => {
         return (
+          master.gendertype.includes(this.genderType) &&
+          master.type.includes(this.serviceType)
+        );
+      })
+      .filter(master => {
+        return (
           this.state.selectedMaster == null ||
           master.id == this.state.selectedMaster
         );
@@ -108,6 +101,7 @@ class ServiceScreen extends Component {
             }}
             key={master.id}
             name={master.name}
+            image={"data:image/jpg;base64," + master.image}
             onPress={() => {
               this.setState({ selectedMaster: master.id }, () => {
                 this.requestReservedTimeBlocks();
@@ -196,14 +190,7 @@ class ServiceScreen extends Component {
 
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "flex-start",
-          flexDirection: "column"
-        }}
-      >
+      <ImageBackground style={styles.container} source={images.background}>
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={styles.serviceScrollStyle}
@@ -305,12 +292,19 @@ class ServiceScreen extends Component {
             }}
           />
         )}
-      </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    marginTop: Header.HEIGHT
+  },
   serviceScrollStyle: {
     flex: 1,
     paddingTop: Header.HEIGHT,
