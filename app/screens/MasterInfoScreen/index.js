@@ -36,7 +36,10 @@ class MasterInfoScreen extends Component {
           data={this.props.masters}
           renderItem={({ item }) => {
             return (
-              <MasterInfoModal image={"data:image/jpg;base64," + item.image} />
+              <MasterInfoModal
+                image={"data:image/jpg;base64," + item.image}
+                info={item.info}
+              />
             );
           }}
           numColumns={2}

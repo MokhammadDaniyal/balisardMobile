@@ -12,7 +12,6 @@ class SplashScreen extends Component {
   }
 
   getMasterImage = master => {
-    console.log("CREATED PROMISE");
     return new Promise((resolve, reject) => {
       postRequestResponse(
         "services/retrievemasterimage",
@@ -41,8 +40,6 @@ class SplashScreen extends Component {
     getRequest("services/retrieveallmasters", masters => {
       masters.forEach(master => {
         this.getMasterImage(master);
-        // master.image = "";
-        // this.props.storeMasters(master);
       });
     });
   }

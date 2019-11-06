@@ -302,14 +302,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    flexDirection: "column",
-    marginTop: Header.HEIGHT
+    flexDirection: "column"
   },
   serviceScrollStyle: {
     flex: 1,
-    paddingTop: Header.HEIGHT,
     height: "15%",
-    width: "100%"
+    width: "100%",
+    marginTop: Header.HEIGHT
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {

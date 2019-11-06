@@ -16,8 +16,10 @@ import { Header } from "react-navigation";
 import defaultStyles from "../../styles";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
+import DefaultFloatingBar from "../../components/DefaultFloatingView";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
 import { Icon } from "native-base";
+import Collapsible from "react-native-collapsible";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -55,18 +57,18 @@ class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      aboutViewCollapsed: true
+    };
   }
 
   renderNews = () => {
     return this.props.news.map(newsObj => {
       return (
-        <View
-          style={[styles.newsView, defaultStyles.shadowView]}
-          key={newsObj.id}
-        >
-          <Text style={styles.newsTitle}>{newsObj.title}</Text>
-          <Text style={styles.newsText}>{newsObj.text}</Text>
-        </View>
+        <DefaultFloatingBar
+          title={newsObj.title}
+          text={newsObj.text}
+        ></DefaultFloatingBar>
       );
     });
   };
@@ -91,21 +93,27 @@ class HomeScreen extends Component {
       >
         <View key={index} style={styles.item}>
           <ParallaxImage
-            source={{ uri: item }}
+            source={{ uri: item.uri }}
             containerStyle={styles.imageContainer}
             style={styles.image}
             parallaxFactor={1}
             {...parallaxProps}
           />
+          <Text
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            style={{ marginHorizontal: 5 }}
+          >
+            {item.caption}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     );
   }
-
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView ref={ref => (this.scrollView = ref)}>
           <Text style={styles.title}>Последние новости</Text>
           {this.renderNews()}
           <Text style={styles.title}>Подпишитесь на наш Инстаграм!</Text>
@@ -132,6 +140,77 @@ class HomeScreen extends Component {
               loop={true}
             />
           </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.setState(
+                {
+                  aboutViewCollapsed: !this.state.aboutViewCollapsed
+                },
+                () => {
+                  setTimeout(() => {
+                    this.scrollView.scrollToEnd({
+                      animation: true
+                    });
+                  }, 300);
+                }
+              );
+            }}
+          >
+            <View
+              style={[
+                defaultStyles.shadowView,
+                {
+                  overflow: "hidden",
+                  marginHorizontal: 15,
+                  marginTop: 15,
+                  alignItems: "center"
+                }
+              ]}
+            >
+              <View style={styles.aboutViewTop}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    alignSelf: "center"
+                  }}
+                >
+                  О нас
+                </Text>
+              </View>
+              <Collapsible
+                collapsed={this.state.aboutViewCollapsed}
+                style={{ flex: 1 }}
+                collapsedHeight={80}
+                duration={250}
+              >
+                <Text style={{ margin: 5 }}>
+                  Наш творческий путь начался в центре парикмахерского искусства
+                  в 1995 году. Креативный дух , стремление преобразить женщину,
+                  огромное желание доставить ей радость, вселить уверенность в
+                  себя, всех нас объединил в одном из продвинутых, стильных
+                  салонов красоты Алматы. Общие взгляды и преданность профессии
+                  парикмахера стилиста, сподвинуло нас на создание в Алматы
+                  собственного салона красоты , который стал гостеприимным домом
+                  для всех наших клиентов, единомышленников и друзей, которым за
+                  долгие годы работы мы помогли раскрыть свой собственный стиль,
+                  создать новый образ или подарить хорошее настроение. Благодаря
+                  творческому подходу и профессионализму команды парикмахеров
+                  стилистов в Алматы, мы можем дать больше, чем просто красивая
+                  прическа…. Мы всегда обогащаем наш профессионализм и развиваем
+                  творческий потенциал. В этом нам помогают различные тренинги и
+                  семинары. Мы с гордостью делимся нашим опытом, полученным в
+                  мировых школах: Москва ”Dolores” , Лондон ”Vidal Sassoon”
+                  Милан “ Aldo Coppola”, Франция-обмен опытом в одном из ведущих
+                  салонов, тренинги с Майклом Шоном (креативный
+                  директор”Alterna”).
+                </Text>
+              </Collapsible>
+              <Icon style={styles.downArrow} name="down" type="AntDesign" />
+            </View>
+          </TouchableOpacity>
+          <View style={{ height: 85 }} />
         </ScrollView>
         <TouchableOpacity
           onPress={() => {
@@ -215,11 +294,22 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: "100%",
     height: "100%"
+  },
+  aboutViewTop: {
+    backgroundColor: "#D7BF76",
+    height: 30,
+    width: "100%"
+  },
+  downArrow: {
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "#D7BF76",
+    alignSelf: "center"
   }
 });
 
 const mapStateToProps = state => {
-  adminPosts = state.services.adminPosts.map(key => key.uri);
+  adminPosts = state.services.adminPosts;
 
   return {
     news: state.services.news,

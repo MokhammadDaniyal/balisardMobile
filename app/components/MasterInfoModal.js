@@ -59,25 +59,7 @@ class MasterInfoScreen extends Component {
               </View>
             </View>
             <View style={styles.infoText}>
-              <Text style={{ fontSize: 15 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Tellus mauris a diam maecenas. Faucibus purus in massa tempor
-                nec feugiat nisl pretium. Vel elit scelerisque mauris
-                pellentesque pulvinar pellentesque habitant morbi. Lorem donec
-                massa sapien faucibus et molestie ac. Morbi quis commodo odio
-                aenean sed adipiscing diam donec. Enim ut tellus elementum
-                sagittis vitae. Iaculis urna id volutpat lacus laoreet non
-                curabitur gravida. Ultricies leo integer malesuada nunc vel
-                risus commodo viverra. Arcu vitae elementum curabitur vitae nunc
-                sed velit. Morbi tincidunt augue interdum velit euismod in
-                pellentesque massa. Nisl suscipit adipiscing bibendum est. Amet
-                nulla facilisi morbi tempus iaculis. In hac habitasse platea
-                dictumst. Pulvinar etiam non quam lacus suspendisse faucibus.
-                Lacus vestibulum sed arcu non. Cursus euismod quis viverra nibh
-                cras pulvinar mattis. Leo in vitae turpis massa sed elementum
-                tempus egestas. Proin nibh nisl condimentum id venenatis a.
-              </Text>
+              <Text style={{ fontSize: 15, margin: 5 }}>{this.props.info}</Text>
             </View>
           </View>
         </Modal>
