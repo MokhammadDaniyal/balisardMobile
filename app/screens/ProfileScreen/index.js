@@ -269,7 +269,7 @@ class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT,
+    marginTop: Header.HEIGHT + 35,
     flexDirection: "column",
     justifyContent: "flex-start"
   },
@@ -347,7 +347,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfileScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

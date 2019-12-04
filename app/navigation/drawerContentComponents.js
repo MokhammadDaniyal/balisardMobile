@@ -146,6 +146,7 @@ export default class drawerContentComponents extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     alignItems: "center",
     flex: 1
   },

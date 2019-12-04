@@ -1,16 +1,31 @@
 import React, { Component } from "react";
-import { View, Button, Text, ImageBackground } from "react-native";
+import {
+  View,
+  Button,
+  Text,
+  ImageBackground,
+  TouchableOpacity
+} from "react-native";
 
 import RegisterButton from "../../components/RegistreButton";
 import ServiceTypeButton from "../../components/ServiceTypeButton";
 import { postRequest } from "../../network/";
-
+import { Icon } from "native-base";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 import images from "../LoginScreen/images";
 import { Header } from "react-navigation";
 class ServiceType extends Component {
   static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon
+          name="arrowleft"
+          type="AntDesign"
+          style={{ marginHorizontal: 10 }}
+        />
+      </TouchableOpacity>
+    ),
     headerTitle: <Text style={{ fontSize: 25 }}>Регистрация</Text>
   });
   render() {

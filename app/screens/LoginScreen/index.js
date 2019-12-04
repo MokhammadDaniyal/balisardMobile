@@ -68,7 +68,6 @@ class LoginScreen extends Component {
 
   recievedUserData = response => {
     response.json().then(responseJson => {
-      console.log(responseJson);
       this.props.storeUser({
         firstName: responseJson.rows[0].firstname,
         lastName: responseJson.rows[0].lastname,
@@ -94,7 +93,7 @@ class LoginScreen extends Component {
               accessToken: token
             },
             () => {
-              this.setState({ isLoading: false }); //callback of Token store on the server
+              // this.setState({ isLoading: false }); //callback of Token store on the server
             }
           );
         }
@@ -108,7 +107,6 @@ class LoginScreen extends Component {
             } else {
               this.props.IgDataSuccess(this.igData); //User loged in through IG
               this.recievedUserData(response);
-              this.setState({ isLoading: false });
             }
           }
         );

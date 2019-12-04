@@ -221,7 +221,6 @@ class RegistrationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT,
     justifyContent: "flex-start",
     alignItems: "center"
   },

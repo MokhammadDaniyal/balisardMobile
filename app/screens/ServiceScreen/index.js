@@ -15,9 +15,7 @@ import {
 } from "../../store/reservation/actions";
 import { postRequest } from "../../network/";
 import { fetchServicesSuccess } from "../../store/services/actions";
-
 import moment from "moment";
-
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { ScrollView } from "react-native-gesture-handler";
 import ServiceButton from "../../components/ServiceButton";
@@ -34,6 +32,15 @@ import images from "../LoginScreen/images";
 
 class ServiceScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon
+          name="arrowleft"
+          type="AntDesign"
+          style={{ marginHorizontal: 10 }}
+        />
+      </TouchableOpacity>
+    ),
     headerTitle: (
       <Text style={{ fontSize: 25 }}>{navigation.state.params.title}</Text>
     )
@@ -285,10 +292,9 @@ class ServiceScreen extends Component {
         {this.state.showConnfirmation && (
           <ConfirmationOverlay
             closeDialog={() => {
-              this.setState(
-                { showConnfirmation: false },
-                navigate(RouteNames.Home)
-              );
+              this.setState({ showConnfirmation: false }, () => {
+                this.props.navigation.navigate("Home");
+              });
             }}
           />
         )}
@@ -308,7 +314,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "15%",
     width: "100%",
-    marginTop: Header.HEIGHT
+    marginTop: Header.HEIGHT + 35
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {
@@ -398,7 +404,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ServiceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceScreen);

@@ -13,7 +13,6 @@ import { Icon } from "native-base";
 import { getRequest } from "../../network/";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
-
 import MasterTypeButton from "../../components/MasterTypeButton";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
@@ -21,6 +20,15 @@ import images from "../LoginScreen/images";
 
 class ServiceCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon
+          name="arrowleft"
+          type="AntDesign"
+          style={{ marginHorizontal: 10 }}
+        />
+      </TouchableOpacity>
+    ),
     headerTitle: (
       <Text style={{ fontSize: 25 }}>{navigation.state.params.title}</Text>
     )
@@ -70,7 +78,7 @@ class ServiceCategoryScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT,
+    paddingTop: Header.HEIGHT + 25,
     justifyContent: "center",
     alignItems: "center"
   },

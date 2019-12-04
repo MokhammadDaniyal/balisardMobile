@@ -1,4 +1,4 @@
-import { AppRegistry, View } from "react-native";
+import { AppRegistry, View, SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
 import App from "./App";
 import { name as appName } from "./app.json";
@@ -14,7 +14,9 @@ class AppRedux extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
+          {/* <SafeAreaView style={styles.safeArea}> */}
           <App />
+          {/* </SafeAreaView> */}
         </PersistGate>
       </Provider>
     );
@@ -22,3 +24,8 @@ class AppRedux extends React.Component {
 }
 
 AppRegistry.registerComponent(appName, () => AppRedux);
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1
+  }
+});

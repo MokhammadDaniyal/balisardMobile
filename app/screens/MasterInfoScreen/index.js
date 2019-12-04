@@ -13,13 +13,21 @@ import { Icon } from "native-base";
 import { postRequest, postRequestResponse } from "../../network/";
 import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
-
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
 import images from "../LoginScreen/images";
 import MasterInfoModal from "../../components/MasterInfoModal";
 class MasterInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon
+          name="arrowleft"
+          type="AntDesign"
+          style={{ marginHorizontal: 10 }}
+        />
+      </TouchableOpacity>
+    ),
     headerTitle: <Text style={{ fontSize: 25 }}>Мастера</Text>
   });
   constructor(props) {
@@ -54,7 +62,7 @@ class MasterInfoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT,
+    paddingTop: Header.HEIGHT + 35,
     justifyContent: "center",
     alignItems: "center"
   }
@@ -71,7 +79,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MasterInfoScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MasterInfoScreen);

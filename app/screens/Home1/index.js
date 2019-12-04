@@ -35,7 +35,7 @@ class HomeScreen extends Component {
           <Icon
             type="AntDesign"
             name="menuunfold"
-            style={{ margin: 10, fontSize: 25, color: "black" }}
+            style={{ marginLeft: 10, fontSize: 25, color: "black" }}
           />
         </TouchableOpacity>
       ),
@@ -48,7 +48,7 @@ class HomeScreen extends Component {
           <Icon
             type="AntDesign"
             name="user"
-            style={{ margin: 10, fontSize: 25, color: "black" }}
+            style={{ marginRight: 10, fontSize: 25, color: "black" }}
           />
         </TouchableOpacity>
       )
@@ -228,7 +228,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT
+    marginTop: Header.HEIGHT + 35
   },
   title: {
     margin: 15,

@@ -12,6 +12,9 @@ import { openInstagram, openWeb, openFacebook } from "../../utils";
 import { Header } from "react-navigation";
 
 class Contacts extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: <Text style={{ fontSize: 25 }}>Контакты</Text>
+  });
   constructor(props) {
     super(props);
   }
