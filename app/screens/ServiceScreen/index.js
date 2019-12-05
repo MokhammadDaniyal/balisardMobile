@@ -22,6 +22,7 @@ import ServiceButton from "../../components/ServiceButton";
 import MasterButton from "../../components/MasterButton";
 import { navigate } from "../../navigation/NavigationService";
 import { RouteNames } from "../../navigation/index";
+import { serverAddress } from "../../network/config";
 
 import CustomCalendar from "../../components/Calendar";
 import TimeBlock from "../../components/TimeBlock";
@@ -108,7 +109,9 @@ class ServiceScreen extends Component {
             }}
             key={master.id}
             name={master.name}
-            image={"data:image/jpg;base64," + master.image}
+            image={
+              serverAddress + "services/retrievemasterimage?id=" + master.id
+            }
             onPress={() => {
               this.setState({ selectedMaster: master.id }, () => {
                 this.requestReservedTimeBlocks();

@@ -12,6 +12,8 @@ target 'balisard' do
     # Pods for testing
     pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+    pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   end
 
   target 'balisardTests' do

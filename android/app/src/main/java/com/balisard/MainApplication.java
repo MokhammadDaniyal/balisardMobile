@@ -3,6 +3,7 @@ package com.balisard;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -31,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
       // Increase the maximum size of AsyncStorage
       long size = 100 * 1024L * 1024L; // 100 MB
       ReactDatabaseSupplier.getInstance(getApplicationContext()).setMaximumSize(size);
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new CookieManagerPackage(), new AsyncStoragePackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNFSPackage(), new CookieManagerPackage(), new AsyncStoragePackage(),
           new RNCWebViewPackage(), new LottiePackage(), new LinearGradientPackage(), new RNGestureHandlerPackage());
     }
 

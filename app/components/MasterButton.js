@@ -11,6 +11,7 @@ import {
 
 import { Icon } from "native-base";
 import Modal from "react-native-modal";
+import CacheableImage from "react-native-cacheable-image";
 
 import PlusButton from "./PlusButton";
 
@@ -59,14 +60,15 @@ class MasterButton extends React.Component {
         <View style={styles.leftView} />
         <View style={styles.mainView}>
           <View style={styles.masterViewStyle}>
-            <Image
+            <CacheableImage
               source={{ uri: this.props.image }}
               style={{
                 width: 39,
                 height: 39,
-                borderRadius: 40,
                 marginRight: 10
               }}
+              borderRadius={40}
+              useQueryParamsInCacheKey={["id"]}
             />
             <Text>{this.props.name}</Text>
           </View>

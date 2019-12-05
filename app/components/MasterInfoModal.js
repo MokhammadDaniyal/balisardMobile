@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Icon } from "native-base";
+import CacheableImage from "react-native-cacheable-image";
 
 const width = Math.round(Dimensions.get("window").width);
 class MasterInfoScreen extends Component {
@@ -31,7 +32,11 @@ class MasterInfoScreen extends Component {
             this.setState({ isVisible: true });
           }}
         >
-          <Image source={{ uri: this.props.image }} style={styles.image} />
+          <CacheableImage
+            source={{ uri: this.props.image }}
+            style={styles.image}
+            useQueryParamsInCacheKey={["id"]}
+          />
         </TouchableOpacity>
         <Modal
           isVisible={this.state.isVisible}
@@ -49,13 +54,15 @@ class MasterInfoScreen extends Component {
               >
                 <Icon type="AntDesign" name="close" style={styles.icon} />
               </TouchableOpacity>
-              <Image
+              <CacheableImage
                 source={{ uri: this.props.image }}
                 style={styles.modalImage}
+                useQueryParamsInCacheKey={["id"]}
+                borderRadius={60}
               />
               <View>
                 <Text style={styles.masterName}>asdsadsadad</Text>
-                <Text style={styles.masterType}>asdsadsadad</Text>
+                {/* <Text style={styles.masterType}>asdsadsadad</Text> */}
               </View>
             </View>
             <View style={styles.infoText}>
@@ -107,8 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#D7BF76",
     height: 120,
-    width: 120,
-    borderRadius: 60
+    width: 120
   },
   infoText: {
     marginTop: 20,
