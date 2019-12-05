@@ -8,6 +8,7 @@ import {
   FlatList
 } from "react-native";
 import { connect } from "react-redux";
+import { serverAddress } from "../../network/config";
 import { fetchServiceCategoriesSuccess } from "../../store/services/actions";
 import { Icon } from "native-base";
 import { postRequest, postRequestResponse } from "../../network/";
@@ -45,7 +46,11 @@ class MasterInfoScreen extends Component {
           renderItem={({ item }) => {
             return (
               <MasterInfoModal
-                image={"data:image/jpg;base64," + item.image}
+                // image={"data:image/jpg;base64," + item.image}
+                image={
+                  serverAddress + "services/retrievemasterimage?id=" + item.id
+                }
+                name={item.name}
                 info={item.info}
               />
             );
@@ -53,7 +58,7 @@ class MasterInfoScreen extends Component {
           numColumns={2}
           keyExtractor={(item, index) => index}
         />
-        {this.props.isLoading && <LoadingOverlay />}
+        {/* {this.props.isLoading && <LoadingOverlay />} */}
       </ImageBackground>
     );
   }
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+  console.log(state.reservations.masters);
   return {
     masters: state.reservations.masters,
     isLoading: state.reservations.isLoading

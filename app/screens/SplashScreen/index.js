@@ -39,7 +39,8 @@ class SplashScreen extends Component {
     });
     getRequest("services/retrieveallmasters", masters => {
       masters.forEach(master => {
-        this.getMasterImage(master);
+        this.props.storeMasters(master);
+        // this.getMasterImage(master);
       });
     });
   }
@@ -61,7 +62,4 @@ const mapDispatchToProps = dispatch => {
     storeMasters: masters => dispatch(fetchMasterSuccess(masters))
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SplashScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);
