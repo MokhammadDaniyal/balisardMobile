@@ -108,7 +108,7 @@ class Contacts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT,
+    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
     marginHorizontal: 5,
     marginBottom: 5
   },

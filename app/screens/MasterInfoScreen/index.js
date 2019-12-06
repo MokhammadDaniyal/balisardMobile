@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  FlatList
+  FlatList,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { serverAddress } from "../../network/config";
@@ -67,7 +68,7 @@ class MasterInfoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT + 35,
+    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
     justifyContent: "center",
     alignItems: "center"
   }

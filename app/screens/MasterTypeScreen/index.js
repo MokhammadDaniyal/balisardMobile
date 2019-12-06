@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  FlatList
+  FlatList,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { fetchServiceCategoriesSuccess } from "../../store/services/actions";
@@ -78,7 +79,7 @@ class ServiceCategoryScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT + 25,
+    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 25 : 0),
     justifyContent: "center",
     alignItems: "center"
   },

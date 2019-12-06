@@ -25,6 +25,7 @@ export default AppDrawerNavigator = createDrawerNavigator(
     Home: setStackNavigator({ Home: Home })
   },
   {
-    contentComponent: drawerContentComponents
+    contentComponent: drawerContentComponents,
+    drawerWidth: 220
   }
 );

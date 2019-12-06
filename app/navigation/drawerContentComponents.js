@@ -28,14 +28,7 @@ export default class drawerContentComponents extends Component {
           ></Image>
         </View>
         <View style={styles.screenContainer}>
-          <View
-            style={[
-              styles.screenStyle,
-              this.props.activeItemKey == "Home"
-                ? styles.activeBackgroundColor
-                : null
-            ]}
-          >
+          <View style={[styles.screenStyle]}>
             <Text
               style={[
                 styles.screenTextStyle,
@@ -48,14 +41,7 @@ export default class drawerContentComponents extends Component {
               Главная Страница
             </Text>
           </View>
-          <View
-            style={[
-              styles.screenStyle,
-              this.props.activeItemKey == "MasterInfo"
-                ? styles.activeBackgroundColor
-                : null
-            ]}
-          >
+          <View style={[styles.screenStyle]}>
             <Text
               style={[
                 styles.screenTextStyle,
@@ -68,14 +54,7 @@ export default class drawerContentComponents extends Component {
               Мастера
             </Text>
           </View>
-          <View
-            style={[
-              styles.screenStyle,
-              this.props.activeItemKey == "Profile"
-                ? styles.activeBackgroundColor
-                : null
-            ]}
-          >
+          <View style={[styles.screenStyle]}>
             <Text
               style={[
                 styles.screenTextStyle,
@@ -88,14 +67,7 @@ export default class drawerContentComponents extends Component {
               Профайл
             </Text>
           </View>
-          <View
-            style={[
-              styles.screenStyle,
-              this.props.activeItemKey == "Contacts"
-                ? styles.activeBackgroundColor
-                : null
-            ]}
-          >
+          <View style={[styles.screenStyle]}>
             <Text
               style={[
                 styles.screenTextStyle,
@@ -176,9 +148,6 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontWeight: "bold",
     color: "#D7BF76"
-  },
-  activeBackgroundColor: {
-    backgroundColor: "grey"
   },
   footer: {
     backgroundColor: "#656565",

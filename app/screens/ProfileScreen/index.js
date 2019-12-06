@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "native-base";
@@ -269,7 +270,7 @@ class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT + 35,
+    marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
     flexDirection: "column",
     justifyContent: "flex-start"
   },

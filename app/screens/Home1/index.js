@@ -77,9 +77,10 @@ class HomeScreen extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          const url = (Platform.OS = "ios"
-            ? "instagram://user?username=balisard"
-            : "intent://instagram.com/_u/balisard/#Intent;package=com.instagram.android;scheme=https;end");
+          const url =
+            Platform.OS == "ios"
+              ? "instagram://user?username=balisard"
+              : "intent://instagram.com/_u/balisard/#Intent;package=com.instagram.android;scheme=https;end";
           Linking.canOpenURL(url)
             .then(supported => {
               if (!supported) {
@@ -228,7 +229,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT + 35
+    marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0)
   },
   title: {
     margin: 15,

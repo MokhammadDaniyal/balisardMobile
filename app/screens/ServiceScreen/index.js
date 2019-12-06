@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "15%",
     width: "100%",
-    marginTop: Header.HEIGHT + 35
+    marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0)
   },
   masterScrollViewStyle: {},
   mainScrollStyle: {

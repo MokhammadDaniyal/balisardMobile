@@ -4,7 +4,8 @@ import {
   Button,
   Text,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 
 import RegisterButton from "../../components/RegistreButton";
@@ -33,7 +34,7 @@ class ServiceType extends Component {
       <ImageBackground
         style={{
           flex: 1,
-          paddingTop: Header.HEIGHT,
+          paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
           alignItems: "center",
           justifyContent: "space-evenly"
         }}
