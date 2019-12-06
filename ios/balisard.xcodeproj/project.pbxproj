@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0014268B972055190CB34115 /* Pods_balisardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D5CBA026A93F10E85A89E9 /* Pods_balisardTests.framework */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -73,6 +72,11 @@
 		E701D8DB731A454F93B61908 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 794B79FA9E354EE6BE367B59 /* MaterialCommunityIcons.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		F30784E624424B139A540018 /* Athena.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F279E7BE3F41E89592D04A /* Athena.ttf */; };
+		3B4B63A1117F46B3B9525832 /* Athelas-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 559D769FB2B84007932EEBC4 /* Athelas-Bold.ttf */; };
+		DD1AD56E025B42E4995184EB /* Athelas-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D81715B53131429A9C77E853 /* Athelas-BoldItalic.ttf */; };
+		747F0B62C24F4B01BE02DD49 /* Athelas-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A64658B369974235887FC730 /* Athelas-Italic.ttf */; };
+		FB858EB7250D4B64BF279820 /* Athelas-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AE52F2B21C845A6A2E9BF82 /* Athelas-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -538,6 +542,11 @@
 		FD9015ED25FFA8787CD72AD1 /* Pods-balisard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-balisard.release.xcconfig"; path = "Target Support Files/Pods-balisard/Pods-balisard.release.xcconfig"; sourceTree = "<group>"; };
 		FE6B24E877784E8DA36A5B78 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		FEAA9C9F3534406AB7BDB636 /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/ios/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
+		D7F279E7BE3F41E89592D04A /* Athena.ttf */ = {isa = PBXFileReference; name = "Athena.ttf"; path = "../assets/fonts/Athena.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		559D769FB2B84007932EEBC4 /* Athelas-Bold.ttf */ = {isa = PBXFileReference; name = "Athelas-Bold.ttf"; path = "../assets/fonts/Athelas-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D81715B53131429A9C77E853 /* Athelas-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Athelas-BoldItalic.ttf"; path = "../assets/fonts/Athelas-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A64658B369974235887FC730 /* Athelas-Italic.ttf */ = {isa = PBXFileReference; name = "Athelas-Italic.ttf"; path = "../assets/fonts/Athelas-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7AE52F2B21C845A6A2E9BF82 /* Athelas-Regular.ttf */ = {isa = PBXFileReference; name = "Athelas-Regular.ttf"; path = "../assets/fonts/Athelas-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -762,6 +771,11 @@
 				CE48CAB3B74242A396A15675 /* rubicon-icon-font.ttf */,
 				54DE743A2A1B45FC9CB33CA8 /* SimpleLineIcons.ttf */,
 				88A5AC5B9E9D4AFD9A4C4D82 /* Zocial.ttf */,
+				D7F279E7BE3F41E89592D04A /* Athena.ttf */,
+				559D769FB2B84007932EEBC4 /* Athelas-Bold.ttf */,
+				D81715B53131429A9C77E853 /* Athelas-BoldItalic.ttf */,
+				A64658B369974235887FC730 /* Athelas-Italic.ttf */,
+				7AE52F2B21C845A6A2E9BF82 /* Athelas-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1542,6 +1556,11 @@
 				0DBBEFA52A704AAFA406334E /* rubicon-icon-font.ttf in Resources */,
 				5ADA53F663D24861BAD1E89F /* SimpleLineIcons.ttf in Resources */,
 				53AE6467CB104674B5E89BAF /* Zocial.ttf in Resources */,
+				F30784E624424B139A540018 /* Athena.ttf in Resources */,
+				3B4B63A1117F46B3B9525832 /* Athelas-Bold.ttf in Resources */,
+				DD1AD56E025B42E4995184EB /* Athelas-BoldItalic.ttf in Resources */,
+				747F0B62C24F4B01BE02DD49 /* Athelas-Italic.ttf in Resources */,
+				FB858EB7250D4B64BF279820 /* Athelas-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

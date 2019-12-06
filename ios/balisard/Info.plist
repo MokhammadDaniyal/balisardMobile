@@ -73,6 +73,11 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Athena.ttf</string>
+		<string>Athelas-Bold.ttf</string>
+		<string>Athelas-BoldItalic.ttf</string>
+		<string>Athelas-Italic.ttf</string>
+		<string>Athelas-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { NavigationActions } from "react-navigation";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform
+} from "react-native";
 import { white } from "ansi-colors";
 import images from "../screens/LoginScreen/images";
 import { openFacebook, openInstagram, openWeb } from "../utils";
@@ -20,22 +27,22 @@ export default class drawerContentComponents extends Component {
           <Image
             source={images.logo}
             style={{
-              flex: 1,
-              width: 200,
+              flex: 0,
+              width: 150,
+              height: 120,
               justifyContent: "center",
-              resizeMode: "contain"
+              resizeMode: "contain",
+              alignSelf: "center"
             }}
-          ></Image>
+          />
+        </View>
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <View style={styles.line} />
         </View>
         <View style={styles.screenContainer}>
           <View style={[styles.screenStyle]}>
             <Text
-              style={[
-                styles.screenTextStyle,
-                this.props.activeItemKey == "Home"
-                  ? styles.selectedTextStyle
-                  : null
-              ]}
+              style={[styles.screenTextStyle]}
               onPress={this.navigateToScreen("Home")}
             >
               Главная Страница
@@ -43,12 +50,7 @@ export default class drawerContentComponents extends Component {
           </View>
           <View style={[styles.screenStyle]}>
             <Text
-              style={[
-                styles.screenTextStyle,
-                this.props.activeItemKey == "MasterInfo"
-                  ? styles.selectedTextStyle
-                  : null
-              ]}
+              style={[styles.screenTextStyle]}
               onPress={this.navigateToScreen("MasterInfo")}
             >
               Мастера
@@ -56,12 +58,7 @@ export default class drawerContentComponents extends Component {
           </View>
           <View style={[styles.screenStyle]}>
             <Text
-              style={[
-                styles.screenTextStyle,
-                this.props.activeItemKey == "Profile"
-                  ? styles.selectedTextStyle
-                  : null
-              ]}
+              style={[styles.screenTextStyle]}
               onPress={this.navigateToScreen("Profile")}
             >
               Профайл
@@ -69,12 +66,7 @@ export default class drawerContentComponents extends Component {
           </View>
           <View style={[styles.screenStyle]}>
             <Text
-              style={[
-                styles.screenTextStyle,
-                this.props.activeItemKey == "Contacts"
-                  ? styles.selectedTextStyle
-                  : null
-              ]}
+              style={[styles.screenTextStyle]}
               onPress={this.navigateToScreen("Contacts")}
             >
               Контакты
@@ -82,7 +74,7 @@ export default class drawerContentComponents extends Component {
           </View>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Социальные Сети</Text>
+          <Text style={styles.footerText}>Социальные сети</Text>
           <View style={styles.iconContainer}>
             <TouchableOpacity onPress={openFacebook}>
               <Image
@@ -118,23 +110,29 @@ export default class drawerContentComponents extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    alignItems: "center",
-    flex: 1
+    flex: 1,
+    justifyContent: "flex-start",
+    marginTop: Platform.OS == "ios" ? 20 : 0,
+    alignItems: "center"
   },
   headerContainer: {
-    height: 150
+    flex: 0
   },
   headerText: {
     color: "#fff8f8"
   },
   screenContainer: {
     flex: 1,
-    paddingTop: 20,
     width: "100%"
   },
+  line: {
+    flex: 1,
+    borderColor: "#D7BF76",
+    borderTopWidth: 1,
+    height: 1
+  },
   screenStyle: {
-    height: 30,
+    height: 35,
     marginTop: 2,
     flexDirection: "row",
     alignItems: "center",
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
   footerText: {
     color: "#D7BF76",
     margin: 10,
-    fontSize: 16,
+    fontSize: 18,
     alignSelf: "center"
   },
   iconContainer: {

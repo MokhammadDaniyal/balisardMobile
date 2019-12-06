@@ -32,12 +32,14 @@ export default setStackNavigator = mainRoute => {
           <Text
             style={{
               fontSize: 35,
-              letterSpacing: -4,
               textAlign: "center",
-              flex: 1
+              // fontWeight: "bold",
+              flex: 1,
+              fontFamily: "Athelas-Bold",
+              color: "black"
             }}
           >
-            Balisard
+            BALISARD
           </Text>
         )
         // headerRight: (
