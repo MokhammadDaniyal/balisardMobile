@@ -7,10 +7,17 @@ const DefaultFloatingBar = props => {
     <View style={styles.container}>
       <View style={styles.leftView} />
       <View style={styles.mainView}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            marginLeft: 20,
+            color: "#282828"
+          }}
+        >
           {props.title}
         </Text>
-        <Text style={{ marginLeft: 20 }}>{props.text}</Text>
+        <Text style={{ marginLeft: 20, color: "#282828" }}>{props.text}</Text>
       </View>
     </View>
   );
@@ -23,7 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 55,
     marginHorizontal: 15,
-    marginVertical: 10,
     borderRadius: 10,
     justifyContent: "center",
     ...Platform.select({

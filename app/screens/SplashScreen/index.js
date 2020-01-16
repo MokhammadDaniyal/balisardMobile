@@ -31,7 +31,9 @@ class SplashScreen extends Component {
       posts => {
         this.props.storeAdminPosts(posts);
       },
-      () => {}
+      err => {
+        alert(err);
+      }
     );
     getRequest("services/news", news => {
       this.props.storeNews(news);

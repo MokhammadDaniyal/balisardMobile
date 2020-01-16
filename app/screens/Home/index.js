@@ -27,7 +27,26 @@ class ServiceType extends Component {
         />
       </TouchableOpacity>
     ),
-    headerTitle: <Text style={{ fontSize: 25 }}>Регистрация</Text>
+    headerTitle: (
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 25, alignSelf: "center", color: "#282828" }}>
+          Регистрация
+        </Text>
+      </View>
+    ),
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(RouteNames.Profile);
+        }}
+      >
+        <Icon
+          type="AntDesign"
+          name="user"
+          style={{ marginRight: 10, fontSize: 25, color: "black" }}
+        />
+      </TouchableOpacity>
+    )
   });
   render() {
     return (

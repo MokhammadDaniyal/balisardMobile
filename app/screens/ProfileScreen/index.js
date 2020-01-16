@@ -91,8 +91,12 @@ class ProfileScreen extends React.Component {
       this.props.records.pastRecords &&
       this.props.records.pastRecords.length > 0
     ) {
-      return this.props.records.pastRecords.map(record => {
-        return <FloatingBar isGrey={true} data={record} />;
+      return this.props.records.pastRecords.reverse().map((record, index) => {
+        if (index < 15) {
+          return <FloatingBar isGrey={true} data={record} />;
+        } else {
+          return;
+        }
       });
     } else {
       return (
@@ -232,10 +236,10 @@ class ProfileScreen extends React.Component {
       <View style={styles.container}>
         {this.state.isLoading && <LoadingOverlay />}
         <View style={styles.infoContainer}>
-          <Image
+          {/* <Image
             source={require("../../components/images/dushanova.jpg")}
             style={styles.profileImage}
-          />
+          /> */}
           <View style={styles.infoBlock}>
             <View style={styles.linkButton}>
               <Image
@@ -258,7 +262,7 @@ class ProfileScreen extends React.Component {
             {this.rednerFutureRecords()}
           </View>
           <View style={styles.pastRecord}>
-            <Text>История</Text>
+            <Text>История (Последние 15 записей)</Text>
             {this.rednerPastRecords()}
           </View>
         </ScrollView>
@@ -279,7 +283,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
+    marginLeft: 15
   },
   profileImage: {
     resizeMode: "contain",

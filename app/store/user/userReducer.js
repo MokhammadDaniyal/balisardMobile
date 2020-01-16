@@ -5,7 +5,8 @@ import {
   USER_RECORD_HISTORY,
   USER_STORE_IGTOKEN,
   USER_STORE_IGDATA,
-  CLEAR_IGDATA
+  CLEAR_IGDATA,
+  LOGOUT
 } from "./actions";
 
 const initialState = {
@@ -48,6 +49,9 @@ const userReducer = (state = initialState, action) => {
         ...{ igData: null },
         ...{ igToken: null }
       };
+    case LOGOUT: {
+      return initialState;
+    }
     case REHYDRATE:
       var rehydrateObj;
       if (action.payload) {

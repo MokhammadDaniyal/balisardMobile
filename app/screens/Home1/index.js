@@ -103,7 +103,7 @@ class HomeScreen extends Component {
           <Text
             numberOfLines={2}
             ellipsizeMode="tail"
-            style={{ marginHorizontal: 5 }}
+            style={{ marginHorizontal: 5, marginTop: 5, color: "#282828" }}
           >
             {item.caption}
           </Text>
@@ -173,8 +173,8 @@ class HomeScreen extends Component {
                 <Text
                   style={{
                     fontSize: 18,
-                    fontWeight: "bold",
-                    alignSelf: "center"
+                    alignSelf: "center",
+                    color: "#282828"
                   }}
                 >
                   О нас
@@ -186,26 +186,26 @@ class HomeScreen extends Component {
                 collapsedHeight={80}
                 duration={250}
               >
-                <Text style={{ margin: 5 }}>
+                <Text style={{ margin: 5, color: "#282828" }}>
                   Наш творческий путь начался в центре парикмахерского искусства
                   в 1995 году. Креативный дух , стремление преобразить женщину,
                   огромное желание доставить ей радость, вселить уверенность в
                   себя, всех нас объединил в одном из продвинутых, стильных
-                  салонов красоты Алматы. Общие взгляды и преданность профессии
-                  парикмахера стилиста, сподвинуло нас на создание в Алматы
-                  собственного салона красоты , который стал гостеприимным домом
-                  для всех наших клиентов, единомышленников и друзей, которым за
-                  долгие годы работы мы помогли раскрыть свой собственный стиль,
-                  создать новый образ или подарить хорошее настроение. Благодаря
-                  творческому подходу и профессионализму команды парикмахеров
-                  стилистов в Алматы, мы можем дать больше, чем просто красивая
-                  прическа…. Мы всегда обогащаем наш профессионализм и развиваем
-                  творческий потенциал. В этом нам помогают различные тренинги и
-                  семинары. Мы с гордостью делимся нашим опытом, полученным в
-                  мировых школах: Москва ”Dolores” , Лондон ”Vidal Sassoon”
-                  Милан “ Aldo Coppola”, Франция-обмен опытом в одном из ведущих
-                  салонов, тренинги с Майклом Шоном (креативный
-                  директор”Alterna”).
+                  салонов красоты Алматы. {"\n"} Общие взгляды и преданность
+                  профессии парикмахера стилиста, сподвинуло нас на создание в
+                  Алматы собственного салона красоты , который стал
+                  гостеприимным домом для всех наших клиентов, единомышленников
+                  и друзей, которым за долгие годы работы мы помогли раскрыть
+                  свой собственный стиль, создать новый образ или подарить
+                  хорошее настроение. Благодаря творческому подходу и
+                  профессионализму команды парикмахеров стилистов в Алматы, мы
+                  можем дать больше, чем просто красивая прическа…. {"\n"} Мы
+                  всегда обогащаем наш профессионализм и развиваем творческий
+                  потенциал. В этом нам помогают различные тренинги и семинары.
+                  Мы с гордостью делимся нашим опытом, полученным в мировых
+                  школах: Москва ”Dolores” , Лондон ”Vidal Sassoon” Милан “ Aldo
+                  Coppola”, Франция-обмен опытом в одном из ведущих салонов,
+                  тренинги с Майклом Шоном (креативный директор”Alterna”).
                 </Text>
               </Collapsible>
               <Icon style={styles.downArrow} name="down" type="AntDesign" />
@@ -219,7 +219,7 @@ class HomeScreen extends Component {
           }}
           style={styles.registerButton}
         >
-          <Text>Онлайн Запись</Text>
+          <Text style={{ fontSize: 20, color: "#D7BF76" }}>Онлайн Запись</Text>
         </TouchableOpacity>
       </View>
     );
@@ -232,9 +232,11 @@ const styles = StyleSheet.create({
     marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0)
   },
   title: {
-    margin: 15,
+    marginTop: 15,
+    marginBottom: 5,
     marginLeft: 20,
-    fontSize: 20
+    fontSize: 18,
+    color: "#282828"
   },
   newsTitle: {
     fontSize: 18,
@@ -253,10 +255,11 @@ const styles = StyleSheet.create({
   registerButton: {
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "center",
     position: "absolute",
     bottom: 10,
     height: 50,
-    width: "90%",
+    width: "70%",
     height: 55,
     marginHorizontal: 15,
     marginVertical: 10,
@@ -277,7 +280,7 @@ const styles = StyleSheet.create({
     }),
     borderColor: "#d2d1d150",
     borderWidth: 1,
-    backgroundColor: "#D7BF76",
+    backgroundColor: "#282828",
     zIndex: 0
   },
   item: {

@@ -3,6 +3,8 @@ export const USER_RECORD_HISTORY = "USER_RECORD_HISTORY";
 export const USER_STORE_IGTOKEN = "USER_STORE_IGTOKEN";
 export const USER_STORE_IGDATA = "USER_STORE_IGDATA";
 export const CLEAR_IGDATA = "CLEAR_IGDATA";
+export const LOGOUT = "LOGOUT";
+
 export const userCreateSuccess = data => {
   return {
     type: USER_CREATE_SUCCESS,
@@ -27,6 +29,11 @@ export const storeIgData = data => {
   return {
     type: USER_STORE_IGDATA,
     payload: data
+  };
+};
+export const logout = () => {
+  return {
+    type: LOGOUT
   };
 };
 export const clearIgData = () => {

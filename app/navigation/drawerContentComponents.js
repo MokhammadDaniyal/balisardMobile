@@ -8,11 +8,16 @@ import {
   Image,
   Platform
 } from "react-native";
+import { logout } from "../store/user/actions";
 import { white } from "ansi-colors";
 import images from "../screens/LoginScreen/images";
 import { openFacebook, openInstagram, openWeb } from "../utils";
+import { connect } from "react-redux";
 
-export default class drawerContentComponents extends Component {
+class drawerContentComponents extends Component {
+  constructor(props) {
+    super(props);
+  }
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -72,6 +77,17 @@ export default class drawerContentComponents extends Component {
               Контакты
             </Text>
           </View>
+          <View style={[styles.screenStyle]}>
+            <Text
+              style={[styles.screenTextStyle]}
+              onPress={() => {
+                this.props.navigation.navigate("Login");
+                this.props.logout();
+              }}
+            >
+              Выйти
+            </Text>
+          </View>
         </View>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Социальные сети</Text>
@@ -107,6 +123,15 @@ export default class drawerContentComponents extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => {
+      dispatch(logout());
+    }
+  };
+};
+export default connect(() => ({}), mapDispatchToProps)(drawerContentComponents);
 
 const styles = StyleSheet.create({
   container: {
