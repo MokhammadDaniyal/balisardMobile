@@ -15,6 +15,8 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import Images from "../LoginScreen/images";
+import IntlPhoneInput from "react-native-intl-phone-input";
+
 import { postRequest } from "../../network/";
 import { Icon } from "native-base";
 import { navigate } from "../../navigation/NavigationService";
@@ -148,13 +150,20 @@ class RegistrationScreen extends Component {
         <Text>Регистрация</Text>
         <View style={styles.form}>
           <View style={[styles.inputView, styles.shadowView]}>
-            <TextInput
+            <IntlPhoneInput
+              onChangeText={text => this.setState({ phoneText: text })}
+              defaultCountry="KZ"
+              disableCountryChange="false"
+              closeText="Закрыть"
+            />
+
+            {/* <TextInput
               style={styles.input}
               onChangeText={text => this.setState({ phoneText: text })}
               value={this.state.phoneText}
               placeholder={this.state.phonePlaceholder}
               keyboardType={"numeric"}
-            />
+            /> */}
           </View>
           <View style={[styles.inputView, styles.shadowView]}>
             <TextInput
@@ -322,7 +331,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegistrationScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationScreen);
