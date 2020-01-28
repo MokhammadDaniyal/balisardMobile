@@ -71,11 +71,11 @@ class RegistrationScreen extends Component {
   _keyboardDidHide = () => {
     Animated.parallel([
       Animated.timing(this.state.logoHeight, {
-        toValue: 200,
+        toValue: 150,
         duration: 200
       }),
       Animated.timing(this.state.logoWidth, {
-        toValue: 150,
+        toValue: 200,
         duration: 200
       })
     ]).start();
@@ -150,20 +150,22 @@ class RegistrationScreen extends Component {
         <Text>Регистрация</Text>
         <View style={styles.form}>
           <View style={[styles.inputView, styles.shadowView]}>
-            <IntlPhoneInput
+            {/* <IntlPhoneInput
+              containerStyle={styles.input}
               onChangeText={text => this.setState({ phoneText: text })}
               defaultCountry="KZ"
               disableCountryChange="false"
               closeText="Закрыть"
-            />
+              filterText="Поиск"
+            /> */}
 
-            {/* <TextInput
+            <TextInput
               style={styles.input}
               onChangeText={text => this.setState({ phoneText: text })}
               value={this.state.phoneText}
               placeholder={this.state.phonePlaceholder}
               keyboardType={"numeric"}
-            /> */}
+            />
           </View>
           <View style={[styles.inputView, styles.shadowView]}>
             <TextInput

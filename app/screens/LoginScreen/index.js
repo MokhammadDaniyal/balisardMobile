@@ -13,6 +13,7 @@ import {
   Platform
 } from "react-native";
 import { connect } from "react-redux";
+import IntlPhoneInput from "react-native-intl-phone-input";
 import { Icon } from "native-base";
 import { postRequestResponse, postRequest } from "../../network/";
 import Images from "./images";
@@ -45,7 +46,7 @@ class LoginScreen extends Component {
 
   loginUser = () => {
     if (this.state.phoneText == "" || this.state.passwordText == "") {
-      alert("Не все поля заполнены для входаю");
+      alert("Не все поля заполнены для входа");
       return;
     }
     this.setState({ isLoading: true });
@@ -149,6 +150,14 @@ class LoginScreen extends Component {
         </View>
         <View style={[styles.form]}>
           <View style={[styles.inputView, styles.shadowView]}>
+            {/* <IntlPhoneInput
+              // style={{ flex: 1, marginLeft: 5, height: "100%" }}
+              onChangeText={text => this.setState({ phoneText: text })}
+              defaultCountry="KZ"
+              disableCountryChange="false"
+              closeText="Закрыть"
+              filterText="Поиск"
+            /> */}
             <TextInput
               style={{ flex: 1, marginLeft: 5, height: "100%" }}
               onChangeText={text => this.setState({ phoneText: text })}
@@ -375,7 +384,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
