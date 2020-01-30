@@ -35,7 +35,11 @@ const FloatingBar = props => {
             justifyContent: "flex-start"
           }}
         >
-          <View style={{ flexDirection: "column" }}>
+          <View
+            style={{
+              flexDirection: "column"
+            }}
+          >
             <Text>{title}</Text>
             <Text>
               {duration_h} час {duration_m} минут
@@ -45,7 +49,7 @@ const FloatingBar = props => {
             source={require("./images/dushanova.jpg")}
             style={styles.masterImage}
           />
-          <Text>{name}</Text>
+          <Text style={styles.masterText}>{name}</Text>
         </View>
       </View>
     </View>
@@ -102,17 +106,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginLeft: 20,
-    paddingVertical: 10
+    paddingRight: 5
   },
   title: {
     marginBottom: 5
   },
   masterImage: {
-    resizeMode: "contain",
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-    marginLeft: 15
+    resizeMode: "cover",
+    borderRadius: 44,
+    width: 44,
+    height: 44,
+    marginLeft: 10,
+    marginBottom: 5
+  },
+  masterText: {
+    flexShrink: 1,
+    marginLeft: 5
   }
 });
 export default FloatingBar;
