@@ -5,6 +5,10 @@ import { getRequest, postRequest, postRequestResponse } from "../../network";
 import { storeNews, storeAdminPosts } from "../../store/services/actions";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { fetchMasterSuccess } from "../../store/reservation/actions";
+import { serverAddress } from "../../network/config";
+import { donwloadAndCacheImage } from "../../utils/index";
+const SHA1 = require("crypto-js/sha1");
+const URL = require("url-parse");
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -42,7 +46,24 @@ class SplashScreen extends Component {
     getRequest("services/retrieveallmasters", masters => {
       masters.forEach(master => {
         this.props.storeMasters(master);
-        // this.getMasterImage(master);
+
+        const uri =
+          serverAddress + "services/retrievemasterimage?id=" + master.id;
+        const url = new URL(uri, null, true);
+
+        let cacheable = url.pathname;
+
+        ["id"].forEach(function(k) {
+          if (url.query.hasOwnProperty(k)) {
+            cacheable = cacheable.concat(url.query[k]);
+          }
+        });
+        const type = url.pathname.replace(/.*\.(.*)/, "$1");
+        const cacheKey =
+          SHA1(cacheable) +
+          (type.length < url.pathname.length ? "." + type : "");
+        console.log("SHA1__ " + cacheKey);
+        donwloadAndCacheImage(uri, url.host, cacheKey);
       });
     });
   }

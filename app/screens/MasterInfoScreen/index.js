@@ -57,7 +57,7 @@ class MasterInfoScreen extends Component {
             );
           }}
           numColumns={2}
-          keyExtractor={(item, index) => index}
+          keyExtractor={item => item.id}
         />
         {/* {this.props.isLoading && <LoadingOverlay />} */}
       </ImageBackground>

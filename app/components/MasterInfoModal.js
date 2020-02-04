@@ -55,6 +55,8 @@ class MasterInfoScreen extends Component {
                 <Icon type="AntDesign" name="close" style={styles.icon} />
               </TouchableOpacity>
               <CacheableImage
+                checkNetwork={false}
+                networkAvailable={true}
                 source={{ uri: this.props.image }}
                 style={styles.modalImage}
                 useQueryParamsInCacheKey={["id"]}
