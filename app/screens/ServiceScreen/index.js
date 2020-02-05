@@ -126,9 +126,7 @@ class ServiceScreen extends Component {
             }}
             key={master.id}
             name={master.name}
-            image={
-              serverAddress + "services/retrievemasterimage?id=" + master.id
-            }
+            image={serverAddress + "images/masters/" + master.id + ".jpg"}
             onPress={() => {
               this.setState({ selectedMaster: master.id }, () => {
                 this.requestReservedTimeBlocks();

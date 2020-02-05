@@ -47,8 +47,7 @@ class SplashScreen extends Component {
       masters.forEach(master => {
         this.props.storeMasters(master);
 
-        const uri =
-          serverAddress + "services/retrievemasterimage?id=" + master.id;
+        const uri = serverAddress + "images/masters/" + master.id + ".jpg";
         const url = new URL(uri, null, true);
 
         let cacheable = url.pathname;
@@ -59,6 +58,9 @@ class SplashScreen extends Component {
           }
         });
         const type = url.pathname.replace(/.*\.(.*)/, "$1");
+        console.log("PATHNAME" + url.pathname);
+
+        console.log("TYPE_____" + type);
         const cacheKey =
           SHA1(cacheable) +
           (type.length < url.pathname.length ? "." + type : "");

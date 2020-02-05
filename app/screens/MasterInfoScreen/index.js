@@ -48,9 +48,7 @@ class MasterInfoScreen extends Component {
             return (
               <MasterInfoModal
                 // image={"data:image/jpg;base64," + item.image}
-                image={
-                  serverAddress + "services/retrievemasterimage?id=" + item.id
-                }
+                image={serverAddress + "images/masters/" + item.id + ".jpg"}
                 name={item.name}
                 info={item.info}
               />
