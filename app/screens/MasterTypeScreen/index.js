@@ -18,6 +18,7 @@ import MasterTypeButton from "../../components/MasterTypeButton";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
 import images from "../LoginScreen/images";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 class ServiceCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -97,7 +98,9 @@ class ServiceCategoryScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 25 : 0),
+    paddingTop:
+      Header.HEIGHT +
+      (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 25 : 0),
     justifyContent: "center",
     alignItems: "center"
   },

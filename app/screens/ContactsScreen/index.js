@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { openInstagram, openWeb, openFacebook } from "../../utils";
 import { Header } from "react-navigation";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 class Contacts extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -108,7 +109,9 @@ class Contacts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
+    paddingTop:
+      Header.HEIGHT +
+      (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 40 : 0),
     marginHorizontal: 5,
     marginBottom: 5
   },

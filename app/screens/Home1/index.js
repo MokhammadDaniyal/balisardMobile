@@ -21,6 +21,8 @@ import Carousel, { ParallaxImage } from "react-native-snap-carousel";
 import { Icon } from "native-base";
 import Collapsible from "react-native-collapsible";
 
+import { getStatusBarHeight } from "react-native-status-bar-height";
+
 const { width: screenWidth } = Dimensions.get("window");
 
 class HomeScreen extends Component {
@@ -229,7 +231,9 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0)
+    marginTop:
+      Header.HEIGHT +
+      (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 35 : 0)
   },
   title: {
     marginTop: 15,

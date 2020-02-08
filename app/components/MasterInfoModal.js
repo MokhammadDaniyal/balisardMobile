@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Image,
   Text,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import Modal from "react-native-modal";
 import { Icon } from "native-base";
 import CacheableImage from "react-native-cacheable-image";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 const width = Math.round(Dimensions.get("window").width);
 class MasterInfoScreen extends Component {
@@ -63,7 +65,7 @@ class MasterInfoScreen extends Component {
                 borderRadius={60}
               />
               <View>
-                <Text style={styles.masterName}>asdsadsadad</Text>
+                <Text style={styles.masterName}>{this.props.name}</Text>
                 {/* <Text style={styles.masterType}>asdsadsadad</Text> */}
               </View>
             </View>
@@ -88,7 +90,8 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    width: "100%"
+    width: "100%",
+    marginTop: (Platform.OS = "ios" && getStatusBarHeight() == 44 ? 35 : 0)
   },
   header: {
     flexDirection: "row",

@@ -11,12 +11,13 @@ import {
 
 import moment from "moment";
 import "moment/locale/ru";
-moment.locale("ru");
+// moment.locale("ru");
 
 import { timeSlots } from "./defaultData/";
 
 const FloatingBar = props => {
   const { date, time_block, name, title, duration_m, duration_h } = props.data;
+  if (!props.isGrey) console.log(date);
   const dateString = moment(date).format("dddd,  DD MMMM, YYYY") + " в ";
   return (
     <View style={styles.buttonView}>
@@ -113,10 +114,10 @@ const styles = StyleSheet.create({
   },
   masterImage: {
     resizeMode: "cover",
-    borderRadius: 44,
-    width: 44,
-    height: 44,
-    marginLeft: 10,
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    marginLeft: 15,
     marginBottom: 5
   },
   masterText: {

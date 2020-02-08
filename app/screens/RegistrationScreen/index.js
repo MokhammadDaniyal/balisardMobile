@@ -25,6 +25,7 @@ import { userCreateSuccess } from "../../store/user/actions";
 
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   logo: {
-    marginTop: Platform.OS == "ios" ? 30 : 20,
+    marginTop: Platform.OS == "ios" && getStatusBarHeight() == 44 ? 30 : 20,
     resizeMode: "contain"
   },
   inputView: {

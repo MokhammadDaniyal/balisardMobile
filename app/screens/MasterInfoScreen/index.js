@@ -19,6 +19,8 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { Header } from "react-navigation";
 import images from "../LoginScreen/images";
 import MasterInfoModal from "../../components/MasterInfoModal";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+
 class MasterInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
@@ -30,7 +32,11 @@ class MasterInfoScreen extends Component {
         />
       </TouchableOpacity>
     ),
-    headerTitle: <Text style={{ fontSize: 25 }}>Мастера</Text>
+    headerTitle: (
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 25, alignSelf: "center" }}>Мастера</Text>
+      </View>
+    )
   });
   constructor(props) {
     super(props);
@@ -66,7 +72,9 @@ class MasterInfoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
+    paddingTop:
+      Header.HEIGHT +
+      (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 35 : 0),
     justifyContent: "center",
     alignItems: "center"
   }

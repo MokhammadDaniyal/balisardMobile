@@ -23,13 +23,17 @@ import FloatingBar from "../../components/FloatingBar";
 import IgLogin, { igLogout } from "../../components/IgLogin";
 import PasswordModal from "../../components/PasswordModal";
 import { Header } from "react-navigation";
-
+import { getStatusBarHeight } from "react-native-status-bar-height";
 class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
       headerTitle: (
-        <Text style={{ fontSize: 15 }}>{params ? params.title : ""}</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontSize: 15, alignSelf: "center" }}>
+            {params ? params.title : "Профайл"}
+          </Text>
+        </View>
       ),
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -236,10 +240,6 @@ class ProfileScreen extends React.Component {
       <View style={styles.container}>
         {this.state.isLoading && <LoadingOverlay />}
         <View style={styles.infoContainer}>
-          {/* <Image
-            source={require("../../components/images/dushanova.jpg")}
-            style={styles.profileImage}
-          /> */}
           <View style={styles.infoBlock}>
             <View style={styles.linkButton}>
               <Image
@@ -274,7 +274,9 @@ class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
+    marginTop:
+      Header.HEIGHT +
+      (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 35 : 0),
     flexDirection: "column",
     justifyContent: "flex-start"
   },
@@ -285,13 +287,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
     marginLeft: 15
-  },
-  profileImage: {
-    resizeMode: "contain",
-    borderRadius: 100,
-    width: 100,
-    height: 100,
-    marginHorizontal: 15
   },
   infoBlock: {
     flex: 0,

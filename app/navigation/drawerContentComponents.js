@@ -13,6 +13,7 @@ import { white } from "ansi-colors";
 import images from "../screens/LoginScreen/images";
 import { openFacebook, openInstagram, openWeb } from "../utils";
 import { connect } from "react-redux";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 class drawerContentComponents extends Component {
   constructor(props) {
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    marginTop: Platform.OS == "ios" ? 20 : 0,
+    marginTop: Platform.OS == "ios" && getStatusBarHeight() == 44 ? 20 : 0,
     alignItems: "center"
   },
   headerContainer: {

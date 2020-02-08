@@ -16,6 +16,8 @@ import { RouteNames } from "../../navigation/routes";
 import { navigate } from "../../navigation/NavigationService";
 import images from "../LoginScreen/images";
 import { Header } from "react-navigation";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+
 class ServiceType extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
@@ -53,7 +55,9 @@ class ServiceType extends Component {
       <ImageBackground
         style={{
           flex: 1,
-          paddingTop: Header.HEIGHT + (Platform.OS == "ios" ? 35 : 0),
+          paddingTop:
+            Header.HEIGHT +
+            (Platform.OS == "ios" && getStatusBarHeight() == 44 ? 35 : 0),
           alignItems: "center",
           justifyContent: "space-evenly"
         }}
