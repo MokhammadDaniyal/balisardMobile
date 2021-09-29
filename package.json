@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "lottie-ios": "^2.5.3",
     "lottie-react-native": "2.6.1",
     "moment": "^2.24.0",
